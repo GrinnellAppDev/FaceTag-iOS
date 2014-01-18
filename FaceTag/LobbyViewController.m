@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *tagImage;
 @property (nonatomic, strong) NSArray *games;
+@property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
 
 @end
 
@@ -77,12 +78,24 @@
     
     return cell;
 }
+- (BOOL)currentUserIsPresent:(PFObject *)photoTag {
+    for (PFUser *user in photoTag[@"usersArray"]) {
+        if ([user.objectId isEqualToString:[PFUser currentUser].objectId])
+            return YES;
+    }
+    return NO;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO - Check for photos needing evaluation
-    // if (game has photos ready for evaluation)
-    NSArray *arr = [[NSArray alloc] initWithArray:[self.games objectAtIndex:indexPath.row][@"unconfirmedPhotoTags"]];
-    if (arr.count > 0)
+    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[self.games objectAtIndex:indexPath.row][@"unconfirmedPhotoTags"]];
+    self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] init];
+
+    for (PFObject *photoTag in unconfirmedPhotoTags) {
+        if (![self currentUserIsPresent:photoTag])
+            [self.userUnconfirmedPhotoTags addObject:photoTag];
+    }
+    
+    if (self.userUnconfirmedPhotoTags.count > 0)
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
     else
         [self performSegueWithIdentifier:@"ShowGame" sender:nil];
@@ -101,9 +114,7 @@
         ConfirmDenyViewController *confirmDenyVC = (ConfirmDenyViewController *)[segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         confirmDenyVC.game = [self.games objectAtIndex:indexPath.row];
-        
-        // TODO - Server should respond to something here and give us a list specific to the user
-        confirmDenyVC.unconfirmedPhotoTags = [[NSArray alloc] initWithArray:confirmDenyVC.game[@"unconfirmedPhotoTags"]];
+        confirmDenyVC.unconfirmedPhotoTags = [[NSArray alloc] initWithArray:self.userUnconfirmedPhotoTags];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
