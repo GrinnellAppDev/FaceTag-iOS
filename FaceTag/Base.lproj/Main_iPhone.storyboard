@@ -168,11 +168,82 @@
                     </navigationItem>
                     <connections>
                         <segue destination="Zp2-FU-rCE" kind="push" identifier="ShowGame" id="zn1-tC-Bgn"/>
+                        <segue destination="AxW-k9-QzF" kind="push" identifier="ConfirmDeny" id="Vmz-mN-bZo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6gg-Bj-TYY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="540" y="-233"/>
+        </scene>
+        <!--Confirm Deny View Controller-->
+        <scene sceneID="3lg-pQ-2oU">
+            <objects>
+                <viewController id="AxW-k9-QzF" customClass="ConfirmDenyViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JYC-6h-YOA"/>
+                        <viewControllerLayoutGuide type="bottom" id="h6O-05-8DY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jRs-ts-tsR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g82-jW-zQ2">
+                                <rect key="frame" x="35" y="115" width="250" height="250"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="7XE-5s-Zgc"/>
+                                    <constraint firstAttribute="height" constant="250" id="RZs-Fq-Gso"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Is this Colin Tremblay?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3J-88-t98">
+                                <rect key="frame" x="35" y="86" width="250" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVF-2H-PW2">
+                                <rect key="frame" x="255" y="373" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Yup"/>
+                                <connections>
+                                    <action selector="confirm:" destination="AxW-k9-QzF" eventType="touchUpInside" id="nuU-fs-wfw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOn-dK-hSP">
+                                <rect key="frame" x="35" y="373" width="33" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="No...">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deny:" destination="AxW-k9-QzF" eventType="touchUpInside" id="2Mt-Id-ura"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="g82-jW-zQ2" firstAttribute="top" secondItem="c3J-88-t98" secondAttribute="bottom" constant="8" symbolic="YES" id="5Jx-u5-DHO"/>
+                            <constraint firstItem="c3J-88-t98" firstAttribute="centerX" secondItem="g82-jW-zQ2" secondAttribute="centerX" id="GPX-r1-pWh"/>
+                            <constraint firstItem="hVF-2H-PW2" firstAttribute="top" secondItem="g82-jW-zQ2" secondAttribute="bottom" constant="8" id="KDa-RW-rTy"/>
+                            <constraint firstItem="ZOn-dK-hSP" firstAttribute="top" secondItem="g82-jW-zQ2" secondAttribute="bottom" constant="8" id="Mmv-y9-OSy"/>
+                            <constraint firstItem="c3J-88-t98" firstAttribute="top" secondItem="JYC-6h-YOA" secondAttribute="bottom" constant="22" id="OyT-gR-hKj"/>
+                            <constraint firstItem="c3J-88-t98" firstAttribute="leading" secondItem="ZOn-dK-hSP" secondAttribute="leading" id="UGy-Lm-9TF"/>
+                            <constraint firstItem="c3J-88-t98" firstAttribute="trailing" secondItem="hVF-2H-PW2" secondAttribute="trailing" id="Wkk-uq-ugC"/>
+                            <constraint firstAttribute="centerX" secondItem="c3J-88-t98" secondAttribute="centerX" id="e2p-Ta-GJL"/>
+                            <constraint firstItem="c3J-88-t98" firstAttribute="leading" secondItem="g82-jW-zQ2" secondAttribute="leading" id="xYt-Uw-ocB"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="yxa-Mp-8NO"/>
+                    <connections>
+                        <outlet property="targetConfirmationLabel" destination="c3J-88-t98" id="QAu-PX-FGa"/>
+                        <outlet property="targetPhoto" destination="g82-jW-zQ2" id="a2v-bE-e3j"/>
+                        <segue destination="Zp2-FU-rCE" kind="push" identifier="ShowGame" id="4qr-Wc-Ywm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vJU-na-EH2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="821" y="502"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="Qx5-7Q-PWR">
@@ -366,4 +437,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="4qr-Wc-Ywm"/>
+    </inferredMetricsTieBreakers>
 </document>

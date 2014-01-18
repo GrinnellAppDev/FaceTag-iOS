@@ -14,8 +14,7 @@
 
 @implementation LoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -23,36 +22,31 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     //If there is a current user, set the lobby View Controller as the initial View Controller.
     if ([PFUser currentUser]) {
-
         [self performSegueWithIdentifier:@"Login" sender:self];
     }
 }
 
 - (IBAction)loginButtonTouchHandler:(id)sender {
     // The permissions requested from the user
-    NSArray *permissionsArray = @[ @"email" ];
+    NSArray *permissionsArray = @[@"email"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        //[_activityIndicator stopAnimating]; // Hide loading indicator
         
         if (!user) {
             if (!error) {
@@ -90,12 +84,10 @@
                     }
                 }
                 
-                
                 NSString *profilePictureURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", me.id];
                 
                 //Update the profile picture with a facebook one.
-                    currentUser[@"profilePictureURL"] = profilePictureURL;
-                
+                currentUser[@"profilePictureURL"] = profilePictureURL;
                 
                 [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {

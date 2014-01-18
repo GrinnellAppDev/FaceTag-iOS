@@ -8,6 +8,7 @@
 
 #import "LobbyViewController.h"
 #import "DeckViewController.h"
+#import "ConfirmDenyViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 
 @interface LobbyViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -78,6 +79,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // TODO - Check for photos needing evaluation
+    // if (game has photos ready for evaluation)
+    //    [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
+    // else
     [self performSegueWithIdentifier:@"ShowGame" sender:nil];
 }
 
@@ -88,6 +93,12 @@
         DeckViewController *deckVC = (DeckViewController *)[segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         deckVC.game = [self.games objectAtIndex:indexPath.row];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    else if ([segue.identifier isEqualToString:@"ConfirmDeny"]) {
+        ConfirmDenyViewController *confirmDenyVC = (ConfirmDenyViewController *)[segue destinationViewController];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        confirmDenyVC.game = [self.games objectAtIndex:indexPath.row];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }

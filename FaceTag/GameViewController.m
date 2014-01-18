@@ -32,7 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
