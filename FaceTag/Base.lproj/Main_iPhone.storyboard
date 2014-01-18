@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="uAw-3s-qzV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="uAw-3s-qzV">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Setup View Controller - Create a Game-->
@@ -86,16 +86,16 @@
             </objects>
             <point key="canvasLocation" x="1371" y="-969"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Invite To Game Table View Controller - Invite Friends to Game-->
         <scene sceneID="mmd-hc-V62">
             <objects>
-                <tableViewController id="Tfy-mb-Nif" sceneMemberID="viewController">
+                <tableViewController id="Tfy-mb-Nif" customClass="InviteToGameTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9kY-kE-H9l">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vbP-ZM-cz2">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserCell" id="vbP-ZM-cz2">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vbP-ZM-cz2" id="CSC-Np-S7l">
@@ -109,7 +109,7 @@
                             <outlet property="delegate" destination="Tfy-mb-Nif" id="rBT-kX-WXX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="icK-n4-0Xg"/>
+                    <navigationItem key="navigationItem" title="Invite Friends to Game" id="icK-n4-0Xg"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q57-eh-iPJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
