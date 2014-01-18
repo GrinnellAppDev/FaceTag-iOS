@@ -14,8 +14,7 @@
 
 @implementation SetupViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -61,11 +60,13 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%d", row + 1];
+    long longRow = (long)row;
+    return [NSString stringWithFormat:@"%ld", longRow + 1];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.pointsToWin.text = [NSString stringWithFormat:@"%d", row + 1];
+    long longRow = (long)row;
+    self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
 }
 
 @end
