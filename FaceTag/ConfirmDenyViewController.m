@@ -12,7 +12,8 @@
 
 @interface ConfirmDenyViewController ()
 @property (nonatomic, weak) IBOutlet UILabel *targetConfirmationLabel;
-@property (nonatomic, weak) IBOutlet UIImageView *targetPhoto;
+@property (nonatomic, weak) IBOutlet PFImageView *targetPhoto;
+@property (nonatomic, weak) PFObject *photoTag;
 
 @end
 
@@ -34,13 +35,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    // Todo - Set to the correct target name and image
-    NSString *profileString = [[PFUser currentUser] objectForKey:@"profilePictureURL"];
-    NSURL *profileURL = [NSURL URLWithString:profileString];
-    [self.targetPhoto setImageWithURL:profileURL];
-    
-    self.targetConfirmationLabel.text = [[PFUser currentUser] objectForKey:@"fullName"];
+    self.photoTag = [self.unconfirmedPhotoTags firstObject];
+    self.targetPhoto.file = self.photoTag[@"photo"];
+    [self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
+    }];
+    self.targetConfirmationLabel.text = [NSString stringWithFormat:@"Is this %@?", self.photoTag[@"target"]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,15 +48,35 @@
 }
 
 - (IBAction)confirm:(id)sender {
-    // Todo - logic for this, segue only if done, else refresh with next photo
-    [self performSegueWithIdentifier:@"ShowGame" sender:self];
+    NSNumber *value = self.photoTag[@"confirmation"];
+    int confInt = [value intValue];
+    [self.photoTag setObject:@(++confInt) forKey:@"confirmation"];
+    NSMutableArray *array = self.photoTag[@"usersArray"];
+    [array addObject:[PFUser currentUser]];
+    [self.photoTag setObject:array forKey:@"usersArray"];
+    [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            // Todo - Segue only if done, else refresh with next photo
+            [self performSegueWithIdentifier:@"ShowGame" sender:self];
+        }
+    }];
 }
 
 
 - (IBAction)deny:(id)sender {
-    // Todo - logic for this, segue only if done, else refresh with next photo
-    [self performSegueWithIdentifier:@"ShowGame" sender:self];
-}
+    NSNumber *value = self.photoTag[@"rejection"];
+    int rejInt = [value intValue];
+    [self.photoTag setObject:@(++rejInt) forKey:@"rejection"];
+    NSMutableArray *array = self.photoTag[@"usersArray"];
+    [array addObject:[PFUser currentUser]];
+    [self.photoTag setObject:array forKey:@"usersArray"];
+    
+    [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            // Todo - Segue only if done, else refresh with next photo
+            [self performSegueWithIdentifier:@"ShowGame" sender:self];
+        }
+    }];}
 
 #pragma mark - Navigation
 // In a story board-based application, you will often want to do a little preparation before navigation

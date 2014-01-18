@@ -74,10 +74,21 @@
             photoTag[@"sender"] = [PFUser currentUser];
             photoTag[@"photo"] = imageFile;
             photoTag[@"confirmation"] = @0;
+            photoTag[@"rejection"] = @0;
+            photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
+            // TODO - Get the target's name here
+            photoTag[@"target"] = [[PFUser currentUser] objectForKey:@"fullName"];
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     NSLog(@"photo tag saved!!");
+                    NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
+                    [tagsArray addObject:photoTag];
+                    [self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
+                    [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if(!error)
+                            NSLog(@"Game updated");
+                    }];
                 }
             }];
         }];

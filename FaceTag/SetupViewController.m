@@ -62,16 +62,14 @@
     NSMutableDictionary *scoreboard = [[NSMutableDictionary alloc] init];
     
     for (NSString *userId in self.usersToInvite) {
-        
         [scoreboard setObject:@0 forKey:userId];
     }
-    
-    
     
     game[@"name"] = gameName;
     game[@"participants"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
     game[@"scoreboard"] = scoreboard;
+    game[@"unconfirmedPhotoTags"] = [[NSArray alloc] init];
     
     // TODO (DrJid): Set timePerTurn stuff.
     game[@"timePerTurn"] = @20;

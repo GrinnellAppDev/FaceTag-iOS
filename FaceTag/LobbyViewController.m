@@ -41,7 +41,8 @@
     
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery orderByAscending:@"name"];
-    
+    [gamesQuery includeKey:@"unconfirmedPhotoTags"];
+    [gamesQuery includeKey:@"unconfirmedPhotoTags.usersArray"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.games = objects;
@@ -80,9 +81,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // TODO - Check for photos needing evaluation
     // if (game has photos ready for evaluation)
-    //    [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
-    // else
-    [self performSegueWithIdentifier:@"ShowGame" sender:nil];
+    NSArray *arr = [[NSArray alloc] initWithArray:[self.games objectAtIndex:indexPath.row][@"unconfirmedPhotoTags"]];
+    if (arr.count > 0)
+        [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
+    else
+        [self performSegueWithIdentifier:@"ShowGame" sender:nil];
 }
 
 #pragma mark - Navigation
@@ -98,113 +101,11 @@
         ConfirmDenyViewController *confirmDenyVC = (ConfirmDenyViewController *)[segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         confirmDenyVC.game = [self.games objectAtIndex:indexPath.row];
+        
+        // TODO - Server should respond to something here and give us a list specific to the user
+        confirmDenyVC.unconfirmedPhotoTags = [[NSArray alloc] initWithArray:confirmDenyVC.game[@"unconfirmedPhotoTags"]];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
-
-
-- (IBAction)showCamera:(id)sender {
-    [self showTagPhotoPicker];
-}
-
-- (void)uploadPhotoTag
-{
-    if (self.tagImage) {
-        NSLog(@"Uploading tag image!!");
-        
-        NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFUser *currentUser = [PFUser currentUser];
-        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
-        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
-        
-        [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-            //Create the PhotoTag object.
-            PFObject *photoTag = [PFObject objectWithClassName:@"PhotoTag"];
-            photoTag[@"sender"] = [PFUser currentUser];
-            photoTag[@"photo"] = imageFile;
-            photoTag[@"confirmation"] = @0;
-            
-            [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    NSLog(@"photo tag saved!!");
-                }
-            }];
-        }];
-    } else {
-        //This should happen. Since there should be a tag image by the time this is called!!!
-    }
-}
-
-#pragma mark - UIImagePickerDelegate Stuff.
-
-- (void)showTagPhotoPicker
-{
-    
-    if (!self.imagePickerController) {
-        self.imagePickerController = [[UIImagePickerController alloc] init];
-        self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = YES;
-        
-    }
-    
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-        
-        //Test creating overlay view.
-        UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
-        imgView.image = [UIImage imageNamed:@"x_image"];
-        imgView.contentMode = UIViewContentModeCenter;
-        
-        //Without these.. the buttons get disabled.
-        [overlayView setUserInteractionEnabled:NO];
-        [overlayView setExclusiveTouch:NO];
-        [overlayView setMultipleTouchEnabled:NO];
-        [overlayView addSubview:imgView];
-        
-        self.imagePickerController.cameraOverlayView = overlayView;
-        
-        [self presentViewController:self.imagePickerController animated:NO completion:nil];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
-                                              cancelButtonTitle:@"Drat!"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    
-    NSString *mediaType = info[UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *image = info[UIImagePickerControllerEditedImage];
-        
-        //Get the ratio and scale the height according to that ratio.
-        int ratio = image.size.width / 320.0;
-        int newHeight = image.size.height / ratio;
-        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
-        
-        [self uploadPhotoTag];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
-{
-    CGSize newSize = CGSizeMake(width, height);
-    CGRect newRectangle = CGRectMake(0, 0, width, height);
-    
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:newRectangle];
-    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return resizedImage;
-}
-
 
 @end

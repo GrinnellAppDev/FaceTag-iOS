@@ -11,6 +11,7 @@
 @interface ConfirmDenyViewController : UIViewController
 
 @property (nonatomic, strong) PFObject *game;
+@property (nonatomic, strong) NSArray *unconfirmedPhotoTags;
 
 - (IBAction)confirm:(id)sender;
 - (IBAction)deny:(id)sender;
