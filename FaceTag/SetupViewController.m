@@ -51,10 +51,37 @@
 
 
 - (IBAction)create {
-    // TODO - Create the game
+    
+    PFObject *game = [PFObject objectWithClassName:@"Game"];
     
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSString *gameName = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
+    
+    int pointsToWin = [self.pointsToWin.text intValue];
+    
+    NSMutableDictionary *scoreboard = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *userId in self.usersToInvite) {
+        
+        [scoreboard setObject:@0 forKey:userId];
+    }
+    
+    
+    
+    game[@"name"] = gameName;
+    game[@"participants"] = self.usersToInvite;
+    game[@"pointsToWin"] = @(pointsToWin);
+    game[@"scoreboard"] = scoreboard;
+    
+    // TODO (DrJid): Set timePerTurn stuff.
+    game[@"timePerTurn"] = @20;
+    
+    [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            NSLog(@"SAvedddd!!!");
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
 }
 
 - (IBAction)cancel {
