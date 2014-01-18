@@ -15,4 +15,6 @@
 - (IBAction)cancel;
 - (IBAction)create;
 
+@property (nonatomic, strong) NSMutableArray *usersToInvite;
+
 @end

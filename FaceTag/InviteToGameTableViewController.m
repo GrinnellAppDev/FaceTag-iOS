@@ -7,12 +7,14 @@
 //
 
 #import "InviteToGameTableViewController.h"
+#import "SetupViewController.h"
 
 @interface InviteToGameTableViewController ()
 
 @property (nonatomic, strong) NSArray *allUsers;
 
 @property (nonatomic, strong) NSMutableArray *usersToInvite;
+@property (nonatomic, strong) SetupViewController *setupViewController;
 
 @end
 
@@ -29,8 +31,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.usersToInvite = [[NSMutableArray alloc] init];
-
+    //self.usersToInvite = [[NSMutableArray alloc] init];
+    self.setupViewController = (SetupViewController *)self.parentViewController.childViewControllers.firstObject;
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
@@ -76,9 +79,14 @@
     static NSString *CellIdentifier = @"UserCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
-    
     PFUser *user = self.allUsers[indexPath.row];
+
+    // Configure the cell...
+    if ([self.setupViewController.usersToInvite containsObject:user.objectId]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
     
     cell.textLabel.text = user[@"fullName"];
     return cell;
@@ -97,14 +105,14 @@
     if (cell.accessoryType == UITableViewCellAccessoryNone) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
-        [self.usersToInvite addObject:user.objectId];
+        [self.setupViewController.usersToInvite addObject:user.objectId];
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryNone;
-        [self.usersToInvite removeObject:user.objectId];
+        [self.setupViewController.usersToInvite removeObject:user.objectId];
     }
     
-    NSLog(@"%@", self.usersToInvite);
+    NSLog(@"%@", self.setupViewController.usersToInvite);
 }
 
 /*

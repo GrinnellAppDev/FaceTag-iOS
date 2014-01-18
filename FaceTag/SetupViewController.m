@@ -29,9 +29,13 @@
     UIPickerView *pickerView = [[UIPickerView alloc] init];
     pickerView.dataSource = self;
     pickerView.delegate = self;
+    
+    //Default to 5
     [pickerView selectRow:4 inComponent:0 animated:NO];
     
     self.pointsToWin.inputView = pickerView;
+    
+    self.usersToInvite = [[NSMutableArray alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,9 +43,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    NSLog(@"uti: %@", self.usersToInvite); 
+}
+
 
 - (IBAction)create {
     // TODO - Create the game
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
