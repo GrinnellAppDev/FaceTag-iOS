@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetupViewController : UITableViewController
+@interface SetupViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+
+@property (nonatomic, strong) IBOutlet UITextField *pointsToWin;
 
 - (IBAction)cancel;
 - (IBAction)create;
