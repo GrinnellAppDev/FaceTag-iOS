@@ -11,6 +11,9 @@
 @interface InviteToGameTableViewController ()
 
 @property (nonatomic, strong) NSArray *allUsers;
+
+@property (nonatomic, strong) NSMutableArray *usersToInvite;
+
 @end
 
 @implementation InviteToGameTableViewController
@@ -27,14 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.usersToInvite = [[NSMutableArray alloc] init];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-
     
 }
 
@@ -43,6 +46,10 @@
     [super viewWillAppear:animated];
     
     PFQuery *userQuery  = [PFUser query];
+    
+    //Exclude the current logged in user
+    [userQuery whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
+    [userQuery orderByAscending:@"fullName"];
     
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -86,6 +93,29 @@
     
     cell.textLabel.text = user[@"fullName"];
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    //Add or remove this user from the
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    PFUser *user = [self.allUsers objectAtIndex:indexPath.row];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryNone) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        [self.usersToInvite addObject:user.objectId];
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.usersToInvite removeObject:user.objectId];
+    }
+    
+    NSLog(@"%@", self.usersToInvite);
 }
 
 /*
