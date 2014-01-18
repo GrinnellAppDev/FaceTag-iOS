@@ -36,6 +36,8 @@
 		E19A5671188A4176009E3150 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A566F188A4176009E3150 /* LoginViewController.m */; };
 		E19A5674188A45C2009E3150 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5673188A45C2009E3150 /* SetupViewController.m */; };
 		E19A5677188A45FE009E3150 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5676188A45FE009E3150 /* CameraViewController.m */; };
+		E19A567A188A9764009E3150 /* DeckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5679188A9764009E3150 /* DeckViewController.m */; };
+		E19A567D188A9844009E3150 /* ParticipantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A567C188A9844009E3150 /* ParticipantsViewController.m */; };
 		E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DB8C09188A3C8E00FA3713 /* GameViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +91,10 @@
 		E19A5673188A45C2009E3150 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		E19A5675188A45FE009E3150 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		E19A5676188A45FE009E3150 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		E19A5678188A9764009E3150 /* DeckViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckViewController.h; sourceTree = "<group>"; };
+		E19A5679188A9764009E3150 /* DeckViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeckViewController.m; sourceTree = "<group>"; };
+		E19A567B188A9844009E3150 /* ParticipantsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsViewController.h; sourceTree = "<group>"; };
+		E19A567C188A9844009E3150 /* ParticipantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsViewController.m; sourceTree = "<group>"; };
 		E1DB8C08188A3C8E00FA3713 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		E1DB8C09188A3C8E00FA3713 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,12 +184,16 @@
 				E187809D188A296C00E48E49 /* Main_iPad.storyboard */,
 				E19A5675188A45FE009E3150 /* CameraViewController.h */,
 				E19A5676188A45FE009E3150 /* CameraViewController.m */,
+				E19A5678188A9764009E3150 /* DeckViewController.h */,
+				E19A5679188A9764009E3150 /* DeckViewController.m */,
 				E1DB8C08188A3C8E00FA3713 /* GameViewController.h */,
 				E1DB8C09188A3C8E00FA3713 /* GameViewController.m */,
 				E19A566C188A4176009E3150 /* LobbyViewController.h */,
 				E19A566D188A4176009E3150 /* LobbyViewController.m */,
 				E19A566E188A4176009E3150 /* LoginViewController.h */,
 				E19A566F188A4176009E3150 /* LoginViewController.m */,
+				E19A567B188A9844009E3150 /* ParticipantsViewController.h */,
+				E19A567C188A9844009E3150 /* ParticipantsViewController.m */,
 				E19A5672188A45C2009E3150 /* SetupViewController.h */,
 				E19A5673188A45C2009E3150 /* SetupViewController.m */,
 				167BDBE9188A7AA900931CFE /* InviteToGameTableViewController.h */,
@@ -356,6 +366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E19A567D188A9844009E3150 /* ParticipantsViewController.m in Sources */,
+				E19A567A188A9764009E3150 /* DeckViewController.m in Sources */,
 				E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */,
 				E1878099188A296C00E48E49 /* AppDelegate.m in Sources */,
 				E1878095188A296C00E48E49 /* main.m in Sources */,

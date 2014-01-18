@@ -7,7 +7,7 @@
 //
 
 #import "LobbyViewController.h"
-#import "GameViewController.h"
+#import "DeckViewController.h"
 
 @interface LobbyViewController ()
 
@@ -86,9 +86,9 @@
 // In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"ShowGame"]) {
-        GameViewController *gameVC = (GameViewController *)[segue destinationViewController];
+        DeckViewController *deckVC = (DeckViewController *)[segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        gameVC.game = [self.games objectAtIndex:indexPath.row];
+        deckVC.game = [self.games objectAtIndex:indexPath.row];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }

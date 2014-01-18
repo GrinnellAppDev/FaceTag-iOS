@@ -2,12 +2,15 @@ PODS:
   - Facebook-iOS-SDK (3.11.0)
   - Parse (1.2.18):
     - Facebook-iOS-SDK (~> 3.11)
+  - ViewDeck (2.2.11)
 
 DEPENDENCIES:
   - Parse
+  - ViewDeck (~> 2.2.11)
 
 SPEC CHECKSUMS:
   Facebook-iOS-SDK: 2eb12f9ed04f3d3956f0a4fb0e4e60c824dcd101
   Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
+  ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
 
 COCOAPODS: 0.29.0
