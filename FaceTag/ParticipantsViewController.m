@@ -27,6 +27,9 @@
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
