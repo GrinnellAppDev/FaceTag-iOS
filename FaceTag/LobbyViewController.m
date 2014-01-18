@@ -43,7 +43,6 @@
     
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"Downloaded games");
             self.games = objects;
             [self.tableView reloadData];
         }
@@ -102,8 +101,10 @@
     if (self.tagImage) {
         NSLog(@"Uploading tag image!!");
         
-        NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFFile *imageFile = [PFFile fileWithName:@"phototag.png" data:imageData];
+        NSData *imageData = UIImagePNGRepresentation(self.tagImage);        
+        PFUser *currentUser = [PFUser currentUser];
+        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
+        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             

@@ -60,7 +60,9 @@
         NSLog(@"Uploading tag image!!");
         
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFFile *imageFile = [PFFile fileWithName:@"phototag.png" data:imageData];
+        PFUser *currentUser = [PFUser currentUser];
+        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
+        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
