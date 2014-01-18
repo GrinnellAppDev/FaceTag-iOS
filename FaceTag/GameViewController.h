@@ -10,4 +10,6 @@
 
 @interface GameViewController : UIViewController
 
+@property (nonatomic, strong) PFObject *game;
+
 @end
