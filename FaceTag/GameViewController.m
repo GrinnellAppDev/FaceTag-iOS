@@ -92,12 +92,31 @@
         self.imagePickerController = [[UIImagePickerController alloc] init];
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = NO;
+        
+
+
     }
     
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+        
+        
+        //Test creating overlay view.
+        UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
+        imgView.image = [UIImage imageNamed:@"x_image"];
+        imgView.contentMode = UIViewContentModeCenter;
+        
+        //Without these.. the buttons get disabled.
+        [overlayView setUserInteractionEnabled:NO];
+        [overlayView setExclusiveTouch:NO];
+        [overlayView setMultipleTouchEnabled:NO];
+        [overlayView addSubview:imgView];
+        
+        self.imagePickerController.cameraOverlayView = overlayView;
+        
         [self presentViewController:self.imagePickerController animated:NO completion:nil];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
