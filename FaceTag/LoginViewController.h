@@ -10,4 +10,6 @@
 
 @interface LoginViewController : UIViewController
 
+- (IBAction)loginButtonTouchHandler:(id)sender;
+
 @end
