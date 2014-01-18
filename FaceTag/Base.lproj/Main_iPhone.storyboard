@@ -109,11 +109,23 @@
                     <view key="view" contentMode="scaleToFill" id="Rax-69-jI1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbu-lR-tUT">
+                                <rect key="frame" x="137" y="352" width="38" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonTouchHandler:" destination="WLA-iv-n5N" eventType="touchUpInside" id="f6M-xG-JdB"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="eeD-gU-pYy"/>
                     <connections>
-                        <segue destination="hwZ-a1-QKk" kind="push" id="GwH-XG-mOJ"/>
+                        <segue destination="hwZ-a1-QKk" kind="push" identifier="Login" id="GwH-XG-mOJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KK0-pn-hMO" userLabel="First Responder" sceneMemberID="firstResponder"/>

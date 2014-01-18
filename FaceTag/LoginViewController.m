@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import <Parse/Parse.h>
 
 @interface LoginViewController ()
 
@@ -33,6 +34,30 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)loginButtonTouchHandler:(id)sender {
+    // The permissions requested from the user
+    NSArray *permissionsArray = nil;
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        //[_activityIndicator stopAnimating]; // Hide loading indicator
+        
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+            }
+        } else if (user.isNew) {
+            NSLog(@"User with facebook signed up and logged in!");
+            [self performSegueWithIdentifier:@"Login" sender:sender];
+        } else {
+            NSLog(@"User with facebook logged in!");
+            [self performSegueWithIdentifier:@"Login" sender:sender];
+        }
+    }];
 }
 
 @end
