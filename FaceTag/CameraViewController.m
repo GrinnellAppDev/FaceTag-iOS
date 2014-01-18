@@ -8,7 +8,6 @@
 
 #import "CameraViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import <Parse/Parse.h>
 
 @interface CameraViewController ()< UINavigationControllerDelegate, UIImagePickerControllerDelegate >
 
