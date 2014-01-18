@@ -36,6 +36,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //If there is a current user, set the lobby View Controller as the initial View Controller.
+    if ([PFUser currentUser]) {
+
+        [self performSegueWithIdentifier:@"Login" sender:self];
+    }
+}
+
 - (IBAction)loginButtonTouchHandler:(id)sender {
     // The permissions requested from the user
     NSArray *permissionsArray = @[ @"email" ];
