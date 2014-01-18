@@ -78,7 +78,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zh5-Ea-DFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="962" y="-231"/>
+            <point key="canvasLocation" x="1000" y="-233"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="xBU-SR-eMr">
@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnw-5e-Cgc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1513" y="585"/>
+            <point key="canvasLocation" x="1473" y="-233"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="M3B-m2-Gst">
@@ -111,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbu-lR-tUT">
-                                <rect key="frame" x="137" y="352" width="38" height="30"/>
+                                <rect key="frame" x="136" y="280" width="38" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Login">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
