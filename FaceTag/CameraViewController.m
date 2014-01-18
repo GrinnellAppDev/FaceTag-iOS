@@ -53,15 +53,15 @@
         NSLog(@"Uploading tag image!!");
         
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFFile *imageFile = [PFFile fileWithName:@"profilePic.png" data:imageData];
+        PFFile *imageFile = [PFFile fileWithName:@"phototag.png" data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             //Create the PhotoTag object.
             PFObject *photoTag = [PFObject objectWithClassName:@"PhotoTag"];
-            //photoTag[@"sender"] = [PFUser currentUser];
+            photoTag[@"sender"] = [PFUser currentUser];
             photoTag[@"photo"] = imageFile;
-            //photoTag[@"confirmation"] = 0;
+            photoTag[@"confirmation"] = @0;
             
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
@@ -104,15 +104,9 @@
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = info[UIImagePickerControllerEditedImage];
-        self.tagImage = [self resizeImage:image toWidth:200 andHeight:200];
+        self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
         
-        [self uploadPhotoTag]; 
-        /*
-        if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        }
-        */
-        
+        [self uploadPhotoTag];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];

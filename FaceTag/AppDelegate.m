@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "LobbyViewController.h"
 
 @implementation AppDelegate
 
@@ -20,9 +21,6 @@
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-    testObject[@"foo"] = @"bar";
-    [testObject saveInBackground];
     
     [PFFacebookUtils initializeFacebook];
     
