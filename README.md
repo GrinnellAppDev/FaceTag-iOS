@@ -6,7 +6,7 @@ Authors:  * Maijid Moujaled
           * Andrew Kelley
           * Patrick Triest
 
-Date:    Tuesday, 12th November, 2013
+Date:    Friday, 17th January, 2014
 
 ---
 
@@ -21,7 +21,9 @@ Set up a game with your friends and specify the duration of the game (time or po
 
 Game Rules:
 1. Find your target and acquire a picture with their face clearly visible.
+
 2. Picture cannot be a picture of a picture.
+
 3. Other hunters will confirm that the picture is an original picture.
 
 ####Source
