@@ -51,8 +51,12 @@
     if (self.tagImage) {
         NSLog(@"Uploading tag image!!");
         
+        PFUser *currentUser = [PFUser currentUser];
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFFile *imageFile = [PFFile fileWithName:@"phototag.png" data:imageData];
+        
+        // TODO (DrJid): Change this fileName to use the firstName of the person being targeted.
+        NSString *fileName = [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
+        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
