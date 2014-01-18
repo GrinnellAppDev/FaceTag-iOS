@@ -4,6 +4,24 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
+        <!--Setup View Controller-->
+        <scene sceneID="uVS-av-Qvg">
+            <objects>
+                <viewController id="PYj-nC-kUK" customClass="SetupViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Je1-kD-67K"/>
+                        <viewControllerLayoutGuide type="bottom" id="JH7-qa-cZw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="q8W-vm-2QY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fok-IO-u7H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="969" y="-916"/>
+        </scene>
         <!--Lobby View Controller - Lobby-->
         <scene sceneID="XFL-CR-aR9">
             <objects>
@@ -25,10 +43,15 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Lobby" id="ZPt-Hw-u6k">
                         <barButtonItem key="leftBarButtonItem" title="Join" id="14h-Te-Pmh"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tf0-vm-TBw"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tf0-vm-TBw">
+                            <connections>
+                                <segue destination="PYj-nC-kUK" kind="modal" id="naw-vi-nIM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="VIG-kO-PP4" kind="push" id="KTv-Hb-gl6"/>
+                        <segue destination="x2r-dX-60d" kind="modal" id="ZKh-qo-Wm4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6gg-Bj-TYY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,10 +72,31 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="haX-Ka-gjE"/>
+                    <connections>
+                        <segue destination="x2r-dX-60d" kind="modal" id="mTz-zV-jfX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zh5-Ea-DFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="962" y="-231"/>
+        </scene>
+        <!--Camera View Controller-->
+        <scene sceneID="xBU-SR-eMr">
+            <objects>
+                <viewController id="x2r-dX-60d" customClass="CameraViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SSY-zo-FAy"/>
+                        <viewControllerLayoutGuide type="bottom" id="caw-Mg-xAv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IKz-j7-3dR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wnw-5e-Cgc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1513" y="585"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="M3B-m2-Gst">
@@ -97,4 +141,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="mTz-zV-jfX"/>
+    </inferredMetricsTieBreakers>
 </document>
