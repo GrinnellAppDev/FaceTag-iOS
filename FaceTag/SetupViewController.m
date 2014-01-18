@@ -43,23 +43,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSLog(@"uti: %@", self.usersToInvite); 
 }
 
 
 - (IBAction)create {
+    if (self.usersToInvite.count == 0) {
+        [self inviteUsersError];
+        return;
+    }
     
     PFObject *game = [PFObject objectWithClassName:@"Game"];
-    
     
     NSString *gameName = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
     
     int pointsToWin = [self.pointsToWin.text intValue];
     
     NSMutableDictionary *scoreboard = [[NSMutableDictionary alloc] init];
+    [self.usersToInvite addObject:[PFUser currentUser].objectId];
     
     for (NSString *userId in self.usersToInvite) {
         [scoreboard setObject:@0 forKey:userId];
@@ -103,6 +106,11 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     long longRow = (long)row;
     self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
+}
+
+- (void)inviteUsersError {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You cannot start a game without inviting anyone!" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 @end

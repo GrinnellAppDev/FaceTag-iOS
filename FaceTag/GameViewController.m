@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "DeckViewController.h"
 
 @interface GameViewController  () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -38,11 +39,19 @@
     [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:1] animated:YES];
 }
 
+- (IBAction)menuButtonPressed:(id)sender {
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    [deckVC toggleRightViewAnimated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobby:)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"chevron-left.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobby:)];
     self.navigationItem.leftBarButtonItem = backButton;
+    
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Menu.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = menuButton;
     
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
@@ -169,6 +178,5 @@
     UIGraphicsEndImageContext();
     return resizedImage;
 }
-
 
 @end
