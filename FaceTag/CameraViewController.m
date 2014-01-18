@@ -106,8 +106,10 @@
     
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *image = info[UIImagePickerControllerEditedImage];
-        self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        self.tagImage = image;
+        
+        //self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
         
         [self uploadPhotoTag];
     }
