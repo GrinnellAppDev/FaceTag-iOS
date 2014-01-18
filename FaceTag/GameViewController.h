@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  GameViewController.h
 //  FaceTag
 //
 //  Created by Colin Tremblay on 1/17/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface GameViewController : UIViewController
 
 @end
