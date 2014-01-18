@@ -10,4 +10,5 @@
 
 @interface InviteToGameTableViewController : UITableViewController
 
+
 @end
