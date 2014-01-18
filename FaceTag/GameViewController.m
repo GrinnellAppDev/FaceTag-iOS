@@ -88,25 +88,19 @@
 
 #pragma mark - UIImagePickerDelegate Stuff.
 
-- (void)showTagPhotoPicker
-{
-    
+- (void)showTagPhotoPicker {
     if (!self.imagePickerController) {
         self.imagePickerController = [[UIImagePickerController alloc] init];
         self.imagePickerController.delegate = self;
         self.imagePickerController.allowsEditing = NO;
-        
-
-
     }
-    
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
         
         
-        //Test creating overlay view.
+        //Create overlay view.
         UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
         imgView.image = [UIImage imageNamed:@"x_image"];
