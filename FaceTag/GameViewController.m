@@ -91,7 +91,7 @@
     if (!self.imagePickerController) {
         self.imagePickerController = [[UIImagePickerController alloc] init];
         self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = YES;
+        self.imagePickerController.allowsEditing = NO;
     }
     
     
@@ -112,12 +112,15 @@
     
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *image = info[UIImagePickerControllerEditedImage];
-        self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
         
+        //Get the ratio and scale the height according to that ratio. 
+        int ratio = image.size.width / 320.0;
+        int newHeight = image.size.height / ratio;
+        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
+
         [self uploadPhotoTag];
     }
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -101,7 +101,7 @@
     if (self.tagImage) {
         NSLog(@"Uploading tag image!!");
         
-        NSData *imageData = UIImagePNGRepresentation(self.tagImage);        
+        NSData *imageData = UIImagePNGRepresentation(self.tagImage);
         PFUser *currentUser = [PFUser currentUser];
         NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
         PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
@@ -155,7 +155,11 @@
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = info[UIImagePickerControllerEditedImage];
-        self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
+        
+        //Get the ratio and scale the height according to that ratio.
+        int ratio = image.size.width / 320.0;
+        int newHeight = image.size.height / ratio;
+        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
         [self uploadPhotoTag];
     }
