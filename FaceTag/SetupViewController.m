@@ -9,7 +9,7 @@
 #import "SetupViewController.h"
 
 @interface SetupViewController ()
-
+@property (nonatomic, strong) NSMutableArray *pickerArray;
 @end
 
 @implementation SetupViewController
@@ -25,6 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
     
     UIPickerView *pickerView = [[UIPickerView alloc] init];
     pickerView.dataSource = self;
@@ -35,17 +45,15 @@
     
     self.pointsToWin.inputView = pickerView;
     
+    UIPickerView *otherPickerView = [[UIPickerView alloc] init];
+    otherPickerView.dataSource = self;
+    otherPickerView.delegate = self;
+    self.timePerTurn.inputView = otherPickerView;
+    [otherPickerView selectRow:2 inComponent:0 animated:NO];
+    
     self.usersToInvite = [[NSMutableArray alloc] init];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"uti: %@", self.usersToInvite); 
+    
+    self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"1 Min", @"5 Min", @"15 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
 }
 
 
@@ -74,8 +82,8 @@
     game[@"scoreboard"] = scoreboard;
     game[@"unconfirmedPhotoTags"] = [[NSArray alloc] init];
     
-    // TODO (DrJid): Set timePerTurn stuff.
-    game[@"timePerTurn"] = @20;
+    NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@1, @5, @15, @60, @120, @360, @720, @1440, @2880, @10080, nil];
+    game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.pickerArray indexOfObject:self.timePerTurn.text]];
     
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
@@ -99,13 +107,20 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (self.timePerTurn.isEditing)
+        return [self.pickerArray objectAtIndex:row];
+    
     long longRow = (long)row;
     return [NSString stringWithFormat:@"%ld", longRow + 1];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    long longRow = (long)row;
-    self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
+    if (self.timePerTurn.isEditing)
+        self.timePerTurn.text = [self.pickerArray objectAtIndex:row];
+    else {
+        long longRow = (long)row;
+        self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
+    }
 }
 
 - (void)inviteUsersError {

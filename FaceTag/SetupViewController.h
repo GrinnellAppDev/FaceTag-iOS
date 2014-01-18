@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetupViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SetupViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextField *pointsToWin;
+@property (nonatomic, strong) IBOutlet UITextField *timePerTurn;
 
 - (IBAction)cancel;
 - (IBAction)create;
