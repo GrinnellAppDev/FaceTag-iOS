@@ -35,4 +35,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (IBAction)create {
+    // TODO - Create the game
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetupViewController : UIViewController
+@interface SetupViewController : UITableViewController
+
+- (IBAction)cancel;
+- (IBAction)create;
 
 @end
