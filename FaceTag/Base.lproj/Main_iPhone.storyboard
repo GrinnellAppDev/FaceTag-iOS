@@ -167,7 +167,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="x2r-dX-60d" kind="modal" identifier="ShowCamera" id="ZKh-qo-Wm4"/>
                         <segue destination="Zp2-FU-rCE" kind="push" identifier="ShowGame" id="zn1-tC-Bgn"/>
                     </connections>
                 </tableViewController>
@@ -241,7 +240,6 @@
                     <connections>
                         <outlet property="targetNameLabel" destination="84Q-aZ-9IC" id="Sqh-CA-zkx"/>
                         <outlet property="targetProfileImageView" destination="FXt-IY-2ze" id="dkQ-mT-Unk"/>
-                        <segue destination="x2r-dX-60d" kind="modal" identifier="ShowCamera" id="mTz-zV-jfX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zh5-Ea-DFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -313,24 +311,6 @@
             </objects>
             <point key="canvasLocation" x="1109" y="-233"/>
         </scene>
-        <!--Camera View Controller-->
-        <scene sceneID="xBU-SR-eMr">
-            <objects>
-                <viewController id="x2r-dX-60d" customClass="CameraViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="SSY-zo-FAy"/>
-                        <viewControllerLayoutGuide type="bottom" id="caw-Mg-xAv"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="IKz-j7-3dR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wnw-5e-Cgc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="546" y="735"/>
-        </scene>
         <!--Login View Controller-->
         <scene sceneID="M3B-m2-Gst">
             <objects>
@@ -386,7 +366,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="mTz-zV-jfX"/>
-    </inferredMetricsTieBreakers>
 </document>
