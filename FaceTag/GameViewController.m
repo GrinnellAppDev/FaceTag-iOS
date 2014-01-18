@@ -63,7 +63,9 @@
         NSLog(@"Uploading tag image!!");
         
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFFile *imageFile = [PFFile fileWithName:@"phototag.png" data:imageData];
+        PFUser *currentUser = [PFUser currentUser];
+        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
+        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -92,13 +94,32 @@
     if (!self.imagePickerController) {
         self.imagePickerController = [[UIImagePickerController alloc] init];
         self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = YES;
+        self.imagePickerController.allowsEditing = NO;
+        
+
+
     }
     
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+        
+        
+        //Test creating overlay view.
+        UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
+        imgView.image = [UIImage imageNamed:@"x_image"];
+        imgView.contentMode = UIViewContentModeCenter;
+        
+        //Without these.. the buttons get disabled.
+        [overlayView setUserInteractionEnabled:NO];
+        [overlayView setExclusiveTouch:NO];
+        [overlayView setMultipleTouchEnabled:NO];
+        [overlayView addSubview:imgView];
+        
+        self.imagePickerController.cameraOverlayView = overlayView;
+        
         [self presentViewController:self.imagePickerController animated:NO completion:nil];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
@@ -113,12 +134,15 @@
     
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *image = info[UIImagePickerControllerEditedImage];
-        self.tagImage = [self resizeImage:image toWidth:250 andHeight:250];
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
         
+        //Get the ratio and scale the height according to that ratio. 
+        int ratio = image.size.width / 320.0;
+        int newHeight = image.size.height / ratio;
+        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
+
         [self uploadPhotoTag];
     }
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

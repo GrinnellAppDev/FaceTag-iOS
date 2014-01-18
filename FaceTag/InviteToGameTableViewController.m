@@ -51,7 +51,6 @@
     
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"Downloaded stuff"); 
             self.allUsers = objects;
             [self.tableView reloadData];
         }
