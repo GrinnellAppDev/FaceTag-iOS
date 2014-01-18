@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1670867A188A302C0083CFA9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708679188A302C0083CFA9 /* AudioToolbox.framework */; };
+		1670867C188A30320083CFA9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1670867B188A30320083CFA9 /* CFNetwork.framework */; };
+		1670867E188A30420083CFA9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1670867D188A30420083CFA9 /* CoreLocation.framework */; };
+		16708680188A30510083CFA9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1670867F188A30510083CFA9 /* libz.dylib */; };
+		16708682188A305C0083CFA9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708681188A305C0083CFA9 /* MobileCoreServices.framework */; };
+		16708684188A30630083CFA9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708683188A30630083CFA9 /* QuartzCore.framework */; };
+		16708686188A306C0083CFA9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708685188A306C0083CFA9 /* Security.framework */; };
+		16708688188A307D0083CFA9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708687188A307D0083CFA9 /* StoreKit.framework */; };
+		1670868A188A30850083CFA9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16708689188A30850083CFA9 /* SystemConfiguration.framework */; };
 		6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ACFA5F764264A56BB6CDB6F /* libPods.a */; };
 		E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1878088188A296C00E48E49 /* Foundation.framework */; };
 		E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
@@ -38,6 +47,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16708679188A302C0083CFA9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1670867B188A30320083CFA9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		1670867D188A30420083CFA9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		1670867F188A30510083CFA9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		16708681188A305C0083CFA9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		16708683188A30630083CFA9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		16708685188A306C0083CFA9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		16708687188A307D0083CFA9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		16708689188A30850083CFA9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6ACFA5F764264A56BB6CDB6F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABC1E38437146AA8BC0B552 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E1878085188A296C00E48E49 /* FaceTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +90,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */,
+				1670868A188A30850083CFA9 /* SystemConfiguration.framework in Frameworks */,
+				16708688188A307D0083CFA9 /* StoreKit.framework in Frameworks */,
+				16708686188A306C0083CFA9 /* Security.framework in Frameworks */,
+				16708684188A30630083CFA9 /* QuartzCore.framework in Frameworks */,
+				16708682188A305C0083CFA9 /* MobileCoreServices.framework in Frameworks */,
+				16708680188A30510083CFA9 /* libz.dylib in Frameworks */,
+				1670867E188A30420083CFA9 /* CoreLocation.framework in Frameworks */,
+				E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */,
+				1670867C188A30320083CFA9 /* CFNetwork.framework in Frameworks */,
+				1670867A188A302C0083CFA9 /* AudioToolbox.framework in Frameworks */,
 				E187808D188A296C00E48E49 /* UIKit.framework in Frameworks */,
 				E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */,
 				6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */,
@@ -114,6 +142,15 @@
 		E1878087188A296C00E48E49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16708689188A30850083CFA9 /* SystemConfiguration.framework */,
+				16708687188A307D0083CFA9 /* StoreKit.framework */,
+				16708685188A306C0083CFA9 /* Security.framework */,
+				16708683188A30630083CFA9 /* QuartzCore.framework */,
+				16708681188A305C0083CFA9 /* MobileCoreServices.framework */,
+				1670867F188A30510083CFA9 /* libz.dylib */,
+				1670867D188A30420083CFA9 /* CoreLocation.framework */,
+				1670867B188A30320083CFA9 /* CFNetwork.framework */,
+				16708679188A302C0083CFA9 /* AudioToolbox.framework */,
 				E1878088188A296C00E48E49 /* Foundation.framework */,
 				E187808A188A296C00E48E49 /* CoreGraphics.framework */,
 				E187808C188A296C00E48E49 /* UIKit.framework */,
