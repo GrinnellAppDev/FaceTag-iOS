@@ -36,6 +36,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.photoTag = [self.unconfirmedPhotoTags firstObject];
+    [self updateLabels];
+}
+
+- (void)updateLabels {
     self.targetPhoto.file = self.photoTag[@"photo"];
     [self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
     }];
@@ -56,8 +60,12 @@
     [self.photoTag setObject:array forKey:@"usersArray"];
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            // Todo - Segue only if done, else refresh with next photo
-            [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]])
+                [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            else {
+                self.photoTag = [self.unconfirmedPhotoTags objectAtIndex:[self.unconfirmedPhotoTags indexOfObject:self.photoTag] + 1];
+                [self updateLabels];
+            }
         }
     }];
 }
@@ -73,8 +81,12 @@
     
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            // Todo - Segue only if done, else refresh with next photo
-            [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]])
+                [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            else {
+                self.photoTag = [self.unconfirmedPhotoTags objectAtIndex:[self.unconfirmedPhotoTags indexOfObject:self.photoTag] + 1];
+                [self updateLabels];
+            }
         }
     }];}
 

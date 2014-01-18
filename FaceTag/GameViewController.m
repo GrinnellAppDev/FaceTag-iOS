@@ -34,8 +34,15 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)popToLobby:(id)sender {
+    [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:1] animated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobby:)];
+    self.navigationItem.leftBarButtonItem = backButton;
     
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
