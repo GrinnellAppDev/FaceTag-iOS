@@ -41,8 +41,7 @@
 }
 
 - (IBAction)menuButtonPressed:(id)sender {
-    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
-    [deckVC toggleRightViewAnimated:YES];
+    [self.viewDeckController toggleRightViewAnimated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

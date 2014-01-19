@@ -24,26 +24,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    PFQuery *userQuerry = [PFUser query];
-    [userQuerry whereKey:@"objectId" containedIn:self.participantsIDs];
-    [userQuerry findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" containedIn:self.participantsIDs];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            for (PFUser *user in objects) {
-                user[@"score"] = [self.game[@"scoreboard"] objectForKey:user.objectId];
-            }
-            
-            self.participants = [[NSArray alloc] initWithArray:objects];
-            [self.tableView reloadData];
+            PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
+            [gameQuery whereKey:@"objectId" equalTo:self.game.objectId];
+            [gameQuery findObjectsInBackgroundWithBlock:^(NSArray *gameObjects, NSError *error) {
+                if (!error) {
+                    self.game = gameObjects.firstObject;
+                    for (PFUser *user in objects) {
+                        user[@"score"] = [self.game[@"scoreboard"] objectForKey:user.objectId];
+                    }
+                    self.participants = [[NSArray alloc] initWithArray:objects];
+                    [self.tableView reloadData];
+                }
+            }];
         }
     }];
 }
@@ -74,7 +80,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFUser *user = [self.participants objectAtIndex:indexPath.row];
-
+    
     cell.textLabel.text = [NSString stringWithFormat:@"\t\t%@", user[@"fullName"]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", user[@"score"]];
     
