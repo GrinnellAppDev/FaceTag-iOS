@@ -41,6 +41,7 @@
     [super viewWillAppear:animated];
     
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
+    [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery includeKey:@"unconfirmedPhotoTags"];
     [gamesQuery includeKey:@"unconfirmedPhotoTags.usersArray"];
