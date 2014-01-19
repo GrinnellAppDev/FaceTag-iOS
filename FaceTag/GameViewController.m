@@ -98,23 +98,14 @@
         PFObject *photoTag = [PFObject objectWithClassName:@"PhotoTag"];
         photoTag[@"sender"] = [PFUser currentUser];
         photoTag[@"photo"] = imageFile;
-        photoTag[@"confirmation"] = @0;
-        photoTag[@"rejection"] = @0;
-        NSArray *participants = [[NSArray alloc] initWithArray:self.game[@"participants"]];
-        if (participants.count < 20)
-            photoTag[@"threshold"] = @(participants.count / 2) ;
-        else  photoTag[@"threshold"] = @10;
-        
-        photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
-        
         photoTag[@"target"] = self.targetUser;
         photoTag[@"game"] = [self.game objectId];
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 //NSLog(@"photo tag saved!!");
-
+                
             } else {
-               // NSLog(@"%@", error);
+                // NSLog(@"%@", error);
             }
         }];
     }];
