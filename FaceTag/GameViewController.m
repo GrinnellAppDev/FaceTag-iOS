@@ -17,7 +17,9 @@
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *tagImage;
 @property (weak, nonatomic) IBOutlet UIImageView *targetProfileImageView;
+@property (weak, nonatomic) IBOutlet UILabel *otherLabel;
 @property (weak, nonatomic) IBOutlet UILabel *targetNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *camera;
 @property (nonatomic, strong) PFUser *targetUser;
 @end
 
@@ -55,7 +57,20 @@
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
-    //NSLog(@"game: %@", self.game);
+    PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
+    [gameQuery whereKey:@"objectId" equalTo:self.game.objectId];
+    [gameQuery findObjectsInBackgroundWithBlock:^(NSArray *gameObjects, NSError *error) {
+        if (!error) {
+            self.game = gameObjects.firstObject;
+            if (self.game[@"gameOver"]) {
+                self.targetUser = self.game[@"winner"];
+                self.otherLabel.text = @"The winner is";
+                self.camera.titleLabel.text = @"Delete Game";
+                [self.camera addTarget:self action:@selector(deleteGame:) forControlEvents:UIControlEventTouchUpInside];
+            }
+        }
+    }];
+
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
     // NSLog(@"pa: %@", pairings);
@@ -73,6 +88,22 @@
         
         self.targetNameLabel.text = self.targetUser[@"fullName"];
     }];
+}
+
+- (IBAction)deleteGame:(id)sender {
+    [self.game deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    }];
+    PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+    [picQuery whereKey:@"game" equalTo:self.game.objectId];
+    [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            for (PFObject *pic in objects) {
+                [pic deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                }];
+            }
+        }
+    }];
+    [self popToLobby:sender];
 }
 
 - (void)didReceiveMemoryWarning {
