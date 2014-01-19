@@ -57,12 +57,12 @@
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
-    NSLog(@"game: %@", self.game);
+    //NSLog(@"game: %@", self.game);
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
-    NSLog(@"pa: %@", pairings); 
+   // NSLog(@"pa: %@", pairings);
     NSString *targetUserId = pairings[currentUser.objectId];
-    NSLog(@"targuserid: %@", targetUserId); 
+    //NSLog(@"targuserid: %@", targetUserId);
     
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
@@ -90,7 +90,7 @@
 - (void)uploadPhotoTag
 {
     if (self.tagImage) {
-        NSLog(@"Uploading tag image!!");
+       // NSLog(@"Uploading tag image!!");
         
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
         PFUser *currentUser = [PFUser currentUser];
@@ -110,13 +110,14 @@
             photoTag[@"target"] = self.targetUser;
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    NSLog(@"photo tag saved!!");
+                   // NSLog(@"photo tag saved!!");
                     NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
                     [tagsArray addObject:photoTag];
                     [self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
                     [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        if(!error)
-                            NSLog(@"Game updated");
+                        if(!error) {
+                            //NSLog(@"Game updated");
+                        }
                     }];
                 }
             }];

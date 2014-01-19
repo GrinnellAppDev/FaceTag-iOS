@@ -81,7 +81,7 @@
     
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            NSLog(@"Created new game.");
+            //NSLog(@"Created new game.");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];

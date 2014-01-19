@@ -50,24 +50,24 @@
         
         if (!user) {
             if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                //NSLog(@"Uh oh. The user cancelled the Facebook login.");
             } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
+                //NSLog(@"Uh oh. An error occurred: %@", error);
             }
         } else if (user.isNew) {
-            NSLog(@"User with facebook signed up and logged in!");
+            //NSLog(@"User with facebook signed up and logged in!");
             //[self performSegueWithIdentifier:@"Login" sender:sender];
         } else {
-            NSLog(@"User with facebook logged in!");
+            //NSLog(@"User with facebook logged in!");
             //[self performSegueWithIdentifier:@"Login" sender:sender];
         }
         
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if (error) {
-                NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
+                //NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
             }  else {
                 NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
-                NSLog(@"me: %@",me);
+                //NSLog(@"me: %@",me);
                 
                 PFUser *currentUser = [PFUser currentUser];
                 currentUser[@"facebookId"] = me.id;
@@ -91,9 +91,9 @@
                 
                 [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
-                        NSLog(@"I hate errors: %@", [error localizedDescription]);
+                        //NSLog(@"I hate errors: %@", [error localizedDescription]);
                     } else {
-                        NSLog(@"No error, it should've saved");
+                        //NSLog(@"No error, it should've saved");
                         
                         //Whew We're in!
                         [self performSegueWithIdentifier:@"Login" sender:sender];
