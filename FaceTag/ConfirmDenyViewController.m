@@ -43,7 +43,7 @@
     self.targetPhoto.file = self.photoTag[@"photo"];
     [self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
     }];
-    self.targetConfirmationLabel.text = [NSString stringWithFormat:@"Is this %@?", self.photoTag[@"target"]];
+    self.targetConfirmationLabel.text = [NSString stringWithFormat:@"Is this %@?", self.photoTag[@"target"][@"fullName"]];
 }
 
 - (void)didReceiveMemoryWarning {

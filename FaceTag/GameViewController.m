@@ -94,7 +94,7 @@
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
             // TODO - Get the target's name here
-            photoTag[@"target"] = [[PFUser currentUser] objectForKey:@"fullName"];
+            photoTag[@"target"] = [PFUser currentUser];
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     NSLog(@"photo tag saved!!");
