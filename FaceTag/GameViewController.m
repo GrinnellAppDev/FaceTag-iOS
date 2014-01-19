@@ -112,18 +112,18 @@
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 //NSLog(@"photo tag saved!!");
-                NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
-                [tagsArray addObject:photoTag];
-                [self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
+               // NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
+                //[tagsArray addObject:photoTag];
+                //[self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
                 //NSLog(@"%@", tagsArray);
-                [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if(!error) {
+               // [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                //    if(!error) {
                         //NSLog(@"Game updated");
-                    }
-                    else {
+                 //   }
+                 //   else {
                     //NSLog(@"%@", error);
-                    }
-                }];
+                //    }
+               // }];
             } else {
                // NSLog(@"%@", error);
             }
