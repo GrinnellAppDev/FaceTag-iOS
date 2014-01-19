@@ -36,6 +36,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+        self.targetPhoto.layer.cornerRadius = 40;
+       self.targetPhoto.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

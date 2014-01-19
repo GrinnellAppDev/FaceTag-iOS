@@ -46,7 +46,12 @@
                     for (PFUser *user in objects) {
                         user[@"score"] = [self.game[@"scoreboard"] objectForKey:user.objectId];
                     }
-                    self.participants = [[NSArray alloc] initWithArray:objects];
+                    self.participants = [[NSMutableArray alloc] initWithArray:objects];
+                    
+                    //Sort the participants.
+                    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
+                    [self.participants sortUsingDescriptors:@[sortDescriptor]];
+
                     [self.tableView reloadData];
                 }
             }];

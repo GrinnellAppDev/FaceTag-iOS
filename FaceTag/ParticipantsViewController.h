@@ -11,7 +11,7 @@
 @interface ParticipantsViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *participantsIDs;
-@property (nonatomic, strong) NSArray *participants;
+@property (nonatomic, strong) NSMutableArray *participants;
 @property (nonatomic, strong) PFObject *game;
 
 @end
