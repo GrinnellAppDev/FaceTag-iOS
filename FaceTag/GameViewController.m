@@ -86,8 +86,7 @@
     [self showTagPhotoPicker];
 }
 
-- (void)uploadPhotoTag
-{
+- (void)uploadPhotoTag {
     if (self.tagImage) {
        // NSLog(@"Uploading tag image!!");
         
@@ -104,6 +103,11 @@
             photoTag[@"photo"] = imageFile;
             photoTag[@"confirmation"] = @0;
             photoTag[@"rejection"] = @0;
+            NSArray *participants = [[NSArray alloc] initWithArray:self.game[@"participants"]];
+            if (participants.count < 18)
+                photoTag[@"threshold"] = @((participants.count / 2) + 1);
+            else  photoTag[@"threshold"] = @10;
+            
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
             photoTag[@"target"] = self.targetUser;
