@@ -9,6 +9,8 @@
 #import "ConfirmDenyViewController.h"
 #import "DeckViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+
 
 
 @interface ConfirmDenyViewController ()
@@ -45,9 +47,16 @@
 
 - (void)updateLabels {
     self.decided = NO;
-    self.targetPhoto.file = self.photoTag[@"photo"];
-    [self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
-    }];
+    PFFile *photoFile = self.photoTag[@"photo"];
+    NSLog(@"pf: %@", photoFile.url);
+    NSString *photoString =  photoFile.url;
+    NSURL *photoURL = [NSURL URLWithString:photoString];
+    //NSLog(@"url: %@", photoURL);
+    [self.targetPhoto setImageWithURL:photoURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    //self.targetPhoto.file = self.photoTag[@"photo"];
+    //[self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
+    //}];
     self.targetConfirmationLabel.text = [NSString stringWithFormat:@"Is this %@?", self.photoTag[@"target"][@"fullName"]];
 }
 
