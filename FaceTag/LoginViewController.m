@@ -75,7 +75,6 @@
                 currentUser[@"firstName"] = me.first_name;
                 currentUser[@"lastName"] = me.last_name;
                 
-                
                 //If facebook user permitted us to having email.
                 if(me[@"email"]) {
                     //only update the email if there is none.

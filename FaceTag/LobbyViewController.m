@@ -44,13 +44,21 @@
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];
-    [gamesQuery includeKey:@"unconfirmedPhotoTags"];
-    [gamesQuery includeKey:@"unconfirmedPhotoTags.usersArray"];
-    [gamesQuery includeKey:@"unconfirmedPhotoTags.target"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.games = objects;
             [self.tableView reloadData];
+            for (PFObject *game in self.games) {
+                PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+                [picQuery whereKey:@"game" equalTo:game.objectId];
+                [picQuery whereKey:@"usersArray" notEqualTo:[PFUser currentUser]];
+                [picQuery includeKey:@"target"];
+                [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        [game setObject:objects forKey:@"unconfirmedPhotos"];
+                    }
+                }];
+            }
         }
     }];
 }
@@ -90,14 +98,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[self.games objectAtIndex:indexPath.row][@"unconfirmedPhotoTags"]];
-    self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] init];
-
-    for (PFObject *photoTag in unconfirmedPhotoTags) {
-        if (![self currentUserIsPresent:photoTag])
-            [self.userUnconfirmedPhotoTags addObject:photoTag];
-    }
-    
+    PFObject *game = [self.games objectAtIndex:indexPath.row];
+    self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     if (self.userUnconfirmedPhotoTags.count > 0)
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
     else
