@@ -54,6 +54,9 @@
 }
 
 #pragma mark - Table view data source
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [NSString stringWithFormat:@"\t\tRound #%@", self.game[@"round"]];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     // Return the number of sections.

@@ -15,6 +15,8 @@
 @property (nonatomic, weak) IBOutlet PFImageView *targetPhoto;
 @property (nonatomic, weak) PFObject *photoTag;
 @property (nonatomic, weak) PFUser *currentUser;
+@property (nonatomic, assign) BOOL decided;
+
 @end
 
 @implementation ConfirmDenyViewController
@@ -41,6 +43,7 @@
 }
 
 - (void)updateLabels {
+    self.decided = NO;
     self.targetPhoto.file = self.photoTag[@"photo"];
     [self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
     }];
@@ -53,6 +56,7 @@
 }
 
 - (IBAction)confirm:(id)sender {
+    self.decided = YES;
     if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
         [self.photoTag incrementKey:@"confirmation" byAmount:@3];
     else [self.photoTag incrementKey:@"confirmation"];
@@ -73,6 +77,7 @@
 }
 
 - (IBAction)deny:(id)sender {
+    self.decided = YES;
     [self.photoTag incrementKey:@"rejection"];
 
     NSMutableArray *array = self.photoTag[@"usersArray"];
@@ -92,6 +97,7 @@
 }
 
 - (IBAction)notSure:(id)sender {
+    self.decided = YES;
     NSNumber *value = self.photoTag[@"threshold"];
     if ([value intValue] > 1)
         [self.photoTag incrementKey:@"threshold" byAmount:@-1];
