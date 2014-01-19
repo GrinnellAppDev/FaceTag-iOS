@@ -56,6 +56,8 @@
 }
 
 - (IBAction)confirm:(id)sender {
+    if (self.decided)
+        return;
     self.decided = YES;
     if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
         [self.photoTag incrementKey:@"confirmation" byAmount:@3];
@@ -77,6 +79,8 @@
 }
 
 - (IBAction)deny:(id)sender {
+    if (self.decided)
+        return;
     self.decided = YES;
     [self.photoTag incrementKey:@"rejection"];
 
@@ -97,6 +101,8 @@
 }
 
 - (IBAction)notSure:(id)sender {
+    if (self.decided)
+        return;
     self.decided = YES;
     NSNumber *value = self.photoTag[@"threshold"];
     if ([value intValue] > 1)

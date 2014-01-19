@@ -325,6 +325,8 @@
                     <navigationItem key="navigationItem" id="haX-Ka-gjE"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="camera" destination="XRX-5J-8Hm" id="WRO-tV-NBO"/>
+                        <outlet property="otherLabel" destination="0Rj-kq-dcW" id="vfO-N1-LGs"/>
                         <outlet property="targetNameLabel" destination="84Q-aZ-9IC" id="Sqh-CA-zkx"/>
                         <outlet property="targetProfileImageView" destination="FXt-IY-2ze" id="dkQ-mT-Unk"/>
                     </connections>
