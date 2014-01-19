@@ -183,7 +183,6 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Lobby" id="ZPt-Hw-u6k">
-                        <barButtonItem key="leftBarButtonItem" title="Join" id="14h-Te-Pmh"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tf0-vm-TBw">
                             <connections>
                                 <segue destination="uaH-Cs-LpT" kind="modal" identifier="SetupGame" id="g0R-b4-qjm"/>
@@ -462,6 +461,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="4qr-Wc-Ywm"/>
+        <segue reference="zn1-tC-Bgn"/>
     </inferredMetricsTieBreakers>
 </document>

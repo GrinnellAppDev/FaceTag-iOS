@@ -94,7 +94,7 @@
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
             // TODO - Get the target's name here
-            photoTag[@"target"] = [[PFUser currentUser] objectForKey:@"fullName"];
+            photoTag[@"target"] = [PFUser currentUser];
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     NSLog(@"photo tag saved!!");
@@ -130,7 +130,8 @@
         //Create overlay view.
         UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
-        imgView.image = [UIImage imageNamed:@"x_image"];
+        imgView.image = [UIImage imageNamed:@"camera"];
+        imgView.alpha = 0.4;
         imgView.contentMode = UIViewContentModeCenter;
         
         //Without these.. the buttons get disabled.
