@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIImage *tagImage;
 @property (weak, nonatomic) IBOutlet UIImageView *targetProfileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *targetNameLabel;
+@property (nonatomic, strong) PFUser *targetUser;
 @end
 
 @implementation GameViewController
@@ -66,13 +67,13 @@
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
     [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
-        PFUser *targetUser = (PFUser *)object;
+        self.targetUser = (PFUser *)object;
         
-        NSString *profileString = targetUser[@"profilePictureURL"];//  [[PFUser currentUser] objectForKey:@"profilePictureURL"];
+        NSString *profileString = self.targetUser[@"profilePictureURL"];//  [[PFUser currentUser] objectForKey:@"profilePictureURL"];
         NSURL *profileURL = [NSURL URLWithString:profileString];
         [self.targetProfileImageView setImageWithURL:profileURL];
         
-        self.targetNameLabel.text = targetUser[@"fullName"]; // [[PFUser currentUser] objectForKey:@"fullName"];
+        self.targetNameLabel.text = self.targetUser[@"fullName"]; // [[PFUser currentUser] objectForKey:@"fullName"];
 
     }];
 }
@@ -106,8 +107,7 @@
             photoTag[@"rejection"] = @0;
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
-            // TODO - Get the target's name here
-            photoTag[@"target"] = [PFUser currentUser];
+            photoTag[@"target"] = self.targetUser;
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     NSLog(@"photo tag saved!!");
