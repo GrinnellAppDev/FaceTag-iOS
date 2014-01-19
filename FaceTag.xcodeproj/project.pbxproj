@@ -522,7 +522,7 @@
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "484257E8-CB07-4583-8C4E-8F08CB8A1A08";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -539,7 +539,7 @@
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "484257E8-CB07-4583-8C4E-8F08CB8A1A08";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
