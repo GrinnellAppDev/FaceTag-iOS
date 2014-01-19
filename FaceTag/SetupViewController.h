@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *pointsToWin;
 @property (nonatomic, strong) IBOutlet UITextField *timePerTurn;
+@property (nonatomic, strong) IBOutlet UITextField *gameName;
 
 - (IBAction)cancel;
 - (IBAction)create;

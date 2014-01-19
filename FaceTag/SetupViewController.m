@@ -44,6 +44,7 @@
     self.usersToInvite = [[NSMutableArray alloc] init];
     
     self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"1 Min", @"5 Min", @"15 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
+    self.gameName.text = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,8 +60,6 @@
     
     PFObject *game = [PFObject objectWithClassName:@"Game"];
     
-    NSString *gameName = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
-    
     int pointsToWin = [self.pointsToWin.text intValue];
     
     NSMutableDictionary *scoreboard = [[NSMutableDictionary alloc] init];
@@ -70,7 +69,7 @@
         [scoreboard setObject:@0 forKey:userId];
     }
     
-    game[@"name"] = gameName;
+    game[@"name"] = self.gameName.text;
     game[@"participants"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
     game[@"scoreboard"] = scoreboard;
