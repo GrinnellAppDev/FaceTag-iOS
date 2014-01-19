@@ -93,7 +93,7 @@
         
         NSData *imageData = UIImagePNGRepresentation(self.tagImage);
         PFUser *currentUser = [PFUser currentUser];
-        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], currentUser[@"lastName"]];
+        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
         PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
         
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
