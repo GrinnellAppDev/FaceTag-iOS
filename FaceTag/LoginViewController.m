@@ -95,7 +95,15 @@
                         //NSLog(@"No error, it should've saved");
                         
                         //Whew We're in!
-                        [self performSegueWithIdentifier:@"Login" sender:sender];
+                        
+                        PFInstallation *installation = [PFInstallation currentInstallation];
+                        installation[@"owner"] = [PFUser currentUser];
+                        [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if (succeeded) {
+                                NSLog(@"Installation saved");
+                                [self performSegueWithIdentifier:@"Login" sender:sender];
+                            }
+                        }];
                     }
                 }];
             }
