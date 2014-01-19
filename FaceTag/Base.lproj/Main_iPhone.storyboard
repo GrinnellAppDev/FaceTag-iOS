@@ -233,6 +233,14 @@
                                     <action selector="confirm:" destination="AxW-k9-QzF" eventType="touchUpInside" id="nuU-fs-wfw"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZX-RV-dBM">
+                                <rect key="frame" x="131" y="373" width="59" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Not sure"/>
+                                <connections>
+                                    <action selector="notSure:" destination="AxW-k9-QzF" eventType="touchUpInside" id="YZv-0q-trY"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOn-dK-hSP">
                                 <rect key="frame" x="35" y="373" width="33" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -461,6 +469,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zn1-tC-Bgn"/>
+        <segue reference="4qr-Wc-Ywm"/>
     </inferredMetricsTieBreakers>
 </document>

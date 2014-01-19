@@ -15,5 +15,6 @@
 
 - (IBAction)confirm:(id)sender;
 - (IBAction)deny:(id)sender;
+- (IBAction)notSure:(id)sender;
 
 @end

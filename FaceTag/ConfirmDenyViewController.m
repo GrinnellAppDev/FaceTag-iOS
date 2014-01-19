@@ -14,7 +14,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *targetConfirmationLabel;
 @property (nonatomic, weak) IBOutlet PFImageView *targetPhoto;
 @property (nonatomic, weak) PFObject *photoTag;
-
+@property (nonatomic, weak) PFUser *currentUser;
 @end
 
 @implementation ConfirmDenyViewController
@@ -35,6 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.currentUser = [PFUser currentUser];
     self.photoTag = [self.unconfirmedPhotoTags firstObject];
     [self updateLabels];
 }
@@ -54,9 +55,12 @@
 - (IBAction)confirm:(id)sender {
     NSNumber *value = self.photoTag[@"confirmation"];
     int confInt = [value intValue];
-    [self.photoTag setObject:@(++confInt) forKey:@"confirmation"];
+    if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
+        confInt += 3;
+    else confInt++;
+    [self.photoTag setObject:@(confInt) forKey:@"confirmation"];
     NSMutableArray *array = self.photoTag[@"usersArray"];
-    [array addObject:[PFUser currentUser]];
+    [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
@@ -70,13 +74,12 @@
     }];
 }
 
-
 - (IBAction)deny:(id)sender {
     NSNumber *value = self.photoTag[@"rejection"];
     int rejInt = [value intValue];
     [self.photoTag setObject:@(++rejInt) forKey:@"rejection"];
     NSMutableArray *array = self.photoTag[@"usersArray"];
-    [array addObject:[PFUser currentUser]];
+    [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
     
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -88,7 +91,25 @@
                 [self updateLabels];
             }
         }
-    }];}
+    }];
+}
+
+- (IBAction)notSure:(id)sender {
+    NSMutableArray *array = self.photoTag[@"usersArray"];
+    [array addObject:self.currentUser];
+    [self.photoTag setObject:array forKey:@"usersArray"];
+    
+    [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]])
+                [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            else {
+                self.photoTag = [self.unconfirmedPhotoTags objectAtIndex:[self.unconfirmedPhotoTags indexOfObject:self.photoTag] + 1];
+                [self updateLabels];
+            }
+        }
+    }];
+}
 
 #pragma mark - Navigation
 // In a story board-based application, you will often want to do a little preparation before navigation
