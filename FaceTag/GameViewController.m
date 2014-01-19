@@ -131,6 +131,7 @@
         UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
         imgView.image = [UIImage imageNamed:@"camera"];
+        imgView.alpha = 0.4;
         imgView.contentMode = UIViewContentModeCenter;
         
         //Without these.. the buttons get disabled.
