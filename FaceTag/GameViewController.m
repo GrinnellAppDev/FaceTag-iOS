@@ -57,11 +57,25 @@
     self.targetProfileImageView.layer.masksToBounds = YES;
     
     // TODO (DrJid): Set the target user correctly!
-    NSString *profileString = [[PFUser currentUser] objectForKey:@"profilePictureURL"];
-    NSURL *profileURL = [NSURL URLWithString:profileString];
-    [self.targetProfileImageView setImageWithURL:profileURL];
+    NSLog(@"game: %@", self.game); 
+    PFUser *currentUser = [PFUser currentUser];
+    NSDictionary *pairings = self.game[@"pairings"];
+    NSLog(@"pa: %@", pairings); 
+    NSString *targetUserId = pairings[currentUser.objectId];
+    NSLog(@"targuserid: %@", targetUserId); 
     
-    self.targetNameLabel.text = [[PFUser currentUser] objectForKey:@"fullName"];
+    //Fetch the target User.
+    PFQuery *targetUserQuery = [PFUser query];
+    [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+        PFUser *targetUser = (PFUser *)object;
+        
+        NSString *profileString = targetUser[@"profilePictureURL"];//  [[PFUser currentUser] objectForKey:@"profilePictureURL"];
+        NSURL *profileURL = [NSURL URLWithString:profileString];
+        [self.targetProfileImageView setImageWithURL:profileURL];
+        
+        self.targetNameLabel.text = targetUser[@"fullName"]; // [[PFUser currentUser] objectForKey:@"fullName"];
+
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
