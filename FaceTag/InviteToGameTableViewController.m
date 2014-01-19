@@ -110,8 +110,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.setupViewController.usersToInvite removeObject:user.objectId];
     }
-    
-    NSLog(@"%@", self.setupViewController.usersToInvite);
+   // NSLog(@"%@", self.setupViewController.usersToInvite);
 }
 
 /*

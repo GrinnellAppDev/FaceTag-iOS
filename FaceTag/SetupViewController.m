@@ -25,16 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
     
     UIPickerView *pickerView = [[UIPickerView alloc] init];
     pickerView.dataSource = self;
@@ -56,6 +46,10 @@
     self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"1 Min", @"5 Min", @"15 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (IBAction)create {
     if (self.usersToInvite.count == 0) {
@@ -87,7 +81,7 @@
     
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            NSLog(@"SAvedddd!!!");
+            NSLog(@"Created new game.");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
