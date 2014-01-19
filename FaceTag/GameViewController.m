@@ -59,7 +59,7 @@
     //NSLog(@"game: %@", self.game);
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
-   // NSLog(@"pa: %@", pairings);
+    // NSLog(@"pa: %@", pairings);
     NSString *targetUserId = pairings[currentUser.objectId];
     //NSLog(@"targuserid: %@", targetUserId);
     
@@ -68,12 +68,11 @@
     [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
         self.targetUser = (PFUser *)object;
         
-        NSString *profileString = self.targetUser[@"profilePictureURL"];//  [[PFUser currentUser] objectForKey:@"profilePictureURL"];
+        NSString *profileString = self.targetUser[@"profilePictureURL"];
         NSURL *profileURL = [NSURL URLWithString:profileString];
         [self.targetProfileImageView setImageWithURL:profileURL];
         
-        self.targetNameLabel.text = self.targetUser[@"fullName"]; // [[PFUser currentUser] objectForKey:@"fullName"];
-
+        self.targetNameLabel.text = self.targetUser[@"fullName"];
     }];
 }
 
@@ -87,49 +86,49 @@
 }
 
 - (void)uploadPhotoTag {
-    if (self.tagImage) {
-       // NSLog(@"Uploading tag image!!");
+    
+    NSData *imageData = UIImagePNGRepresentation(self.tagImage);
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
+    PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
+    
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
-        NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-        PFUser *currentUser = [PFUser currentUser];
-        NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
-        PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
+        //Create the PhotoTag object.
+        PFObject *photoTag = [PFObject objectWithClassName:@"PhotoTag"];
+        photoTag[@"sender"] = [PFUser currentUser];
+        photoTag[@"photo"] = imageFile;
+        photoTag[@"confirmation"] = @0;
+        photoTag[@"rejection"] = @0;
+        NSArray *participants = [[NSArray alloc] initWithArray:self.game[@"participants"]];
+        if (participants.count < 20)
+            photoTag[@"threshold"] = @(participants.count / 2) ;
+        else  photoTag[@"threshold"] = @10;
         
-        [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-            //Create the PhotoTag object.
-            PFObject *photoTag = [PFObject objectWithClassName:@"PhotoTag"];
-            photoTag[@"sender"] = [PFUser currentUser];
-            photoTag[@"photo"] = imageFile;
-            photoTag[@"confirmation"] = @0;
-            photoTag[@"rejection"] = @0;
-            NSArray *participants = [[NSArray alloc] initWithArray:self.game[@"participants"]];
-            if (participants.count < 20)
-                photoTag[@"threshold"] = @(participants.count / 2) ;
-            else  photoTag[@"threshold"] = @10;
-            
-            photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
-            
-            photoTag[@"target"] = self.targetUser;
-            photoTag[@"game"] = self.game;
-            
-            [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                   // NSLog(@"photo tag saved!!");
-                    NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
-                    [tagsArray addObject:photoTag];
-                    [self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
-                    [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        if(!error) {
-                            //NSLog(@"Game updated");
-                        }
-                    }];
-                }
-            }];
+        photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
+        
+        photoTag[@"target"] = self.targetUser;
+        photoTag[@"game"] = [self.game objectId];
+        [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                //NSLog(@"photo tag saved!!");
+                NSMutableArray *tagsArray = [[NSMutableArray alloc]  initWithArray:self.game[@"unconfirmedPhotoTags"]];
+                [tagsArray addObject:photoTag];
+                [self.game setObject:tagsArray forKey:@"unconfirmedPhotoTags"];
+                //NSLog(@"%@", tagsArray);
+                [self.game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(!error) {
+                        //NSLog(@"Game updated");
+                    }
+                    else {
+                    //NSLog(@"%@", error);
+                    }
+                }];
+            } else {
+               // NSLog(@"%@", error);
+            }
         }];
-    } else {
-        //This should happen. Since there should be a tag image by the time this is called!!!
-    }
+    }];
 }
 
 #pragma mark - UIImagePickerDelegate Stuff.
@@ -177,11 +176,11 @@
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
-        //Get the ratio and scale the height according to that ratio. 
+        //Get the ratio and scale the height according to that ratio.
         int ratio = image.size.width / 320.0;
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
-
+        
         [self uploadPhotoTag];
     }
     [self dismissViewControllerAnimated:YES completion:nil];

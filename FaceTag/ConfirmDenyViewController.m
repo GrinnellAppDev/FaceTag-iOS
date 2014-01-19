@@ -97,7 +97,8 @@
 - (IBAction)notSure:(id)sender {
     NSNumber *value = self.photoTag[@"threshold"];
     int threshInt = [value intValue];
-    [self.photoTag setObject:@(--threshInt) forKey:@"threshold"];
+    if (threshInt > 1)
+        [self.photoTag setObject:@(--threshInt) forKey:@"threshold"];
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
