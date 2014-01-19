@@ -104,8 +104,8 @@
             photoTag[@"confirmation"] = @0;
             photoTag[@"rejection"] = @0;
             NSArray *participants = [[NSArray alloc] initWithArray:self.game[@"participants"]];
-            if (participants.count < 18)
-                photoTag[@"threshold"] = @((participants.count / 2) + 1);
+            if (participants.count < 20)
+                photoTag[@"threshold"] = @(participants.count / 2) ;
             else  photoTag[@"threshold"] = @10;
             
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
