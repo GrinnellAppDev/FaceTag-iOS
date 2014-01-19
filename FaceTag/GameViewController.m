@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *otherLabel;
 @property (weak, nonatomic) IBOutlet UILabel *targetNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *camera;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 @property (nonatomic, strong) PFUser *targetUser;
 @end
 
@@ -59,14 +60,21 @@
     
     PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
     [gameQuery whereKey:@"objectId" equalTo:self.game.objectId];
+    [gameQuery includeKey:@"winner"];
     [gameQuery findObjectsInBackgroundWithBlock:^(NSArray *gameObjects, NSError *error) {
         if (!error) {
             self.game = gameObjects.firstObject;
             if (self.game[@"gameOver"]) {
                 self.targetUser = self.game[@"winner"];
+                NSLog(@"%@", self.targetUser);
                 self.otherLabel.text = @"The winner is";
-                self.camera.titleLabel.text = @"Delete Game";
-                [self.camera addTarget:self action:@selector(deleteGame:) forControlEvents:UIControlEventTouchUpInside];
+                self.camera.hidden = YES;
+                self.deleteBtn.hidden = NO;
+                NSString *profileString = self.targetUser[@"profilePictureURL"];
+                NSURL *profileURL = [NSURL URLWithString:profileString];
+                [self.targetProfileImageView setImageWithURL:profileURL];
+                
+                self.targetNameLabel.text = self.targetUser[@"fullName"];
             }
         }
     }];
@@ -80,6 +88,7 @@
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
     [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+        if (!error && !self.game[@"gameOver"]) {
         self.targetUser = (PFUser *)object;
         
         NSString *profileString = self.targetUser[@"profilePictureURL"];
@@ -87,6 +96,7 @@
         [self.targetProfileImageView setImageWithURL:profileURL];
         
         self.targetNameLabel.text = self.targetUser[@"fullName"];
+        }
     }];
 }
 

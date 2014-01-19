@@ -296,13 +296,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRX-5J-8Hm">
-                                <rect key="frame" x="133" y="439" width="54" height="30"/>
+                                <rect key="frame" x="35" y="439" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="id7-xT-ZdT"/>
+                                </constraints>
                                 <state key="normal" title="Camera">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="showCamera:" destination="VIG-kO-PP4" eventType="touchUpInside" id="Wpm-dJ-VBU"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d86-0R-Qao">
+                                <rect key="frame" x="83" y="439" width="155" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="155" id="5PQ-TP-Fs7"/>
+                                </constraints>
+                                <state key="normal" title="Delete Game">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteGame:" destination="VIG-kO-PP4" eventType="touchUpInside" id="wDA-p7-gos"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -311,13 +327,17 @@
                             <constraint firstAttribute="trailing" secondItem="0Rj-kq-dcW" secondAttribute="trailing" constant="20" symbolic="YES" id="2UZ-ay-XbJ"/>
                             <constraint firstItem="XRX-5J-8Hm" firstAttribute="centerX" secondItem="84Q-aZ-9IC" secondAttribute="centerX" id="36W-Bf-8rh"/>
                             <constraint firstItem="84Q-aZ-9IC" firstAttribute="top" secondItem="FXt-IY-2ze" secondAttribute="bottom" constant="8" symbolic="YES" id="9UY-d8-jHc"/>
+                            <constraint firstAttribute="trailing" secondItem="d86-0R-Qao" secondAttribute="trailing" constant="82" id="AiA-a7-0mq"/>
                             <constraint firstItem="0Rj-kq-dcW" firstAttribute="top" secondItem="bBR-DM-IeQ" secondAttribute="top" constant="99" id="J9N-7Y-cEp"/>
                             <constraint firstItem="FXt-IY-2ze" firstAttribute="leading" secondItem="bBR-DM-IeQ" secondAttribute="leading" constant="35" id="JTq-hV-6SG"/>
+                            <constraint firstItem="d86-0R-Qao" firstAttribute="top" secondItem="84Q-aZ-9IC" secondAttribute="bottom" constant="32" id="K4h-V2-E9e"/>
                             <constraint firstItem="e70-QZ-GnK" firstAttribute="top" secondItem="XRX-5J-8Hm" secondAttribute="bottom" constant="11" id="OQg-uN-uQM"/>
+                            <constraint firstItem="d86-0R-Qao" firstAttribute="leading" secondItem="bBR-DM-IeQ" secondAttribute="leading" constant="83" id="XUh-6s-rcH"/>
                             <constraint firstItem="0Rj-kq-dcW" firstAttribute="leading" secondItem="bBR-DM-IeQ" secondAttribute="leading" constant="20" symbolic="YES" id="XbI-ly-WDW"/>
                             <constraint firstItem="FXt-IY-2ze" firstAttribute="top" secondItem="0Rj-kq-dcW" secondAttribute="bottom" constant="8" symbolic="YES" id="ddc-m8-zmG"/>
                             <constraint firstItem="84Q-aZ-9IC" firstAttribute="leading" secondItem="0Rj-kq-dcW" secondAttribute="leading" id="f3L-7h-nKr"/>
                             <constraint firstItem="XRX-5J-8Hm" firstAttribute="top" secondItem="84Q-aZ-9IC" secondAttribute="bottom" constant="32" id="fBD-bl-Mm8"/>
+                            <constraint firstItem="e70-QZ-GnK" firstAttribute="top" secondItem="d86-0R-Qao" secondAttribute="bottom" constant="11" id="hVC-hX-2XU"/>
                             <constraint firstItem="0Rj-kq-dcW" firstAttribute="trailing" secondItem="84Q-aZ-9IC" secondAttribute="trailing" id="kkU-pj-eez"/>
                             <constraint firstItem="0Rj-kq-dcW" firstAttribute="centerX" secondItem="FXt-IY-2ze" secondAttribute="centerX" id="ycT-j9-lA5"/>
                         </constraints>
@@ -326,6 +346,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="camera" destination="XRX-5J-8Hm" id="WRO-tV-NBO"/>
+                        <outlet property="deleteBtn" destination="d86-0R-Qao" id="a1p-7q-HMp"/>
                         <outlet property="otherLabel" destination="0Rj-kq-dcW" id="vfO-N1-LGs"/>
                         <outlet property="targetNameLabel" destination="84Q-aZ-9IC" id="Sqh-CA-zkx"/>
                         <outlet property="targetProfileImageView" destination="FXt-IY-2ze" id="dkQ-mT-Unk"/>
