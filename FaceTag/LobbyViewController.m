@@ -46,6 +46,7 @@
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery includeKey:@"unconfirmedPhotoTags"];
     [gamesQuery includeKey:@"unconfirmedPhotoTags.usersArray"];
+    [gamesQuery includeKey:@"unconfirmedPhotoTags.target"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.games = objects;
