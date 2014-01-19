@@ -56,8 +56,7 @@
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
-    // TODO (DrJid): Set the target user correctly!
-    NSLog(@"game: %@", self.game); 
+    NSLog(@"game: %@", self.game);
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
     NSLog(@"pa: %@", pairings); 
