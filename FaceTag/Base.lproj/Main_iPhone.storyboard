@@ -210,22 +210,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g82-jW-zQ2" customClass="PFImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g82-jW-zQ2" customClass="PFImageView">
                                 <rect key="frame" x="35" y="115" width="250" height="250"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="7XE-5s-Zgc"/>
-                                    <constraint firstAttribute="height" constant="250" id="RZs-Fq-Gso"/>
-                                </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Is this Colin Tremblay?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3J-88-t98">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3J-88-t98">
                                 <rect key="frame" x="35" y="86" width="250" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVF-2H-PW2">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVF-2H-PW2">
                                 <rect key="frame" x="255" y="373" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Yup"/>
@@ -241,7 +237,7 @@
                                     <action selector="notSure:" destination="AxW-k9-QzF" eventType="touchUpInside" id="YZv-0q-trY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOn-dK-hSP">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOn-dK-hSP">
                                 <rect key="frame" x="35" y="373" width="33" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="No...">
@@ -253,17 +249,6 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="g82-jW-zQ2" firstAttribute="top" secondItem="c3J-88-t98" secondAttribute="bottom" constant="8" symbolic="YES" id="5Jx-u5-DHO"/>
-                            <constraint firstItem="c3J-88-t98" firstAttribute="centerX" secondItem="g82-jW-zQ2" secondAttribute="centerX" id="GPX-r1-pWh"/>
-                            <constraint firstItem="hVF-2H-PW2" firstAttribute="top" secondItem="g82-jW-zQ2" secondAttribute="bottom" constant="8" id="KDa-RW-rTy"/>
-                            <constraint firstItem="ZOn-dK-hSP" firstAttribute="top" secondItem="g82-jW-zQ2" secondAttribute="bottom" constant="8" id="Mmv-y9-OSy"/>
-                            <constraint firstItem="c3J-88-t98" firstAttribute="top" secondItem="JYC-6h-YOA" secondAttribute="bottom" constant="22" id="OyT-gR-hKj"/>
-                            <constraint firstItem="c3J-88-t98" firstAttribute="leading" secondItem="ZOn-dK-hSP" secondAttribute="leading" id="UGy-Lm-9TF"/>
-                            <constraint firstItem="c3J-88-t98" firstAttribute="trailing" secondItem="hVF-2H-PW2" secondAttribute="trailing" id="Wkk-uq-ugC"/>
-                            <constraint firstAttribute="centerX" secondItem="c3J-88-t98" secondAttribute="centerX" id="e2p-Ta-GJL"/>
-                            <constraint firstItem="c3J-88-t98" firstAttribute="leading" secondItem="g82-jW-zQ2" secondAttribute="leading" id="xYt-Uw-ocB"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yxa-Mp-8NO"/>
                     <connections>
@@ -303,7 +288,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colin Tremblay!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84Q-aZ-9IC">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84Q-aZ-9IC">
                                 <rect key="frame" x="20" y="386" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>

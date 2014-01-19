@@ -74,7 +74,6 @@
     game[@"participants"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
     game[@"scoreboard"] = scoreboard;
-    game[@"unconfirmedPhotoTags"] = [[NSArray alloc] init];
     
     NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@1, @5, @15, @60, @120, @360, @720, @1440, @2880, @10080, nil];
     game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.pickerArray indexOfObject:self.timePerTurn.text]];
