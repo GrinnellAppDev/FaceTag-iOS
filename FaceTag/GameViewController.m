@@ -111,6 +111,8 @@
             photoTag[@"usersArray"] = [[NSArray alloc] initWithObjects:[PFUser currentUser], nil];
             
             photoTag[@"target"] = self.targetUser;
+            photoTag[@"game"] = self.game;
+            
             [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                    // NSLog(@"photo tag saved!!");
