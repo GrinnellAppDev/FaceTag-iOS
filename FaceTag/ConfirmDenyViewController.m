@@ -53,12 +53,10 @@
 }
 
 - (IBAction)confirm:(id)sender {
-    NSNumber *value = self.photoTag[@"confirmation"];
-    int confInt = [value intValue];
     if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
-        confInt += 3;
-    else confInt++;
-    [self.photoTag setObject:@(confInt) forKey:@"confirmation"];
+        [self.photoTag incrementKey:@"confirmation" byAmount:@3];
+    else [self.photoTag incrementKey:@"confirmation"];
+
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
@@ -75,9 +73,8 @@
 }
 
 - (IBAction)deny:(id)sender {
-    NSNumber *value = self.photoTag[@"rejection"];
-    int rejInt = [value intValue];
-    [self.photoTag setObject:@(++rejInt) forKey:@"rejection"];
+    [self.photoTag incrementKey:@"rejection"];
+
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
@@ -96,9 +93,9 @@
 
 - (IBAction)notSure:(id)sender {
     NSNumber *value = self.photoTag[@"threshold"];
-    int threshInt = [value intValue];
-    if (threshInt > 1)
-        [self.photoTag setObject:@(--threshInt) forKey:@"threshold"];
+    if ([value intValue] > 1)
+        [self.photoTag incrementKey:@"threshold" byAmount:@-1];
+
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
