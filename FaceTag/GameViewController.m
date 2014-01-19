@@ -11,6 +11,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "DeckViewController.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface GameViewController  () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -84,7 +85,8 @@
         
         NSString *profileString = self.targetUser[@"profilePictureURL"];
         NSURL *profileURL = [NSURL URLWithString:profileString];
-        [self.targetProfileImageView setImageWithURL:profileURL];
+        [self.targetProfileImageView setImageWithURL:profileURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        //[self.targetProfileImageView setImageWithURL:profileURL];
         
         self.targetNameLabel.text = self.targetUser[@"fullName"];
     }];

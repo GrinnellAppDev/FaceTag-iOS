@@ -10,6 +10,7 @@
 #import "DeckViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+
 @interface ConfirmDenyViewController ()
 @property (nonatomic, weak) IBOutlet UILabel *targetConfirmationLabel;
 @property (nonatomic, weak) IBOutlet PFImageView *targetPhoto;
