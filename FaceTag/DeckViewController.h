@@ -11,5 +11,6 @@
 @interface DeckViewController : IIViewDeckController
 
 @property (nonatomic, strong) PFObject *game;
+@property (nonatomic, assign) BOOL resize;
 
 @end

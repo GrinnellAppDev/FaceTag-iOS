@@ -14,7 +14,8 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface GameViewController  () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-
+@property (nonatomic, assign) BOOL tappedCamera;
+@property (nonatomic, assign) BOOL tappedDelete;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *tagImage;
 @property (weak, nonatomic) IBOutlet UIImageView *targetProfileImageView;
@@ -50,6 +51,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.tappedCamera = NO;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobby:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -65,21 +67,21 @@
     [gameQuery findObjectsInBackgroundWithBlock:^(NSArray *gameObjects, NSError *error) {
         if (!error) {
             self.game = gameObjects.firstObject;
+            // If the game is over, set up the screen
             if (self.game[@"gameOver"]) {
                 self.targetUser = self.game[@"winner"];
-                NSLog(@"%@", self.targetUser);
                 self.otherLabel.text = @"The winner is";
                 self.camera.hidden = YES;
                 self.deleteBtn.hidden = NO;
                 NSString *profileString = self.targetUser[@"profilePictureURL"];
                 NSURL *profileURL = [NSURL URLWithString:profileString];
-                [self.targetProfileImageView setImageWithURL:profileURL];
+                [self.targetProfileImageView setImageWithURL:profileURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
                 
                 self.targetNameLabel.text = self.targetUser[@"fullName"];
             }
         }
     }];
-
+    
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
     // NSLog(@"pa: %@", pairings);
@@ -89,20 +91,23 @@
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
     [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
-        if (!error && !self.game[@"gameOver"]) {
-        self.targetUser = (PFUser *)object;
-        
-        NSString *profileString = self.targetUser[@"profilePictureURL"];
-        NSURL *profileURL = [NSURL URLWithString:profileString];
-        [self.targetProfileImageView setImageWithURL:profileURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        //[self.targetProfileImageView setImageWithURL:profileURL];
-        
-        self.targetNameLabel.text = self.targetUser[@"fullName"];
+        // Only need to set the target stuff if the game isn't over
+        if (!self.game[@"gameOver"] && !error) {
+            self.targetUser = (PFUser *)object;
+            
+            NSString *profileString = self.targetUser[@"profilePictureURL"];
+            NSURL *profileURL = [NSURL URLWithString:profileString];
+            [self.targetProfileImageView setImageWithURL:profileURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            
+            self.targetNameLabel.text = self.targetUser[@"fullName"];
         }
     }];
 }
 
 - (IBAction)deleteGame:(id)sender {
+    if (self.tappedDelete)
+        return;
+    self.tappedDelete = YES;
     [self.game deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     }];
     PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
@@ -124,11 +129,15 @@
 }
 
 - (IBAction)showCamera:(id)sender {
+    if (self.tappedCamera)
+        return;
+    self.tappedCamera = YES;
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    deckVC.resize = YES;
     [self showTagPhotoPicker];
 }
 
 - (void)uploadPhotoTag {
-    
     NSData *imageData = UIImagePNGRepresentation(self.tagImage);
     PFUser *currentUser = [PFUser currentUser];
     NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
@@ -154,7 +163,6 @@
 }
 
 #pragma mark - UIImagePickerDelegate Stuff.
-
 - (void)showTagPhotoPicker {
     if (!self.imagePickerController) {
         self.imagePickerController = [[UIImagePickerController alloc] init];
@@ -191,9 +199,7 @@
     }
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];

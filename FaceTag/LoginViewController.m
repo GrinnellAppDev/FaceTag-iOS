@@ -10,6 +10,8 @@
 
 @interface LoginViewController ()
 
+@property (nonatomic, assign) BOOL tapped;
+
 @end
 
 @implementation LoginViewController
@@ -42,6 +44,9 @@
 }
 
 - (IBAction)loginButtonTouchHandler:(id)sender {
+    if (self.tapped)
+        return;
+    self.tapped = YES;
     // The permissions requested from the user
     NSArray *permissionsArray = @[@"email"];
     

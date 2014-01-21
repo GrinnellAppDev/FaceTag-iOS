@@ -7,6 +7,7 @@
 //
 
 #import "ParticipantsViewController.h"
+#import "DeckViewController.h"
 
 @interface ParticipantsViewController ()
 
@@ -24,16 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    self.tableView.contentInset = UIEdgeInsetsMake(deckVC.resize * 64, 0, 0, 0);
+    
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"objectId" containedIn:self.participantsIDs];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

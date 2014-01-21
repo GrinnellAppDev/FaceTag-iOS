@@ -24,8 +24,7 @@
 
 @implementation ConfirmDenyViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -37,8 +36,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-        self.targetPhoto.layer.cornerRadius = 40;
-       self.targetPhoto.layer.masksToBounds = YES;
+    self.targetPhoto.layer.cornerRadius = 40;
+    self.targetPhoto.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,15 +50,11 @@
 - (void)updateLabels {
     self.decided = NO;
     PFFile *photoFile = self.photoTag[@"photo"];
-    NSLog(@"pf: %@", photoFile.url);
     NSString *photoString =  photoFile.url;
     NSURL *photoURL = [NSURL URLWithString:photoString];
-    //NSLog(@"url: %@", photoURL);
+
     [self.targetPhoto setImageWithURL:photoURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-    //self.targetPhoto.file = self.photoTag[@"photo"];
-    //[self.targetPhoto loadInBackground:^(UIImage *image, NSError *error) {
-    //}];
+
     self.targetConfirmationLabel.text = [NSString stringWithFormat:@"Is this %@?", self.photoTag[@"target"][@"fullName"]];
 }
 
@@ -75,7 +70,7 @@
     if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
         [self.photoTag incrementKey:@"confirmation" byAmount:@3];
     else [self.photoTag incrementKey:@"confirmation"];
-
+    
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
@@ -96,7 +91,7 @@
         return;
     self.decided = YES;
     [self.photoTag incrementKey:@"rejection"];
-
+    
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
@@ -120,7 +115,7 @@
     NSNumber *value = self.photoTag[@"threshold"];
     if ([value intValue] > 1)
         [self.photoTag incrementKey:@"threshold" byAmount:@-1];
-
+    
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
