@@ -65,7 +65,7 @@
 		167BDBEA188A7AA900931CFE /* InviteToGameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteToGameTableViewController.m; sourceTree = "<group>"; };
 		6ACFA5F764264A56BB6CDB6F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABC1E38437146AA8BC0B552 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		E1878085188A296C00E48E49 /* FaceTag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceTag.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FaceTag - Photo Tag Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1878088188A296C00E48E49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E187808A188A296C00E48E49 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E187808C188A296C00E48E49 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -148,7 +148,7 @@
 		E1878086188A296C00E48E49 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1878085188A296C00E48E49 /* FaceTag.app */,
+				E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */,
 				E18780A9188A296C00E48E49 /* FaceTagTests.xctest */,
 			);
 			name = Products;
@@ -236,9 +236,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E1878084188A296C00E48E49 /* FaceTag */ = {
+		E1878084188A296C00E48E49 /* FaceTag - Photo Tag Game */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E18780BA188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTag" */;
+			buildConfigurationList = E18780BA188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTag - Photo Tag Game" */;
 			buildPhases = (
 				1E807E2025F8488BBAC8CF7E /* Check Pods Manifest.lock */,
 				E1878081188A296C00E48E49 /* Sources */,
@@ -250,9 +250,9 @@
 			);
 			dependencies = (
 			);
-			name = FaceTag;
+			name = "FaceTag - Photo Tag Game";
 			productName = FaceTag;
-			productReference = E1878085188A296C00E48E49 /* FaceTag.app */;
+			productReference = E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E18780A8188A296C00E48E49 /* FaceTagTests */ = {
@@ -303,7 +303,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1878084188A296C00E48E49 /* FaceTag */,
+				E1878084188A296C00E48E49 /* FaceTag - Photo Tag Game */,
 				E18780A8188A296C00E48E49 /* FaceTagTests */,
 			);
 		};
@@ -395,7 +395,7 @@
 /* Begin PBXTargetDependency section */
 		E18780AF188A296C00E48E49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E1878084188A296C00E48E49 /* FaceTag */;
+			target = E1878084188A296C00E48E49 /* FaceTag - Photo Tag Game */;
 			targetProxy = E18780AE188A296C00E48E49 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -523,6 +523,7 @@
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -540,6 +541,7 @@
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -598,7 +600,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E18780BA188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTag" */ = {
+		E18780BA188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTag - Photo Tag Game" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E18780BB188A296C00E48E49 /* Debug */,
