@@ -41,7 +41,7 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)popToLobby:(id)sender {
+- (void)popToLobbyVC:(id)sender {
     [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:1] animated:YES];
 }
 
@@ -52,7 +52,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobby:)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sidebar.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
@@ -120,7 +120,7 @@
             }
         }
     }];
-    [self popToLobby:sender];
+    [self popToLobbyVC:sender];
 }
 
 - (void)didReceiveMemoryWarning {
