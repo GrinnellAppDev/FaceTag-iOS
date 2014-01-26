@@ -42,7 +42,7 @@
 }
 
 - (void)popToLobbyVC:(id)sender {
-    [self.navigationController popToViewController:[[self.navigationController viewControllers] objectAtIndex:1] animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (IBAction)menuButtonPressed:(id)sender {

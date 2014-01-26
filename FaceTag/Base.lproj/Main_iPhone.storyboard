@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="uAw-3s-qzV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="uAw-3s-qzV">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Setup View Controller - Create a Game-->
@@ -448,40 +448,6 @@
             </objects>
             <point key="canvasLocation" x="1109" y="-233"/>
         </scene>
-        <!--Login View Controller-->
-        <scene sceneID="M3B-m2-Gst">
-            <objects>
-                <viewController id="WLA-iv-n5N" customClass="LoginViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="wsS-qG-KL7"/>
-                        <viewControllerLayoutGuide type="bottom" id="NbE-ZV-aLd"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Rax-69-jI1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbu-lR-tUT">
-                                <rect key="frame" x="136" y="280" width="38" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loginButtonTouchHandler:" destination="WLA-iv-n5N" eventType="touchUpInside" id="f6M-xG-JdB"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="eeD-gU-pYy"/>
-                    <connections>
-                        <segue destination="hwZ-a1-QKk" kind="push" identifier="Login" id="GwH-XG-mOJ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KK0-pn-hMO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="111" y="-233"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="1kc-aV-4aY">
             <objects>
@@ -490,12 +456,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="WLA-iv-n5N" kind="relationship" relationship="rootViewController" id="kob-rt-Jf2"/>
+                        <segue destination="hwZ-a1-QKk" kind="relationship" relationship="rootViewController" id="Kx6-bw-fkh"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VJO-ag-vvH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-306" y="-233"/>
+            <point key="canvasLocation" x="94" y="-236"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

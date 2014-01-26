@@ -105,8 +105,10 @@
                         installation[@"owner"] = [PFUser currentUser];
                         [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                             if (succeeded) {
-                                NSLog(@"Installation saved");
-                                [self performSegueWithIdentifier:@"Login" sender:sender];
+                                //NSLog(@"Installation saved");
+                                UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+                                UIViewController *lobbyVC = [mainStoryboard instantiateInitialViewController];
+                                [self presentViewController:lobbyVC animated:YES completion:nil];
                             }
                         }];
                     }
