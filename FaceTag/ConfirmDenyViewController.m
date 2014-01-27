@@ -14,6 +14,7 @@
 
 
 @interface ConfirmDenyViewController ()
+
 @property (nonatomic, weak) IBOutlet UILabel *targetConfirmationLabel;
 @property (nonatomic, weak) IBOutlet PFImageView *targetPhoto;
 @property (nonatomic, weak) PFObject *photoTag;
@@ -64,21 +65,25 @@
 }
 
 - (IBAction)confirm:(id)sender {
-    if (self.decided)
+    if (self.decided) {
         return;
+    }
     self.decided = YES;
-    if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId])
+    
+    if ([[self.photoTag[@"target"] objectId] isEqualToString:self.currentUser.objectId]) {
         [self.photoTag incrementKey:@"confirmation" byAmount:@3];
-    else [self.photoTag incrementKey:@"confirmation"];
+    } else {
+        [self.photoTag incrementKey:@"confirmation"];
+    }
     
     NSMutableArray *array = self.photoTag[@"usersArray"];
     [array addObject:self.currentUser];
     [self.photoTag setObject:array forKey:@"usersArray"];
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]])
+            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]]) {
                 [self performSegueWithIdentifier:@"ShowGame" sender:self];
-            else {
+            } else {
                 self.photoTag = [self.unconfirmedPhotoTags objectAtIndex:[self.unconfirmedPhotoTags indexOfObject:self.photoTag] + 1];
                 [self updateLabels];
             }
@@ -87,9 +92,11 @@
 }
 
 - (IBAction)deny:(id)sender {
-    if (self.decided)
+    if (self.decided) {
         return;
+    }
     self.decided = YES;
+    
     [self.photoTag incrementKey:@"rejection"];
     
     NSMutableArray *array = self.photoTag[@"usersArray"];
@@ -109,9 +116,11 @@
 }
 
 - (IBAction)notSure:(id)sender {
-    if (self.decided)
+    if (self.decided) {
         return;
+    }
     self.decided = YES;
+    
     NSNumber *value = self.photoTag[@"threshold"];
     if ([value intValue] > 1)
         [self.photoTag incrementKey:@"threshold" byAmount:@-1];
@@ -122,9 +131,9 @@
     
     [self.photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]])
+            if ([self.photoTag isEqual:[self.unconfirmedPhotoTags lastObject]]) {
                 [self performSegueWithIdentifier:@"ShowGame" sender:self];
-            else {
+            } else {
                 self.photoTag = [self.unconfirmedPhotoTags objectAtIndex:[self.unconfirmedPhotoTags indexOfObject:self.photoTag] + 1];
                 [self updateLabels];
             }

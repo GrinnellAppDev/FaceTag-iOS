@@ -14,6 +14,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface GameViewController  () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
 @property (nonatomic, assign) BOOL tappedCamera;
 @property (nonatomic, assign) BOOL tappedDelete;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *camera;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 @property (nonatomic, strong) PFUser *targetUser;
+
 @end
 
 @implementation GameViewController

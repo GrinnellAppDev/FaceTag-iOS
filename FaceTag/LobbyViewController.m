@@ -104,8 +104,9 @@
 }
 - (BOOL)currentUserIsPresent:(PFObject *)photoTag {
     for (PFUser *user in photoTag[@"usersArray"]) {
-        if ([user.objectId isEqualToString:[PFUser currentUser].objectId])
+        if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
             return YES;
+        }
     }
     return NO;
 }
@@ -113,10 +114,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
-    if (self.userUnconfirmedPhotoTags.count > 0)
+    if (self.userUnconfirmedPhotoTags.count > 0) {
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
-    else
+    } else {
         [self performSegueWithIdentifier:@"ShowGame" sender:nil];
+    }
 }
 
 #pragma mark - Navigation

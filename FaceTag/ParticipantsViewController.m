@@ -29,6 +29,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
     self.tableView.contentInset = UIEdgeInsetsMake(deckVC.resize * 64, 0, 0, 0);
     
@@ -67,7 +68,7 @@
     return [NSString stringWithFormat:@"\t\tRound #%@", self.game[@"round"]];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
@@ -77,8 +78,7 @@
     return self.participants.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"ParticipantsCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     

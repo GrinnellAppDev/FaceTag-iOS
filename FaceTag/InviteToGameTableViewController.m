@@ -12,7 +12,6 @@
 @interface InviteToGameTableViewController ()
 
 @property (nonatomic, strong) NSArray *allUsers;
-
 @property (nonatomic, strong) NSMutableArray *usersToInvite;
 @property (nonatomic, strong) SetupViewController *setupViewController;
 
@@ -83,9 +82,9 @@
     // Configure the cell...
     if ([self.setupViewController.usersToInvite containsObject:user.objectId]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    } else
+    } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
-    
+    }
     
     cell.textLabel.text = user[@"fullName"];
     return cell;
@@ -112,17 +111,5 @@
     }
    // NSLog(@"%@", self.setupViewController.usersToInvite);
 }
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end

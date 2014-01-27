@@ -9,7 +9,9 @@
 #import "SetupViewController.h"
 
 @interface SetupViewController ()
+
 @property (nonatomic, strong) NSMutableArray *pickerArray;
+
 @end
 
 @implementation SetupViewController
@@ -99,17 +101,18 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if (self.timePerTurn.isEditing)
+    if (self.timePerTurn.isEditing) {
         return [self.pickerArray objectAtIndex:row];
+    }
     
     long longRow = (long)row;
     return [NSString stringWithFormat:@"%ld", longRow + 1];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (self.timePerTurn.isEditing)
+    if (self.timePerTurn.isEditing) {
         self.timePerTurn.text = [self.pickerArray objectAtIndex:row];
-    else {
+    } else {
         long longRow = (long)row;
         self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
     }
