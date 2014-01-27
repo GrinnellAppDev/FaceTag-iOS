@@ -10,4 +10,6 @@
 
 @interface LobbyViewController : UITableViewController
 
+@property (nonatomic, strong) PFObject *selectedGame;
+
 @end

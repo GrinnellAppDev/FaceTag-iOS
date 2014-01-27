@@ -10,6 +10,7 @@
 #import "DeckViewController.h"
 #import "ConfirmDenyViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "GameSelectionViewController.h"
 
 @interface LobbyViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -17,6 +18,9 @@
 @property (nonatomic, strong) UIImage *tagImage;
 @property (nonatomic, strong) NSArray *games;
 @property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
+@property (nonatomic, strong) NSMutableArray *modalArray;
+@property (nonatomic, strong) GameSelectionViewController *gameSelectVC;
+@property (nonatomic, assign) BOOL notFirstLaunch;
 
 @end
 
@@ -32,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
@@ -47,6 +51,12 @@
         if (!error) {
             self.games = objects;
             [self.tableView reloadData];
+            __block BOOL cameraOpen = NO;
+            if (!self.notFirstLaunch) {
+                self.gameSelectVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GameSelection"];
+                self.gameSelectVC.modalArray = [[NSMutableArray alloc] init];
+            }
+            
             for (PFObject *game in self.games) {
                 PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
                 [picQuery whereKey:@"game" equalTo:game.objectId];
@@ -58,20 +68,27 @@
                     }
                 }];
                 
-                PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
-                [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
-                [roundQuery whereKey:@"game" equalTo:game.objectId];
-                [roundQuery whereKey:@"round" equalTo:game[@"round"]];
-                [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        // If you have no submitted picture for any game (in its current round)
-                        //  launch the camera
-                        if (!objects.count) {
-                            NSLog(@"launch camera");
+                if (!self.notFirstLaunch) {
+                    PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+                    [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
+                    [roundQuery whereKey:@"game" equalTo:game.objectId];
+                    [roundQuery whereKey:@"round" equalTo:game[@"round"]];
+                    [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        if (!error) {
+                            // If you have no submitted picture for any game (in its current round)
+                            //  launch the camera
+                            if (!objects.count) {
+                                [self.gameSelectVC.modalArray addObject:game];
+                                if (!cameraOpen) {
+                                    cameraOpen = YES;
+                                    [self showTagPhotoPicker];
+                                }
+                            }
                         }
-                    }
-                }];
+                    }];
+                }
             }
+            self.notFirstLaunch = YES;
         }
     }];
 }
@@ -137,6 +154,73 @@
         confirmDenyVC.unconfirmedPhotoTags = [[NSArray alloc] initWithArray:self.userUnconfirmedPhotoTags];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+}
+
+#pragma mark - UIImagePickerDelegate Stuff.
+- (void)showTagPhotoPicker {
+    // Create image picker
+    if (!self.imagePickerController) {
+        self.imagePickerController = [[UIImagePickerController alloc] init];
+        self.imagePickerController.delegate = self;
+        self.imagePickerController.allowsEditing = NO;
+    }
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+        
+        //Create overlay view.
+        UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:overlayView.frame];
+        imgView.image = [UIImage imageNamed:@"camera"];
+        imgView.alpha = 0.4;
+        imgView.contentMode = UIViewContentModeCenter;
+        
+        //Without these.. the buttons get disabled.
+        [overlayView setUserInteractionEnabled:NO];
+        [overlayView setExclusiveTouch:NO];
+        [overlayView setMultipleTouchEnabled:NO];
+        [overlayView addSubview:imgView];
+        
+        self.imagePickerController.cameraOverlayView = overlayView;
+        [self presentViewController:self.imagePickerController animated:NO completion:nil];
+        /*[self presentViewController:self.gameSelectVC animated:NO completion:^{
+         [self presentViewController:self.imagePickerController animated:NO completion:nil];
+         }];*/
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
+                                              cancelButtonTitle:@"Drat!"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        
+        //Get the ratio and scale the height according to that ratio.
+        int ratio = image.size.width / 320.0;
+        int newHeight = image.size.height / ratio;
+        self.gameSelectVC.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:self.gameSelectVC animated:NO completion:nil];
+        }];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
+    CGSize newSize = CGSizeMake(width, height);
+    CGRect newRectangle = CGRectMake(0, 0, width, height);
+    
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:newRectangle];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resizedImage;
 }
 
 @end

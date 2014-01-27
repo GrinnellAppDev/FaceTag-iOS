@@ -39,6 +39,7 @@
 		E19A567A188A9764009E3150 /* DeckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5679188A9764009E3150 /* DeckViewController.m */; };
 		E19A567D188A9844009E3150 /* ParticipantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A567C188A9844009E3150 /* ParticipantsViewController.m */; };
 		E19A5680188AF4D2009E3150 /* ConfirmDenyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A567F188AF4D2009E3150 /* ConfirmDenyViewController.m */; };
+		E1AD9A53189717E70060A615 /* GameSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AD9A52189717E70060A615 /* GameSelectionViewController.m */; };
 		E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DB8C09188A3C8E00FA3713 /* GameViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,8 @@
 		E19A567C188A9844009E3150 /* ParticipantsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsViewController.m; sourceTree = "<group>"; };
 		E19A567E188AF4D2009E3150 /* ConfirmDenyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmDenyViewController.h; sourceTree = "<group>"; };
 		E19A567F188AF4D2009E3150 /* ConfirmDenyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmDenyViewController.m; sourceTree = "<group>"; };
+		E1AD9A51189717E70060A615 /* GameSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSelectionViewController.h; sourceTree = "<group>"; };
+		E1AD9A52189717E70060A615 /* GameSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSelectionViewController.m; sourceTree = "<group>"; };
 		E1DB8C08188A3C8E00FA3713 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		E1DB8C09188A3C8E00FA3713 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,6 +192,8 @@
 				E19A567F188AF4D2009E3150 /* ConfirmDenyViewController.m */,
 				E19A5678188A9764009E3150 /* DeckViewController.h */,
 				E19A5679188A9764009E3150 /* DeckViewController.m */,
+				E1AD9A51189717E70060A615 /* GameSelectionViewController.h */,
+				E1AD9A52189717E70060A615 /* GameSelectionViewController.m */,
 				E1DB8C08188A3C8E00FA3713 /* GameViewController.h */,
 				E1DB8C09188A3C8E00FA3713 /* GameViewController.m */,
 				E19A566C188A4176009E3150 /* LobbyViewController.h */,
@@ -377,6 +382,7 @@
 				E19A567A188A9764009E3150 /* DeckViewController.m in Sources */,
 				E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */,
 				E1878099188A296C00E48E49 /* AppDelegate.m in Sources */,
+				E1AD9A53189717E70060A615 /* GameSelectionViewController.m in Sources */,
 				E1878095188A296C00E48E49 /* main.m in Sources */,
 				E19A5671188A4176009E3150 /* LoginViewController.m in Sources */,
 				E19A5674188A45C2009E3150 /* SetupViewController.m in Sources */,
@@ -530,7 +536,7 @@
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30BB3AA1-BA0B-4420-ACF6-F8FFC97D0593";
+				PROVISIONING_PROFILE = "F3C90E5F-3C61-4022-82DB-008157621D44";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -548,7 +554,7 @@
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30BB3AA1-BA0B-4420-ACF6-F8FFC97D0593";
+				PROVISIONING_PROFILE = "F3C90E5F-3C61-4022-82DB-008157621D44";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
