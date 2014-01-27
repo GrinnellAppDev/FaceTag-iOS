@@ -52,6 +52,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
+    self.camera.enabled = YES;
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -105,8 +107,10 @@
 }
 
 - (IBAction)deleteGame:(id)sender {
-    if (self.tappedDelete)
+    if (self.tappedDelete) {
         return;
+    }
+    
     self.tappedDelete = YES;
     [self.game deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     }];
@@ -129,8 +133,10 @@
 }
 
 - (IBAction)showCamera:(id)sender {
-    if (self.tappedCamera)
+    if (self.tappedCamera) {
         return;
+    }
+    
     self.tappedCamera = YES;
     DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
     deckVC.resize = YES;
@@ -153,8 +159,7 @@
         photoTag[@"game"] = [self.game objectId];
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
-                //NSLog(@"photo tag saved!!");
-                
+                // NSLog(@"photo tag saved!!");
             } else {
                 // NSLog(@"%@", error);
             }
@@ -173,7 +178,6 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-        
         
         //Create overlay view.
         UIView *overlayView = [[UIView alloc] initWithFrame:self.imagePickerController.view.frame];
@@ -209,10 +213,7 @@
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
-        // Decrement count when submitting a photo
-        NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:@"count"];
-        [[NSUserDefaults standardUserDefaults] setInteger:--count forKey:@"count"];
-        
+        // TODO - Make this work if they reload the view
         // Disable the camera to prevent multiple submissions per round
         self.camera.enabled = NO;
         

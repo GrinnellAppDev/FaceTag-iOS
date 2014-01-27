@@ -39,14 +39,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    // Check count and load camera if needed
-    NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:@"count"];
-    if (!count) {
-        NSLog(@"Load the camera");
-        //Load camera
-    }
-    
     
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
@@ -63,6 +55,20 @@
                 [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     if (!error) {
                         [game setObject:objects forKey:@"unconfirmedPhotos"];
+                    }
+                }];
+                
+                PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+                [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
+                [roundQuery whereKey:@"game" equalTo:game.objectId];
+                [roundQuery whereKey:@"round" equalTo:game[@"round"]];
+                [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        // If you have no submitted picture for any game (in its current round)
+                        //  launch the camera
+                        if (!objects.count) {
+                            NSLog(@"launch camera");
+                        }
                     }
                 }];
             }
