@@ -39,6 +39,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    // Check count and load camera if needed
+    NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:@"count"];
+    if (!count) {
+        NSLog(@"Load the camera");
+        //Load camera
+    }
+    
     
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];

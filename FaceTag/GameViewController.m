@@ -142,7 +142,7 @@
     PFUser *currentUser = [PFUser currentUser];
     NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
     PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
-    
+
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         //Create the PhotoTag object.
@@ -209,13 +209,19 @@
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
+        // Decrement count when submitting a photo
+        NSInteger count = [[NSUserDefaults standardUserDefaults] integerForKey:@"count"];
+        [[NSUserDefaults standardUserDefaults] setInteger:--count forKey:@"count"];
+        
+        // Disable the camera to prevent multiple submissions per round
+        self.camera.enabled = NO;
+        
         [self uploadPhotoTag];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
-{
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
     CGSize newSize = CGSizeMake(width, height);
     CGRect newRectangle = CGRectMake(0, 0, width, height);
     
