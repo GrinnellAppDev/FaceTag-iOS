@@ -25,7 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+//    self.navigationController.navigationItem.leftBarButtonItem = cancelButton;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -34,6 +35,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -56,6 +61,14 @@
     // Configure the cell...
     PFObject *game = [self.modalArray objectAtIndex:indexPath.row];
     cell.textLabel.text = game[@"name"];
+    NSDictionary *pairings = game[@"pairings"];
+    NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
+    PFQuery *targetUserQuery = [PFUser query];
+    [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+        if (!error) {
+            cell.detailTextLabel.text = object[@"firstName"];
+        }
+    }];
     
     return cell;
 }

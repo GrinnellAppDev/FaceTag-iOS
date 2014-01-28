@@ -19,12 +19,12 @@
 @property (nonatomic, assign) BOOL tappedDelete;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *tagImage;
-@property (weak, nonatomic) IBOutlet UIImageView *targetProfileImageView;
-@property (weak, nonatomic) IBOutlet UILabel *otherLabel;
-@property (weak, nonatomic) IBOutlet UILabel *targetNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *camera;
-@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 @property (nonatomic, strong) PFUser *targetUser;
+@property (nonatomic, weak) IBOutlet UIImageView *targetProfileImageView;
+@property (nonatomic, weak) IBOutlet UILabel *otherLabel;
+@property (nonatomic, weak) IBOutlet UILabel *targetNameLabel;
+@property (nonatomic, weak) IBOutlet UIButton *camera;
+@property (nonatomic, weak) IBOutlet UIButton *deleteBtn;
 
 @end
 
@@ -88,9 +88,7 @@
     
     PFUser *currentUser = [PFUser currentUser];
     NSDictionary *pairings = self.game[@"pairings"];
-    // NSLog(@"pa: %@", pairings);
     NSString *targetUserId = pairings[currentUser.objectId];
-    //NSLog(@"targuserid: %@", targetUserId);
     
     // Check if user has already submitted a picture during this round
     PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
@@ -105,8 +103,6 @@
             }
         }
     }];
-
-    
     
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];

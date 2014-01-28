@@ -202,7 +202,8 @@
         int newHeight = image.size.height / ratio;
         self.gameSelectVC.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         [self dismissViewControllerAnimated:YES completion:^{
-            [self presentViewController:self.gameSelectVC animated:NO completion:nil];
+            UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:self.gameSelectVC];
+            [self presentViewController:navC animated:NO completion:nil];
         }];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
