@@ -25,11 +25,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    deckVC.resize = YES;
+}
+
+- (void)dealloc {
+    [self.view removeObserver:self forKeyPath:@"frame"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+        
     DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
     self.tableView.contentInset = UIEdgeInsetsMake(deckVC.resize * 64, 0, 0, 0);
     

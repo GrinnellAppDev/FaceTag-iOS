@@ -184,9 +184,6 @@
         
         self.imagePickerController.cameraOverlayView = overlayView;
         [self presentViewController:self.imagePickerController animated:NO completion:nil];
-        /*[self presentViewController:self.gameSelectVC animated:NO completion:^{
-         [self presentViewController:self.imagePickerController animated:NO completion:nil];
-         }];*/
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
                                               cancelButtonTitle:@"Drat!"

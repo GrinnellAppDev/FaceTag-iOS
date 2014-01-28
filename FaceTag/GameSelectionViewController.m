@@ -44,7 +44,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    NSLog(@"count: %d", self.modalArray.count);
+    // NSLog(@"count: %d", self.modalArray.count);
 
     return self.modalArray.count;
 }
