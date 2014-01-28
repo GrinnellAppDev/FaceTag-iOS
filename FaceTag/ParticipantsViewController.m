@@ -40,7 +40,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-        
+    
     DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
     self.tableView.contentInset = UIEdgeInsetsMake(deckVC.resize * 64, 0, 0, 0);
     

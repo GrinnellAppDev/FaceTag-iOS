@@ -54,7 +54,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
-
+    self.camera.hidden = NO;
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -90,6 +91,22 @@
     // NSLog(@"pa: %@", pairings);
     NSString *targetUserId = pairings[currentUser.objectId];
     //NSLog(@"targuserid: %@", targetUserId);
+    
+    // Check if user has already submitted a picture during this round
+    PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+    [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
+    [roundQuery whereKey:@"game" equalTo:self.game.objectId];
+    [roundQuery whereKey:@"round" equalTo:self.game[@"round"]];
+    [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // If you have submitted a picture for this round
+            if (objects.count) {
+                self.camera.hidden = YES;
+            }
+        }
+    }];
+
+    
     
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
@@ -214,9 +231,8 @@
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
-        // TODO - Make this work if they reload the view
-        // Disable the camera to prevent multiple submissions per round
-        self.camera.enabled = NO;
+        // Hide the camera to prevent multiple submissions per round
+        self.camera.hidden = YES;
         
         [self uploadPhotoTag];
     }
