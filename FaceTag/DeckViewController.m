@@ -50,4 +50,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+//- (BOOL)closeRightViewAnimated:(BOOL)animated {
+//    NSLog(@"1");
+//    return [super closeRightViewAnimated:animated];
+//}
+//
+//- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
+//    NSLog(@"2");
+//    return [super closeRightViewAnimated:animated completion:completed];
+//}
+- (BOOL)closeRightViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed{
+    self.resize = YES;
+    return [super closeRightViewAnimated:animated duration:duration completion:completed];
+}
+//- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced {
+//    NSLog(@"4'");
+//    return [super closeRightViewBouncing:bounced];
+//}
+//- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed {
+//    NSLog(@"5");
+//    return [super closeRightViewBouncing:bounced completion:completed];
+//}
+
+
 @end
