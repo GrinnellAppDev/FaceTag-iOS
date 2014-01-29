@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, assign) BOOL notFirstLaunch;
+@property (nonatomic, strong) NSIndexPath *checkedIndex;
 
 @end
 
@@ -42,6 +43,11 @@
         self.notFirstLaunch = YES;
         [self showTagPhotoPicker];
     }
+    
+    if (self.tagImage) {
+        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] initWithTitle:@"Submit" style:UIBarButtonItemStyleBordered target:self action:@selector(submitPhoto:)];
+        self.navigationItem.rightBarButtonItem = submitButton;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,32 +59,16 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Table view data source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return self.gameArray.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"GameSelectionCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+- (void)submitPhoto:(id)sender {
+    if (!self.checkedIndex) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You must select a game to submit to!"  delegate:nil
+                                             cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     
-    // Configure the cell...
-    PFObject *game = [self.gameArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = game[@"name"];
-    PFUser *target = [self.targetDictionary objectForKey:game[@"name"]];
-    cell.detailTextLabel.text = target[@"firstName"];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFObject *selectedGame = [self.gameArray objectAtIndex:indexPath.row];
+    PFObject *selectedGame = [self.gameArray objectAtIndex:self.checkedIndex.row];
     NSData *imageData = UIImagePNGRepresentation(self.tagImage);
     PFUser *currentUser = [PFUser currentUser];
     PFUser *targetUser = [self.targetDictionary objectForKey:selectedGame[@"name"]];
@@ -99,7 +89,63 @@
             }
         }];
     }];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self dismissTableView:sender];
+}
+
+#pragma mark - Table view data source
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    if (self.notFirstLaunch) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return self.gameArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"GameSelectionCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    // Configure the cell...
+    PFObject *game = [self.gameArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = game[@"name"];
+    PFUser *target = [self.targetDictionary objectForKey:game[@"name"]];
+    cell.detailTextLabel.text = target[@"firstName"];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (!self.tagImage) {
+        return;
+    }
+    
+    // Uncheck other cell
+    if (self.checkedIndex && self.checkedIndex.row != indexPath.row) {
+        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:self.checkedIndex];
+        if (UITableViewCellAccessoryCheckmark == oldCell.accessoryType) {
+            oldCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    
+    // Toggle the selected cell
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (UITableViewCellAccessoryNone == cell.accessoryType) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        self.checkedIndex = indexPath;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        self.checkedIndex = NULL;
+    }
 }
 
 
@@ -150,7 +196,8 @@
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
     }
-        [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
