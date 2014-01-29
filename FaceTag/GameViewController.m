@@ -40,7 +40,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sidebar.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = menuButton;
 }
 
 - (void)popToLobbyVC:(id)sender {
@@ -55,13 +60,7 @@
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
     self.camera.hidden = NO;
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
-    self.navigationItem.leftBarButtonItem = backButton;
-    
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sidebar.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = menuButton;
-    
+
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
     

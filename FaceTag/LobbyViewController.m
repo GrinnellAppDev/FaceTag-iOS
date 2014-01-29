@@ -54,7 +54,8 @@
             __block BOOL cameraOpen = NO;
             if (!self.notFirstLaunch) {
                 self.gameSelectVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GameSelection"];
-                self.gameSelectVC.modalArray = [[NSMutableArray alloc] init];
+                self.gameSelectVC.gameArray = [[NSMutableArray alloc] init];
+                self.gameSelectVC.targetDictionary = [[NSMutableDictionary alloc] init];
             }
             
             for (PFObject *game in self.games) {
@@ -78,7 +79,16 @@
                             // If you have no submitted picture for any game (in its current round)
                             //  launch the camera
                             if (!objects.count) {
-                                [self.gameSelectVC.modalArray addObject:game];
+                                [self.gameSelectVC.gameArray addObject:game];
+                                NSDictionary *pairings = game[@"pairings"];
+                                NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
+                                PFQuery *targetUserQuery = [PFUser query];
+                                [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+                                    if (!error) {
+                                        [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
+                                    }
+                                }];
+
                                 if (!cameraOpen) {
                                     cameraOpen = YES;
                                     [self showTagPhotoPicker];
@@ -203,7 +213,7 @@
         self.gameSelectVC.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         [self dismissViewControllerAnimated:YES completion:^{
             UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:self.gameSelectVC];
-            [self presentViewController:navC animated:NO completion:nil];
+            [self presentViewController:navC animated:YES completion:nil];
         }];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];

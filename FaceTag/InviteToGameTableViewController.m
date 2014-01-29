@@ -30,9 +30,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //self.usersToInvite = [[NSMutableArray alloc] init];
     self.setupViewController = (SetupViewController *)self.parentViewController.childViewControllers.firstObject;
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTapped:)];
+    self.navigationItem.leftBarButtonItem = backButton;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
@@ -61,8 +62,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+- (void)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
+#pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;

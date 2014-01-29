@@ -10,7 +10,8 @@
 
 @interface GameSelectionViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray *modalArray;
+@property (nonatomic, strong) NSMutableArray *gameArray;
+@property (nonatomic, strong) NSMutableDictionary *targetDictionary;
 @property (nonatomic, strong) UIImage *tagImage;
 
 @end
