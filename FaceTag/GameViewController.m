@@ -59,7 +59,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
-    self.camera.hidden = NO;
 
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
@@ -99,6 +98,8 @@
             // If you have submitted a picture for this round
             if (objects.count) {
                 self.camera.hidden = YES;
+            } else {
+                self.camera.hidden = NO;
             }
         }
     }];
