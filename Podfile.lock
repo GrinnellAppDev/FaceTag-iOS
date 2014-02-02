@@ -1,10 +1,11 @@
 PODS:
-  - Facebook-iOS-SDK (3.11.0)
+  - Facebook-iOS-SDK (3.11.1)
   - Parse (1.2.18):
     - Facebook-iOS-SDK (~> 3.11)
   - SDWebImage (3.5.2):
     - SDWebImage/Core
   - SDWebImage/Core (3.5.2)
+  - TDBadgedCell (2.4.1)
   - UIActivityIndicator-for-SDWebImage (1.0.3):
     - SDWebImage (~> 3.2)
   - ViewDeck (2.2.11)
@@ -12,13 +13,15 @@ PODS:
 DEPENDENCIES:
   - Parse
   - SDWebImage (~> 3.5.2)
+  - TDBadgedCell
   - UIActivityIndicator-for-SDWebImage (~> 1.0.3)
   - ViewDeck (~> 2.2.11)
 
 SPEC CHECKSUMS:
-  Facebook-iOS-SDK: 2eb12f9ed04f3d3956f0a4fb0e4e60c824dcd101
+  Facebook-iOS-SDK: 42a1de39170b858d675c2453d8aace55c51be2bb
   Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
+  TDBadgedCell: 16b3256427b4bfc61e7822f0c3eebc6b71cad60d
   UIActivityIndicator-for-SDWebImage: e712b97826395022ce7b4a4b56eb7194090c19d5
   ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
 

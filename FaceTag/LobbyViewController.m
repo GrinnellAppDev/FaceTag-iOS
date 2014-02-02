@@ -10,6 +10,7 @@
 #import "DeckViewController.h"
 #import "ConfirmDenyViewController.h"
 #import "GameSelectionViewController.h"
+#import <TDBadgedCell.h>
 
 @interface LobbyViewController ()
 
@@ -62,6 +63,7 @@
                 [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     if (!error) {
                         [game setObject:objects forKey:@"unconfirmedPhotos"];
+                        [self.tableView reloadData];
                     }
                 }];
                 
@@ -123,10 +125,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"GameCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = [self.games objectAtIndex:indexPath.row][@"name"];
-    // Configure the cell...
+    if (!cell) {
+        cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+
+    PFObject *game = [self.games objectAtIndex:indexPath.row];
+    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
+
+    if (unconfirmedPhotoTags.count > 0) {
+        cell.badgeString = [NSString stringWithFormat:@"%d", unconfirmedPhotoTags.count];
+        cell.showShadow = YES;
+    }
+    
+    cell.textLabel.text = game[@"name"];
     
     return cell;
 }
