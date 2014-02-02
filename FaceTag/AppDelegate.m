@@ -26,15 +26,6 @@
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-   
-    // Load to login view if necessary
-    NSString *storyboardID = [PFUser currentUser] ? @"Main_iPhone" : @"Login_iPhone";
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardID bundle:nil];
-    UIViewController *initVC = [storyboard instantiateInitialViewController];
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = initVC;
-    [self.window makeKeyAndVisible];
     
     return YES;
 }
