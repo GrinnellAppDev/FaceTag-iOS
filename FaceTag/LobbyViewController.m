@@ -135,7 +135,7 @@
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
 
     if (unconfirmedPhotoTags.count > 0) {
-        cell.badgeString = [NSString stringWithFormat:@"%d", unconfirmedPhotoTags.count];
+        cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
         cell.showShadow = YES;
     }
     

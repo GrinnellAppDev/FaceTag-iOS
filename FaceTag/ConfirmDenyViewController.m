@@ -11,8 +11,6 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
-
-
 @interface ConfirmDenyViewController ()
 
 @property (nonatomic, weak) IBOutlet UILabel *targetConfirmationLabel;
@@ -39,6 +37,9 @@
     
     self.targetPhoto.layer.cornerRadius = 40;
     self.targetPhoto.layer.masksToBounds = YES;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTapped:)];
+    self.navigationItem.leftBarButtonItem = backButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,6 +47,10 @@
     self.currentUser = [PFUser currentUser];
     self.photoTag = [self.unconfirmedPhotoTags firstObject];
     [self updateLabels];
+}
+
+- (void)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)updateLabels {
