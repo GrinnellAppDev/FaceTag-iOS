@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LobbyViewController : UITableViewController
+@interface LobbyViewController : UITableViewController <PFSignUpViewControllerDelegate, PFLogInViewControllerDelegate>
 
 @property (nonatomic, strong) PFObject *selectedGame;
 

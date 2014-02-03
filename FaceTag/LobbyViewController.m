@@ -10,6 +10,7 @@
 #import "DeckViewController.h"
 #import "ConfirmDenyViewController.h"
 #import "GameSelectionViewController.h"
+#import <TDBadgedCell.h>
 
 @interface LobbyViewController ()
 
@@ -40,9 +41,24 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // This line should not be here!!!!
-    self.notFirstLaunch = YES;
-    
+    if (![PFUser currentUser]) {
+        PFLogInViewController *loginVC = [[PFLogInViewController alloc] init];
+        [loginVC setDelegate:self];
+        loginVC.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsLogInButton | PFLogInFieldsFacebook | PFLogInFieldsSignUpButton;
+        loginVC.facebookPermissions = @[@"email"];;
+        [loginVC.logInView.externalLogInLabel setText:@"You can also log in or sign up with"];
+        loginVC.logInView.logo = nil;
+        
+        PFSignUpViewController *signUpVC = [[PFSignUpViewController alloc] init];
+        signUpVC.fields = PFSignUpFieldsUsernameAndPassword | PFSignUpFieldsEmail | PFSignUpFieldsDismissButton | PFSignUpFieldsSignUpButton | PFSignUpFieldsAdditional;
+        [signUpVC.signUpView.additionalField setPlaceholder:@"Full Name"];
+        [signUpVC setDelegate:self];
+        signUpVC.signUpView.logo = nil;
+        loginVC.signUpController = signUpVC;
+        
+        [self presentViewController:loginVC animated:YES completion:nil];
+        return;
+    }    
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];
@@ -65,38 +81,34 @@
                 [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     if (!error) {
                         [game setObject:objects forKey:@"unconfirmedPhotos"];
+                        [self.tableView reloadData];
                     }
                 }];
                 
                 if (!self.notFirstLaunch) {
-                    PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
-                    [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
-                    [roundQuery whereKey:@"game" equalTo:game.objectId];
-                    [roundQuery whereKey:@"round" equalTo:game[@"round"]];
-                    [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        if (!error) {
-                            // If you have no submitted picture for any game (in its current round)
-                            //  launch the camera
-                            if (!objects.count) {
-                                if (!cameraOpen) {
-                                    cameraOpen = YES;
-                                    [self launchToCamera];
-                                }
-                                [self.gameSelectVC.gameArray addObject:game];
-                                NSDictionary *pairings = game[@"pairings"];
-                                NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
-                                PFQuery *targetUserQuery = [PFUser query];
-                                [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
-                                    if (!error) {
-                                        [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
-                                        [self.gameSelectVC.tableView reloadData];
-                                    }
-                                }];
-                            }
+                    NSDictionary *submittedDict = game[@"submitted"];
+                    BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
+                    
+                    // If you have not submitted a picture for this game (in its current round)
+                    //  launch the camera
+                    if (!submitted) {
+                        if (!cameraOpen) {
+                            cameraOpen = YES;
+                            [self launchToCamera];
                         }
-                    }];
+                        [self.gameSelectVC.gameArray addObject:game];
+                        NSDictionary *pairings = game[@"pairings"];
+                        NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
+                        PFQuery *targetUserQuery = [PFUser query];
+                        [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+                            if (!error) {
+                                [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
+                                [self.gameSelectVC.tableView reloadData];
+                            }
+                        }];
+                    }
                 }
-            }
+            } // for
             self.notFirstLaunch = YES;
         }
     }];
@@ -126,10 +138,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"GameCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = [self.games objectAtIndex:indexPath.row][@"name"];
-    // Configure the cell...
+    if (!cell) {
+        cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    PFObject *game = [self.games objectAtIndex:indexPath.row];
+    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
+    
+    if (unconfirmedPhotoTags.count > 0) {
+        cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        cell.showShadow = YES;
+    }
+    
+    cell.textLabel.text = game[@"name"];
     
     return cell;
 }
@@ -168,6 +191,98 @@
         confirmDenyVC.unconfirmedPhotoTags = [[NSArray alloc] initWithArray:self.userUnconfirmedPhotoTags];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+}
+
+#pragma mark PFLogInVC & PFSignUpVC
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+    if (username && password && 0 != username.length && 0 != password.length) {
+        return YES;
+    }
+    
+    [[[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Make sure you fill out all of the information" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    return NO;
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (error) {
+            // NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }  else {
+            NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
+            //NSLog(@"me: %@",me);
+            
+            PFUser *currentUser = [PFUser currentUser];
+            currentUser[@"facebookId"] = me.id;
+            currentUser[@"fullName"] = me.name;
+            currentUser[@"firstName"] = me.first_name;
+            currentUser[@"lastName"] = me.last_name;
+            
+            //If facebook user permitted us to having email.
+            if(me[@"email"]) {
+                //only update the email if there is none.
+                if (!currentUser[@"email"]) {
+                    currentUser[@"email"] = me[@"email"];
+                }
+            }
+            
+            NSString *profilePictureURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", me.id];
+            
+            //Update the profile picture with a facebook one.
+            currentUser[@"profilePictureURL"] = profilePictureURL;
+            
+            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    //NSLog(@"I hate errors: %@", [error localizedDescription]);
+                } else {
+                    //NSLog(@"No error, user should've saved");
+                    PFInstallation *installation = [PFInstallation currentInstallation];
+                    installation[@"owner"] = [PFUser currentUser];
+                    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if (succeeded) {
+                            //NSLog(@"Installation saved");
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                        }
+                    }];
+                }
+            }];
+        }
+    }];
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    NSString *fullName = signUpController.signUpView.additionalField.text;
+    NSRange index = [fullName rangeOfString:@" "];
+    NSString *firstName = [fullName substringToIndex:index.location];
+    NSString *lastName = [fullName substringFromIndex:index.location + 1];
+    
+    [user setValue:fullName forKey:@"fullName"];
+    [user setValue:firstName forKey:@"firstName"];
+    [user setValue:lastName forKey:@"lastName"];
+    
+    [user save];
+    
+    PFInstallation *installation = [PFInstallation currentInstallation];
+    installation[@"owner"] = [PFUser currentUser];
+    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            //NSLog(@"Installation saved");
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+}
+
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
+    if (info[@"username"] && info[@"password"] && info[@"email"] && info[@"additional"]) {
+        if (NSNotFound == [info[@"additional"] rangeOfString:@" "].location) {
+            [[[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Your full name must include a first and last name, separated by a space." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            return NO;
+        }
+        return YES;
+    }
+    
+    [[[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Make sure you fill out all of the information" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    return NO;
 }
 
 @end

@@ -84,6 +84,10 @@
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 // NSLog(@"photo tag saved!!");
+                NSMutableDictionary *submittedDict = selectedGame[@"submitted"];
+                [submittedDict setObject:@YES forKey:[currentUser objectId]];
+                selectedGame[@"submitted"] = submittedDict;
+                [selectedGame save];
             } else {
                 // NSLog(@"%@", error);
             }

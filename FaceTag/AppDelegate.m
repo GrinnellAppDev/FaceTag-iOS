@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "LobbyViewController.h"
+#import <Crashlytics/Crashlytics.h>
+#import <FlurrySDK/Flurry.h>
 
 @implementation AppDelegate
 
@@ -21,20 +22,16 @@
     
     [PFFacebookUtils initializeFacebook];
     
+    [Crashlytics startWithAPIKey:@"45894d9e8a6bc3b8513651d6de36159e2c836e51"];
+    
+    [Flurry setCrashReportingEnabled:NO];
+    [Flurry startSession:@"63JHGRGT6HW56JBH3R29"];
+    
     // Register for push notifications
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-   
-    // Load to login view if necessary
-    NSString *storyboardID = [PFUser currentUser] ? @"Main_iPhone" : @"Login_iPhone";
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardID bundle:nil];
-    UIViewController *initVC = [storyboard instantiateInitialViewController];
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = initVC;
-    [self.window makeKeyAndVisible];
     
     return YES;
 }

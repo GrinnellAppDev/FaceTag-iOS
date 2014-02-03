@@ -30,7 +30,6 @@
 		168C96DA189EEF6300A890C4 /* FindFriendsFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168C96D9189EEF6300A890C4 /* FindFriendsFacebookViewController.m */; };
 		168C96DD189EEF7700A890C4 /* FindFriendsContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168C96DC189EEF7700A890C4 /* FindFriendsContactViewController.m */; };
 		6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ACFA5F764264A56BB6CDB6F /* libPods.a */; };
-		E1073BC01895AB6F008BB58C /* Login_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1073BBF1895AB6F008BB58C /* Login_iPhone.storyboard */; };
 		E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1878088188A296C00E48E49 /* Foundation.framework */; };
 		E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
 		E187808D188A296C00E48E49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808C188A296C00E48E49 /* UIKit.framework */; };
@@ -45,8 +44,8 @@
 		E18780AD188A296C00E48E49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808C188A296C00E48E49 /* UIKit.framework */; };
 		E18780B5188A296C00E48E49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E18780B3188A296C00E48E49 /* InfoPlist.strings */; };
 		E18780B7188A296C00E48E49 /* FaceTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E18780B6188A296C00E48E49 /* FaceTagTests.m */; };
+		E192E6FA189F01830042C4B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E192E6F9189F01830042C4B8 /* Crashlytics.framework */; };
 		E19A5670188A4176009E3150 /* LobbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A566D188A4176009E3150 /* LobbyViewController.m */; };
-		E19A5671188A4176009E3150 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A566F188A4176009E3150 /* LoginViewController.m */; };
 		E19A5674188A45C2009E3150 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5673188A45C2009E3150 /* SetupViewController.m */; };
 		E19A567A188A9764009E3150 /* DeckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5679188A9764009E3150 /* DeckViewController.m */; };
 		E19A567D188A9844009E3150 /* ParticipantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A567C188A9844009E3150 /* ParticipantsViewController.m */; };
@@ -97,7 +96,6 @@
 		168C96DC189EEF7700A890C4 /* FindFriendsContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendsContactViewController.m; sourceTree = "<group>"; };
 		6ACFA5F764264A56BB6CDB6F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABC1E38437146AA8BC0B552 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		E1073BBF1895AB6F008BB58C /* Login_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login_iPhone.storyboard; sourceTree = "<group>"; };
 		E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FaceTag - Photo Tag Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1878088188A296C00E48E49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E187808A188A296C00E48E49 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -116,10 +114,9 @@
 		E18780B2188A296C00E48E49 /* FaceTagTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FaceTagTests-Info.plist"; sourceTree = "<group>"; };
 		E18780B4188A296C00E48E49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E18780B6188A296C00E48E49 /* FaceTagTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceTagTests.m; sourceTree = "<group>"; };
+		E192E6F9189F01830042C4B8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E19A566C188A4176009E3150 /* LobbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LobbyViewController.h; sourceTree = "<group>"; };
 		E19A566D188A4176009E3150 /* LobbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LobbyViewController.m; sourceTree = "<group>"; };
-		E19A566E188A4176009E3150 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		E19A566F188A4176009E3150 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		E19A5672188A45C2009E3150 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		E19A5673188A45C2009E3150 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		E19A5678188A9764009E3150 /* DeckViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckViewController.h; sourceTree = "<group>"; };
@@ -140,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */,
+				E192E6FA189F01830042C4B8 /* Crashlytics.framework in Frameworks */,
 				1670868A188A30850083CFA9 /* SystemConfiguration.framework in Frameworks */,
 				16708688188A307D0083CFA9 /* StoreKit.framework in Frameworks */,
 				16708686188A306C0083CFA9 /* Security.framework in Frameworks */,
@@ -215,6 +213,7 @@
 		E1878087188A296C00E48E49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E192E6F9189F01830042C4B8 /* Crashlytics.framework */,
 				16708689188A30850083CFA9 /* SystemConfiguration.framework */,
 				16708687188A307D0083CFA9 /* StoreKit.framework */,
 				16708685188A306C0083CFA9 /* Security.framework */,
@@ -239,7 +238,6 @@
 				1661AEE0189EE0B2007449B0 /* Vendor */,
 				E1878097188A296C00E48E49 /* AppDelegate.h */,
 				E1878098188A296C00E48E49 /* AppDelegate.m */,
-				E1073BBF1895AB6F008BB58C /* Login_iPhone.storyboard */,
 				E187809A188A296C00E48E49 /* Main_iPhone.storyboard */,
 				E187809D188A296C00E48E49 /* Main_iPad.storyboard */,
 				E19A567E188AF4D2009E3150 /* ConfirmDenyViewController.h */,
@@ -252,8 +250,6 @@
 				E1DB8C09188A3C8E00FA3713 /* GameViewController.m */,
 				E19A566C188A4176009E3150 /* LobbyViewController.h */,
 				E19A566D188A4176009E3150 /* LobbyViewController.m */,
-				E19A566E188A4176009E3150 /* LoginViewController.h */,
-				E19A566F188A4176009E3150 /* LoginViewController.m */,
 				E19A567B188A9844009E3150 /* ParticipantsViewController.h */,
 				E19A567C188A9844009E3150 /* ParticipantsViewController.m */,
 				E19A5672188A45C2009E3150 /* SetupViewController.h */,
@@ -317,6 +313,7 @@
 				E1878082188A296C00E48E49 /* Frameworks */,
 				E1878083188A296C00E48E49 /* Resources */,
 				751B8559EFA64EECACC0B4C7 /* Copy Pods Resources */,
+				E192E6F8189F00F20042C4B8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -396,7 +393,6 @@
 				1661AEF0189EE0F0007449B0 /* MHTabBarIndicator@2x.png in Resources */,
 				1661AEED189EE0F0007449B0 /* MHTabBarInactiveTab.png in Resources */,
 				E1878093188A296C00E48E49 /* InfoPlist.strings in Resources */,
-				E1073BC01895AB6F008BB58C /* Login_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +437,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E192E6F8189F00F20042C4B8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 45894d9e8a6bc3b8513651d6de36159e2c836e51";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -459,7 +468,6 @@
 				168C96DA189EEF6300A890C4 /* FindFriendsFacebookViewController.m in Sources */,
 				168C96D7189EED8700A890C4 /* FindFriendsSearchViewController.m in Sources */,
 				E1878095188A296C00E48E49 /* main.m in Sources */,
-				E19A5671188A4176009E3150 /* LoginViewController.m in Sources */,
 				E19A5674188A45C2009E3150 /* SetupViewController.m in Sources */,
 				E19A5680188AF4D2009E3150 /* ConfirmDenyViewController.m in Sources */,
 				167BDBEB188A7AA900931CFE /* InviteToGameTableViewController.m in Sources */,
@@ -606,8 +614,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Lea Marolt (H69TS4DPUJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Lea Marolt (H69TS4DPUJ)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tremblay/FaceTag-iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";
@@ -624,8 +636,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Lea Marolt (H69TS4DPUJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Lea Marolt (H69TS4DPUJ)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tremblay/FaceTag-iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
 				INFOPLIST_FILE = "FaceTag/FaceTag-Info.plist";

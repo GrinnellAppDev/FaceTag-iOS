@@ -40,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(popToLobbyVC:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -59,7 +59,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
-
+    
     self.targetProfileImageView.layer.cornerRadius = 40;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
@@ -89,20 +89,13 @@
     NSString *targetUserId = pairings[currentUser.objectId];
     
     // Check if user has already submitted a picture during this round
-    PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
-    [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
-    [roundQuery whereKey:@"game" equalTo:self.game.objectId];
-    [roundQuery whereKey:@"round" equalTo:self.game[@"round"]];
-    [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // If you have submitted a picture for this round
-            if (objects.count) {
-                self.camera.hidden = YES;
-            } else {
-                self.camera.hidden = NO;
-            }
-        }
-    }];
+    NSDictionary *submittedDict = self.game[@"submitted"];
+    BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
+    if (submitted) {
+        self.camera.hidden = YES;
+    } else {
+        self.camera.hidden = NO;
+    }
     
     //Fetch the target User.
     PFQuery *targetUserQuery = [PFUser query];
@@ -162,7 +155,7 @@
     PFUser *currentUser = [PFUser currentUser];
     NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
     PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
-
+    
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         //Create the PhotoTag object.
@@ -174,6 +167,10 @@
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 // NSLog(@"photo tag saved!!");
+                NSMutableDictionary *submittedDict = self.game[@"submitted"];
+                [submittedDict setObject:@YES forKey:[currentUser objectId]];
+                self.game[@"submitted"] = submittedDict;
+                [self.game save];
             } else {
                 // NSLog(@"%@", error);
             }
