@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
@@ -88,34 +88,29 @@
                 }];
                 
                 if (!self.notFirstLaunch) {
-                    PFQuery *roundQuery = [PFQuery queryWithClassName:@"PhotoTag"];
-                    [roundQuery whereKey:@"sender" equalTo:[PFUser currentUser]];
-                    [roundQuery whereKey:@"game" equalTo:game.objectId];
-                    [roundQuery whereKey:@"round" equalTo:game[@"round"]];
-                    [roundQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        if (!error) {
-                            // If you have no submitted picture for any game (in its current round)
-                            //  launch the camera
-                            if (!objects.count) {
-                                if (!cameraOpen) {
-                                    cameraOpen = YES;
-                                    [self launchToCamera];
-                                }
-                                [self.gameSelectVC.gameArray addObject:game];
-                                NSDictionary *pairings = game[@"pairings"];
-                                NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
-                                PFQuery *targetUserQuery = [PFUser query];
-                                [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
-                                    if (!error) {
-                                        [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
-                                        [self.gameSelectVC.tableView reloadData];
-                                    }
-                                }];
-                            }
+                    NSDictionary *submittedDict = game[@"submitted"];
+                    BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
+                    
+                    // If you have not submitted a picture for this game (in its current round)
+                    //  launch the camera
+                    if (!submitted) {
+                        if (!cameraOpen) {
+                            cameraOpen = YES;
+                            [self launchToCamera];
                         }
-                    }];
+                        [self.gameSelectVC.gameArray addObject:game];
+                        NSDictionary *pairings = game[@"pairings"];
+                        NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
+                        PFQuery *targetUserQuery = [PFUser query];
+                        [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+                            if (!error) {
+                                [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
+                                [self.gameSelectVC.tableView reloadData];
+                            }
+                        }];
+                    }
                 }
-            }
+            } // for
             self.notFirstLaunch = YES;
         }
     }];
@@ -150,10 +145,10 @@
     if (!cell) {
         cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-
+    
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
-
+    
     if (unconfirmedPhotoTags.count > 0) {
         cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
         cell.showShadow = YES;
@@ -205,7 +200,7 @@
     if (username && password && 0 != username.length && 0 != password.length) {
         return YES;
     }
-
+    
     [[[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Make sure you fill out all of the information" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     return NO;
 }
@@ -213,7 +208,7 @@
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (error) {
-           // NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
+            // NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
             [self dismissViewControllerAnimated:YES completion:nil];
         }  else {
             NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
@@ -266,7 +261,7 @@
     [user setValue:fullName forKey:@"fullName"];
     [user setValue:firstName forKey:@"firstName"];
     [user setValue:lastName forKey:@"lastName"];
-
+    
     [user save];
     
     PFInstallation *installation = [PFInstallation currentInstallation];
