@@ -16,6 +16,7 @@
 
 @interface SettingsViewController () <MHTabBarControllerDelegate>
 
+@property (nonatomic, strong) NSArray *friends;
 @end
 
 @implementation SettingsViewController
@@ -42,6 +43,24 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    PFRelation *friendsRelation =  friendsRelation = [[PFUser currentUser] objectForKey:@"friendsRelation"];
+    PFQuery *query = [friendsRelation query];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Yikes! %@", [error userInfo]);
+        } else {
+            self.friends = objects;
+            [self.tableView reloadData];
+        }
+    }];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -51,6 +70,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
+    ffSVC.friends = self.friends; 
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];

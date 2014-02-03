@@ -10,4 +10,5 @@
 
 @interface FindFriendsSearchViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableArray *friends;
 @end

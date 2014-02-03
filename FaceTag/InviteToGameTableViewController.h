@@ -10,5 +10,8 @@
 
 @interface InviteToGameTableViewController : UITableViewController
 
+// We have a friendsRelation which we use to keep track of friends of a particular user.
+@property (nonatomic, strong) PFRelation *friendsRelation;
+@property (nonatomic, strong) NSArray *friends;
 
 @end

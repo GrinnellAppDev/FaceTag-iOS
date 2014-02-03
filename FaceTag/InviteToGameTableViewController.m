@@ -43,6 +43,20 @@
     
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -80.0f) forBarMetrics:UIBarMetricsDefault];
     
+    self.friendsRelation = [[PFUser currentUser] objectForKey:@"friendsRelation"];
+    PFQuery *query = [self.friendsRelation query];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Yikes! %@", [error userInfo]);
+        } else {
+            self.friends = objects;
+            [self.tableView reloadData];
+        }
+    }];
+    
+    
+    /*
     PFQuery *userQuery  = [PFUser query];
     
     //Exclude the current logged in user
@@ -55,6 +69,7 @@
             [self.tableView reloadData];
         }
     }];
+     */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,14 +89,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return self.allUsers.count;
+    return self.friends.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"UserCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    PFUser *user = self.allUsers[indexPath.row];
+    PFUser *user = self.friends[indexPath.row];
 
     // Configure the cell...
     if ([self.setupViewController.usersToInvite containsObject:user.objectId]) {
@@ -102,7 +117,7 @@
     
     //Add or remove this user from the
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    PFUser *user = [self.allUsers objectAtIndex:indexPath.row];
+    PFUser *user = [self.friends objectAtIndex:indexPath.row];
     
     if (cell.accessoryType == UITableViewCellAccessoryNone) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -113,7 +128,6 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.setupViewController.usersToInvite removeObject:user.objectId];
     }
-   // NSLog(@"%@", self.setupViewController.usersToInvite);
 }
 
 @end
