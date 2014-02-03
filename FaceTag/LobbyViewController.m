@@ -40,6 +40,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    // This line should not be here!!!!
+    self.notFirstLaunch = YES;
+    
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];
