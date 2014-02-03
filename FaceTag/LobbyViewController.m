@@ -58,7 +58,7 @@
         
         [self presentViewController:loginVC animated:YES completion:nil];
         return;
-    }    
+    }
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];

@@ -6,7 +6,7 @@ PODS:
   - SDWebImage (3.5.2):
     - SDWebImage/Core
   - SDWebImage/Core (3.5.2)
-  - TDBadgedCell (2.4.1)
+  - TDBadgedCell (2.5.1)
   - UIActivityIndicator-for-SDWebImage (1.0.3):
     - SDWebImage (~> 3.2)
   - ViewDeck (2.2.11)
@@ -24,7 +24,7 @@ SPEC CHECKSUMS:
   FlurrySDK: 7d91ccc3b3591fd8eb8919f2b90e271e2b0acabe
   Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
-  TDBadgedCell: 16b3256427b4bfc61e7822f0c3eebc6b71cad60d
+  TDBadgedCell: 1bcd5d1def531921e901f11697f1dd59c781ea9f
   UIActivityIndicator-for-SDWebImage: e712b97826395022ce7b4a4b56eb7194090c19d5
   ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
 
