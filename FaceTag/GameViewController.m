@@ -167,10 +167,6 @@
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 // NSLog(@"photo tag saved!!");
-                NSMutableDictionary *submittedDict = self.game[@"submitted"];
-                [submittedDict setObject:@YES forKey:[currentUser objectId]];
-                self.game[@"submitted"] = submittedDict;
-                [self.game save];
             } else {
                 // NSLog(@"%@", error);
             }
@@ -225,7 +221,10 @@
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
         // Hide the camera to prevent multiple submissions per round
-        self.camera.hidden = YES;
+        // TODO - FIX THIS (IT ISN'T DOING ANYTHING)
+        NSMutableDictionary *submittedDict = self.game[@"submitted"];
+        [submittedDict setObject:@YES forKey:[[PFUser currentUser] objectId]];
+        self.game[@"submitted"] = submittedDict;
         
         [self uploadPhotoTag];
     }

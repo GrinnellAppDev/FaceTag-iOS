@@ -61,24 +61,12 @@
     }
     
     PFObject *game = [PFObject objectWithClassName:@"Game"];
-    
     int pointsToWin = [self.pointsToWin.text intValue];
-    
-    NSMutableDictionary *scoreboard = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *submitted = [[NSMutableDictionary alloc] init];
-
     [self.usersToInvite addObject:[PFUser currentUser].objectId];
-    
-    for (NSString *userId in self.usersToInvite) {
-        [scoreboard setObject:@0 forKey:userId];
-        [submitted setObject:@NO forKey:userId];
-    }
     
     game[@"name"] = self.gameName.text;
     game[@"participants"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
-    game[@"scoreboard"] = scoreboard;
-    game[@"submitted"] = submitted;
     
     NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@1, @5, @15, @60, @120, @360, @720, @1440, @2880, @10080, nil];
     game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.pickerArray indexOfObject:self.timePerTurn.text]];
