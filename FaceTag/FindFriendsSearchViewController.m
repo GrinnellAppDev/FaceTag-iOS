@@ -44,15 +44,18 @@
 
 - (void)performSearch:(NSString *)searchTerm
 {
-
+    PFQuery *firstNameQuery = [PFUser query];
+    [firstNameQuery whereKey:@"firstName" containsString:searchTerm];
+    [firstNameQuery whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
     
-    PFQuery *fullNameQuery = [PFUser query];
-    [fullNameQuery whereKey:@"fullName" containsString:searchTerm];
-    [fullNameQuery whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
+    PFQuery *lastNameQuery = [PFUser query];
+    [lastNameQuery whereKey:@"lastName" containsString:searchTerm];
+    [lastNameQuery whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
     
-    [fullNameQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[firstNameQuery, lastNameQuery]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.usersArray = [NSMutableArray arrayWithArray: objects];
-        NSLog(@"objects: %@", objects);
         [self.theTableView reloadData];
         self.theTableView.hidden = NO;
     }];
