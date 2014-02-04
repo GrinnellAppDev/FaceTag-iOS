@@ -70,7 +70,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
-    ffSVC.friends = self.friends; 
+    ffSVC.friends = [self.friends copy];
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];

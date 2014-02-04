@@ -91,7 +91,8 @@
     // Check if user has already submitted a picture during this round
     NSDictionary *submittedDict = self.game[@"submitted"];
     BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
-    if (submitted) {
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    if (submitted || deckVC.cameraNeedsHiding) {
         self.camera.hidden = YES;
     } else {
         self.camera.hidden = NO;
@@ -221,10 +222,8 @@
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
         // Hide the camera to prevent multiple submissions per round
-        // TODO - FIX THIS (IT ISN'T DOING ANYTHING)
-        NSMutableDictionary *submittedDict = self.game[@"submitted"];
-        [submittedDict setObject:@YES forKey:[[PFUser currentUser] objectId]];
-        self.game[@"submitted"] = submittedDict;
+        DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+        deckVC.cameraNeedsHiding = YES;
         
         [self uploadPhotoTag];
     }
