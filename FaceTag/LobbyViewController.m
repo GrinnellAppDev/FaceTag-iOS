@@ -59,9 +59,13 @@
         [self presentViewController:loginVC animated:YES completion:nil];
         return;
     }
-    PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
-    [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
-    [gamesQuery whereKey:@"invited" equalTo:[[PFUser currentUser] objectId]];
+    PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
+    [participatingQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
+
+    PFQuery *invitedQuery = [PFQuery queryWithClassName:@"Game"];
+    [invitedQuery whereKey:@"invited" equalTo:[[PFUser currentUser] objectId]];
+    
+    PFQuery *gamesQuery = [PFQuery orQueryWithSubqueries:@[invitedQuery, participatingQuery]];
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
