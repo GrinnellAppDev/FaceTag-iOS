@@ -61,6 +61,7 @@
     }
     PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
     [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
+    [gamesQuery whereKey:@"invited" equalTo:[[PFUser currentUser] objectId]];
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -74,6 +75,10 @@
             }
             
             for (PFObject *game in self.games) {
+                if (![game[@"participants"] containsObject:[[PFUser currentUser] objectId] ]) {
+                    [game setObject:@YES forKey:@"newGame"];
+                }
+                
                 PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
                 [picQuery whereKey:@"game" equalTo:game.objectId];
                 [picQuery whereKey:@"usersArray" notEqualTo:[PFUser currentUser]];
@@ -145,17 +150,25 @@
     }
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
+    cell.textLabel.text = game[@"name"];
+
+    if ([[game objectForKey:@"newGame"] boolValue]) {
+        cell.badgeString = @"New";
+        cell.showShadow = YES;
+        return cell;
+    }
+        
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
-    
     if (unconfirmedPhotoTags.count > 0) {
         cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
         cell.showShadow = YES;
     }
     
-    cell.textLabel.text = game[@"name"];
-    
     return cell;
 }
+
+// TODO - Why is this here?
+/*
 - (BOOL)currentUserIsPresent:(PFObject *)photoTag {
     for (PFUser *user in photoTag[@"usersArray"]) {
         if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
@@ -164,14 +177,26 @@
     }
     return NO;
 }
+*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
+    if ([[game objectForKey:@"newGame"] boolValue]) {
+        [[[UIAlertView alloc] initWithTitle:@"New Game!" message:@"Do you want to join?" delegate:nil cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] show];
+        return;
+    }
+    
     self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     if (self.userUnconfirmedPhotoTags.count > 0) {
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
     } else {
         [self performSegueWithIdentifier:@"ShowGame" sender:nil];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView.title isEqualToString:@"New Game!"]) {
+        NSLog(@"%d", buttonIndex);
     }
 }
 
