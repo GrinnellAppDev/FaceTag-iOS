@@ -12,12 +12,13 @@
 #import "GameSelectionViewController.h"
 #import <TDBadgedCell.h>
 
-@interface LobbyViewController ()
+@interface LobbyViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray *games;
 @property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
 @property (nonatomic, strong) GameSelectionViewController *gameSelectVC;
 @property (nonatomic, assign) BOOL notFirstLaunch;
+@property (nonatomic, strong) NSString *alertViewTitle;
 
 @end
 
@@ -59,53 +60,65 @@
         [self presentViewController:loginVC animated:YES completion:nil];
         return;
     }
-    PFQuery *gamesQuery  = [PFQuery queryWithClassName:@"Game"];
-    [gamesQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
+    BOOL wantsLaunchToCamera = [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
+    
+    PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
+    [participatingQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
+    
+    PFQuery *invitedQuery = [PFQuery queryWithClassName:@"Game"];
+    [invitedQuery whereKey:@"invitedUsers" equalTo:[[PFUser currentUser] objectId]];
+    
+    PFQuery *gamesQuery = [PFQuery orQueryWithSubqueries:@[invitedQuery, participatingQuery]];
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.games = objects;
             [self.tableView reloadData];
             __block BOOL cameraOpen = NO;
-            if (!self.notFirstLaunch) {
+            if (!self.notFirstLaunch && wantsLaunchToCamera) {
                 self.gameSelectVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GameSelection"];
                 self.gameSelectVC.gameArray = [[NSMutableArray alloc] init];
                 self.gameSelectVC.targetDictionary = [[NSMutableDictionary alloc] init];
             }
             
             for (PFObject *game in self.games) {
-                PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
-                [picQuery whereKey:@"game" equalTo:game.objectId];
-                [picQuery whereKey:@"usersArray" notEqualTo:[PFUser currentUser]];
-                [picQuery includeKey:@"target"];
-                [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        [game setObject:objects forKey:@"unconfirmedPhotos"];
-                        [self.tableView reloadData];
-                    }
-                }];
-                
-                if (!self.notFirstLaunch) {
-                    NSDictionary *submittedDict = game[@"submitted"];
-                    BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
-                    
-                    // If you have not submitted a picture for this game (in its current round)
-                    //  launch the camera
-                    if (!submitted) {
-                        if (!cameraOpen) {
-                            cameraOpen = YES;
-                            [self launchToCamera];
+                if (![game[@"participants"] containsObject:[[PFUser currentUser] objectId] ]) {
+                    [game setObject:@YES forKey:@"newGame"];
+                }
+                else {
+                    PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
+                    [picQuery whereKey:@"game" equalTo:game.objectId];
+                    [picQuery whereKey:@"usersArray" notEqualTo:[PFUser currentUser]];
+                    [picQuery includeKey:@"target"];
+                    [picQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        if (!error) {
+                            [game setObject:objects forKey:@"unconfirmedPhotos"];
+                            [self.tableView reloadData];
                         }
-                        [self.gameSelectVC.gameArray addObject:game];
-                        NSDictionary *pairings = game[@"pairings"];
-                        NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
-                        PFQuery *targetUserQuery = [PFUser query];
-                        [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
-                            if (!error) {
-                                [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
-                                [self.gameSelectVC.tableView reloadData];
+                    }];
+                    
+                    if (!self.notFirstLaunch && wantsLaunchToCamera) {
+                        NSDictionary *submittedDict = game[@"submitted"];
+                        BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
+                        
+                        // If you have not submitted a picture for this game (in its current round)
+                        //  launch the camera
+                        if (!submitted) {
+                            if (!cameraOpen) {
+                                cameraOpen = YES;
+                                [self launchToCamera];
                             }
-                        }];
+                            [self.gameSelectVC.gameArray addObject:game];
+                            NSDictionary *pairings = game[@"pairings"];
+                            NSString *targetUserId = [pairings objectForKey:[[PFUser currentUser] objectId]];
+                            PFQuery *targetUserQuery = [PFUser query];
+                            [targetUserQuery getObjectInBackgroundWithId:targetUserId block:^(PFObject *object, NSError *error) {
+                                if (!error) {
+                                    [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
+                                    [self.gameSelectVC.tableView reloadData];
+                                }
+                            }];
+                        }
                     }
                 }
             } // for
@@ -145,33 +158,59 @@
     }
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
-    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
+    cell.textLabel.text = game[@"name"];
     
+    if ([[game objectForKey:@"newGame"] boolValue]) {
+        cell.badgeString = @"New";
+        cell.showShadow = YES;
+        return cell;
+    }
+    
+    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     if (unconfirmedPhotoTags.count > 0) {
         cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
         cell.showShadow = YES;
     }
     
-    cell.textLabel.text = game[@"name"];
-    
     return cell;
 }
-- (BOOL)currentUserIsPresent:(PFObject *)photoTag {
-    for (PFUser *user in photoTag[@"usersArray"]) {
-        if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
-            return YES;
-        }
-    }
-    return NO;
-}
+
+// TODO - Why is this here?
+/*
+ - (BOOL)currentUserIsPresent:(PFObject *)photoTag {
+ for (PFUser *user in photoTag[@"usersArray"]) {
+ if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
+ return YES;
+ }
+ }
+ return NO;
+ }
+ */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
+    if ([[game objectForKey:@"newGame"] boolValue]) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.alertViewTitle = @"New Game!";
+        [[[UIAlertView alloc] initWithTitle:self.alertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
+        return;
+    }
+    
     self.userUnconfirmedPhotoTags = [[NSMutableArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     if (self.userUnconfirmedPhotoTags.count > 0) {
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
     } else {
         [self performSegueWithIdentifier:@"ShowGame" sender:nil];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView.title isEqualToString:self.alertViewTitle]) {
+        if (0 == buttonIndex) {
+            NSLog(@"Join the game");
+        } else {
+            NSLog(@"don't join the game");
+        }
     }
 }
 

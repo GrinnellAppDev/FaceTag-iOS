@@ -62,10 +62,10 @@
     
     PFObject *game = [PFObject objectWithClassName:@"Game"];
     int pointsToWin = [self.pointsToWin.text intValue];
-    [self.usersToInvite addObject:[PFUser currentUser].objectId];
-    
+    NSArray *participants = [NSArray arrayWithObject:[[PFUser currentUser] objectId]];
+    game[@"participants"] = participants;
     game[@"name"] = self.gameName.text;
-    game[@"participants"] = self.usersToInvite;
+    game[@"invitedUsers"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
     
     NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@1, @5, @15, @60, @120, @360, @720, @1440, @2880, @10080, nil];
