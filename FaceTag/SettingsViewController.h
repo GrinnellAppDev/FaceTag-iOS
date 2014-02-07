@@ -10,4 +10,6 @@
 
 @interface SettingsViewController : UITableViewController
 
+@property (nonatomic, strong) IBOutlet UISwitch *cameraLaunchSwitch;
+
 @end
