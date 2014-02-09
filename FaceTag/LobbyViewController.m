@@ -152,41 +152,50 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"GameCell";
-    TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    if (!cell) {
-        cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
+    /*TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+     
+     if (!cell) {
+     cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+     }
+     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+     
+     PFObject *game = [self.games objectAtIndex:indexPath.row];
+     cell.textLabel.text = game[@"name"];
+     
+     if ([[game objectForKey:@"newGame"] boolValue]) {
+     cell.badgeString = @"New";
+     cell.showShadow = YES;
+     cell.badge.hidden = NO;
+     return cell;
+     }
+     
+     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
+     if (unconfirmedPhotoTags.count > 0) {
+     cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+     cell.showShadow = YES;
+     cell.badge.hidden = NO;
+     return cell;
+     }
+     cell.badge.hidden = YES;
+     return cell;
+     */
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     cell.textLabel.text = game[@"name"];
+    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        cell.badgeString = @"New";
-        cell.showShadow = YES;
-        return cell;
+        cell.detailTextLabel.text = @"New";
+    } else if (unconfirmedPhotoTags.count > 0) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+    } else {
+        cell.detailTextLabel.text = @"";
     }
-    
-    NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
-    if (unconfirmedPhotoTags.count > 0) {
-        cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
-        cell.showShadow = YES;
-    }
+    cell.detailTextLabel.textColor = [UIColor blueColor];
     
     return cell;
 }
-
-// TODO - Why is this here?
-/*
- - (BOOL)currentUserIsPresent:(PFObject *)photoTag {
- for (PFUser *user in photoTag[@"usersArray"]) {
- if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
- return YES;
- }
- }
- return NO;
- }
- */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
@@ -213,7 +222,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView.title isEqualToString:self.alertViewTitle]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-
+        
         PFObject *game = [self.games objectAtIndex:indexPath.row];
         NSMutableArray *invitedUsers = game[@"invitedUsers"];
         [invitedUsers removeObject:[PFUser currentUser].objectId];
