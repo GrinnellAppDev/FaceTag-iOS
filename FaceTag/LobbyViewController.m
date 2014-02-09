@@ -82,10 +82,11 @@
             }
             
             for (PFObject *game in self.games) {
-                if (![game[@"participants"] containsObject:[[PFUser currentUser] objectId] ]) {
+                if (![game[@"participants"] containsObject:[PFUser currentUser].objectId]) {
                     [game setObject:@YES forKey:@"newGame"];
                 }
                 else {
+                    [game setObject:@NO forKey:@"newGame"];
                     PFQuery *picQuery = [PFQuery queryWithClassName:@"PhotoTag"];
                     [picQuery whereKey:@"game" equalTo:game.objectId];
                     [picQuery whereKey:@"usersArray" notEqualTo:[PFUser currentUser]];
@@ -212,18 +213,28 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView.title isEqualToString:self.alertViewTitle]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
         PFObject *game = [self.games objectAtIndex:indexPath.row];
         NSMutableArray *invitedUsers = game[@"invitedUsers"];
         [invitedUsers removeObject:[PFUser currentUser].objectId];
+        game[@"invitedUsers"] = invitedUsers;
+        
         if (0 == buttonIndex) {
             NSMutableArray *participants = game[@"participants"];
             [participants addObject:[PFUser currentUser].objectId];
-            [self performSegueWithIdentifier:@"ShowGame" sender:self];
+            game[@"participants"] = participants;
+            [game setObject:@NO forKey:@"newGame"];
+            [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self performSegueWithIdentifier:@"ShowGame" sender:self];
+                }
+            }];
         } else {
+            [game saveInBackground];
             [self.games removeObject:game];
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.tableView reloadData];
         }
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 

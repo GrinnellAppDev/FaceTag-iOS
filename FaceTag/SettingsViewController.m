@@ -54,7 +54,7 @@
         if (error) {
             NSLog(@"Yikes! %@", [error userInfo]);
         } else {
-            self.friends = objects;
+            self.friends = [NSMutableArray arrayWithArray:objects];
             [self.tableView reloadData];
         }
     }];
