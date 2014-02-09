@@ -53,7 +53,7 @@
         if (error) {
             NSLog(@"Yikes! %@", [error userInfo]);
         } else {
-            self.friends =  [[NSMutableArray alloc] initWithArray:objects];
+            self.friends = [NSMutableArray arrayWithArray:objects];
             [self.tableView reloadData];
         }
     }];
