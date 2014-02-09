@@ -416,14 +416,17 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="y9x-OF-2ZF" id="rR2-ov-SYZ"/>
-                                    <outlet property="delegate" destination="y9x-OF-2ZF" id="w3Z-Fd-tmn"/>
+                                    <outlet property="dataSource" destination="y9x-OF-2ZF" id="Vxw-2B-SKI"/>
+                                    <outlet property="delegate" destination="y9x-OF-2ZF" id="wdK-fV-h8H"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Find Friends" id="FWs-hx-I6T"/>
+                    <connections>
+                        <outlet property="theTableView" destination="4Pr-s6-NjK" id="h12-Ij-bs5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tlL-Pv-LYK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

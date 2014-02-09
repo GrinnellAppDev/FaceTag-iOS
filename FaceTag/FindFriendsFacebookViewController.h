@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface FindFriendsFacebookViewController : UIViewController
-
+@property (nonatomic, strong) NSMutableArray *friends;
 @end

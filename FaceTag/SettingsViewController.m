@@ -16,7 +16,7 @@
 
 @interface SettingsViewController () <MHTabBarControllerDelegate>
 
-@property (nonatomic, strong) NSArray *friends;
+@property (nonatomic, strong) NSMutableArray *friends;
 @end
 
 @implementation SettingsViewController
@@ -74,6 +74,7 @@
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
+    ffFVC.friends = self.friends; 
     ffFVC.title = @"Facebook";
     
     FindFriendsContactViewController *ffCVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsContactViewController"];
