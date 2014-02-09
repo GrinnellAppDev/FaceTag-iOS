@@ -52,7 +52,7 @@
             [query whereKey:@"facebookId" containedIn:fbFriendsIDArray];
             query.cachePolicy = kPFCachePolicyCacheThenNetwork;
             [query  findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    NSLog(@"fb friends: %@", objects);
+                   // NSLog(@"fb friends: %@", objects);
                 
                 
                     self.facebookFriendsOnFaceTag = objects;
@@ -84,6 +84,8 @@
                         [self.facebookFriendsNOTonFaceTag sortUsingDescriptors:@[sortDescriptor]];
                     
                         [self.theTableView reloadData];
+                        
+                        NSLog(@"Fb friends NOT: %@", self.facebookFriendsNOTonFaceTag);
 
                     }
                 }];
@@ -118,10 +120,41 @@
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 5;
+    switch (section) {
+        case 0: {
+            return [NSString stringWithFormat:@"You have %ld facebook friends on FaceTag!", self.facebookFriendsOnFaceTag.count];
+            break;
+        }
+            
+        case 1:
+            return [NSString stringWithFormat:@"You can invite more friends to join FaceTag!"];
+            break;
+            
+        default:
+            return  @"Facebook friends";
+            break;
+    }
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    switch (section) {
+        case 0:
+            return self.facebookFriendsOnFaceTag.count;
+            break;
+            
+        case 1: {
+            return self.facebookFriendsNOTonFaceTag.count;
+            break;
+        }
+            
+        default:
+            return 0;
+            break;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,8 +163,58 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    switch (indexPath.section) {
+        case 0: {
+ 
+            PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
+            cell.textLabel.text = user[@"fullName"];
+            
+            NSString *friendId = user[@"facebookId"];
+            
+            //If we need this - Might customize the cell to show pictures potentially.
+            NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
+            
+            
+            if ([self isFriend:user]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }
+            break;
+            
+        case 1: {
+            
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
+            NSString *friendId = friendDict[@"id"];
+            NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
+
+            // NSLog(@"friendDcit: %@", friendDict)
+            cell.textLabel.text = friendDict[@"name"];
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    
+    return cell;
+    
+    
     cell.textLabel.text = @"Facebook friends go here";
     return cell;
+}
+
+#pragma mark - Helper Methods.
+
+- (BOOL)isFriend:(PFUser *)user {
+    for(PFUser *friend in self.friends) {
+        if ([friend.objectId isEqualToString:user.objectId]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

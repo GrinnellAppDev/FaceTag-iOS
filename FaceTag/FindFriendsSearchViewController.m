@@ -55,7 +55,7 @@
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[firstNameQuery, lastNameQuery]];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        self.usersArray = [NSMutableArray arrayWithArray: objects];
+        self.usersArray = [NSMutableArray arrayWithArray:objects];
         [self.theTableView reloadData];
         self.theTableView.hidden = NO;
     }];
@@ -116,7 +116,6 @@
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [self.friends addObject:user];
     }
-    
     
     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {

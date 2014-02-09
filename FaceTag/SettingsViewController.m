@@ -53,7 +53,7 @@
         if (error) {
             NSLog(@"Yikes! %@", [error userInfo]);
         } else {
-            self.friends = objects;
+            self.friends =  [[NSMutableArray alloc] initWithArray:objects];
             [self.tableView reloadData];
         }
     }];
@@ -77,7 +77,7 @@
     }
     
     FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
-    ffSVC.friends = [self.friends copy];
+    ffSVC.friends = self.friends;
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
