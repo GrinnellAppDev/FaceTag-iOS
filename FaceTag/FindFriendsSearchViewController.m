@@ -75,18 +75,30 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.usersArray == nil) {
+        return 0;
+    } else if (self.usersArray.count == 0) {
+        return 1;
+    } else {
         return self.usersArray.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    static NSString *cellIdentifier = @"UserCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    NSLog(@"self.usersArra: %ld",self.usersArray.count);
+    if (self.usersArray.count == 0) {
+        cell.textLabel.text = @"No player found";
+        return cell;
+    }
+    
     PFUser *user = self.usersArray[indexPath.row];
     UIImage *placeholderImage = [UIImage imageNamed:@"no_icon"];
 
 
-    static NSString *cellIdentifier = @"UserCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
     if ([self isFriend:user]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
 
