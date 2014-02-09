@@ -257,6 +257,7 @@
                 }
             }];
         }
+            break;
             
         case 1: {
             //Sending a Facebook Invite for Face Tag.
@@ -287,6 +288,7 @@
              ];
             
         }
+            break;
     }
 }
 

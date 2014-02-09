@@ -7,6 +7,7 @@
 //
 
 #import "FindFriendsSearchViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface FindFriendsSearchViewController ()
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -29,6 +30,17 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self performSelector:@selector(showKeyboard) withObject:nil afterDelay:0.1f];
+}
+
+- (void)showKeyboard
+{
+    [self.searchBar becomeFirstResponder];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,6 +81,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     PFUser *user = self.usersArray[indexPath.row];
+    UIImage *placeholderImage = [UIImage imageNamed:@"no_icon"];
+
 
     static NSString *cellIdentifier = @"UserCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -81,6 +95,9 @@
     }
 
     cell.textLabel.text = user[@"fullName"];
+    
+    [cell.imageView setImageWithURL:user[@"profilePictureURL"] placeholderImage:placeholderImage];
+    
     return cell;
 }
 
