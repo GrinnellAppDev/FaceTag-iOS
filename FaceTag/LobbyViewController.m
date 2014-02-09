@@ -14,7 +14,7 @@
 
 @interface LobbyViewController () <UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSArray *games;
+@property (nonatomic, strong) NSMutableArray *games;
 @property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
 @property (nonatomic, strong) GameSelectionViewController *gameSelectVC;
 @property (nonatomic, assign) BOOL notFirstLaunch;
@@ -72,7 +72,7 @@
     [gamesQuery orderByAscending:@"name"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            self.games = objects;
+            self.games = [NSMutableArray arrayWithArray:objects];
             [self.tableView reloadData];
             __block BOOL cameraOpen = NO;
             if (!self.notFirstLaunch && wantsLaunchToCamera) {
@@ -190,7 +190,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.alertViewTitle = @"New Game!";
         [[[UIAlertView alloc] initWithTitle:self.alertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
         return;
@@ -200,17 +199,31 @@
     if (self.userUnconfirmedPhotoTags.count > 0) {
         [self performSegueWithIdentifier:@"ConfirmDeny" sender:nil];
     } else {
+        NSArray *participants = game[@"participants"];
+        if (1 == participants.count) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [[[UIAlertView alloc] initWithTitle:@"Waiting for someone to join!" message:@"This game currently has no participants. The game will begin as soon as someone accepts your invitation!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            return;
+        }
         [self performSegueWithIdentifier:@"ShowGame" sender:nil];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView.title isEqualToString:self.alertViewTitle]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        PFObject *game = [self.games objectAtIndex:indexPath.row];
+        NSMutableArray *invitedUsers = game[@"invitedUsers"];
+        [invitedUsers removeObject:[PFUser currentUser].objectId];
         if (0 == buttonIndex) {
-            NSLog(@"Join the game");
+            NSMutableArray *participants = game[@"participants"];
+            [participants addObject:[PFUser currentUser].objectId];
+            [self performSegueWithIdentifier:@"ShowGame" sender:self];
         } else {
-            NSLog(@"don't join the game");
+            [self.games removeObject:game];
+            [self.tableView reloadData];
         }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
