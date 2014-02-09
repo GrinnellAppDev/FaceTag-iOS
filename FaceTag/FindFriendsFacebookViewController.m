@@ -7,6 +7,8 @@
 //
 
 #import "FindFriendsFacebookViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface FindFriendsFacebookViewController ()
 @property (nonatomic, strong) NSArray *facebookFriendsOnFaceTag;
@@ -38,13 +40,13 @@
             NSLog(@"Really hate errors: %@", [error localizedDescription]);
         } else {
             
-           // NSLog(@"result: %@", result);
+            // NSLog(@"result: %@", result);
             NSArray *data = result[@"data"];
             NSMutableArray *facebookIds = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *friendData in data) {
                 [facebookIds addObject:friendData[@"id"]];
             }
-           // NSLog(@"Fb friends: %@", facebookIds);
+            // NSLog(@"Fb friends: %@", facebookIds);
             
             //Need a mutable Array of fbFriendsIDs.
             NSMutableArray *fbFriendsIDArray = [NSMutableArray arrayWithArray:facebookIds];
@@ -52,10 +54,10 @@
             [query whereKey:@"facebookId" containedIn:fbFriendsIDArray];
             query.cachePolicy = kPFCachePolicyCacheThenNetwork;
             [query  findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                   // NSLog(@"fb friends: %@", objects);
+                // NSLog(@"fb friends: %@", objects);
                 
                 
-                    self.facebookFriendsOnFaceTag = objects;
+                self.facebookFriendsOnFaceTag = objects;
                 NSMutableArray *fbIdsFriendsUsingFaceTag = [NSMutableArray new];
                 
                 for ( PFUser *friend in objects) {
@@ -82,14 +84,14 @@
                         //Sort all these dictionaries.
                         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
                         [self.facebookFriendsNOTonFaceTag sortUsingDescriptors:@[sortDescriptor]];
-                    
+                        
                         [self.theTableView reloadData];
                         
                         NSLog(@"Fb friends NOT: %@", self.facebookFriendsNOTonFaceTag);
-
+                        
                     }
                 }];
-
+                
             }];
         }
     }];
@@ -104,15 +106,15 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -160,12 +162,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    __block UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     switch (indexPath.section) {
         case 0: {
- 
+            
             PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
             cell.textLabel.text = user[@"fullName"];
             
@@ -173,6 +175,8 @@
             
             //If we need this - Might customize the cell to show pictures potentially.
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
+            
+            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:nil];
             
             
             if ([self isFriend:user]) {
@@ -189,7 +193,9 @@
             NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
             NSString *friendId = friendDict[@"id"];
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
-
+            
+            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:nil];
+            
             // NSLog(@"friendDcit: %@", friendDict)
             cell.textLabel.text = friendDict[@"name"];
             break;
@@ -201,10 +207,90 @@
     
     return cell;
     
-    
     cell.textLabel.text = @"Facebook friends go here";
     return cell;
 }
+
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+    
+    switch (indexPath.section) {
+        case 0:  {
+            PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
+            NSLog(@"Selected user: %@", user);
+            
+            PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
+            
+            if ([self isFriend:user]) {
+                
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                
+                for (PFUser *friend in self.friends) {
+                    if ([friend.objectId isEqualToString:user.objectId]) {
+                        [self.friends removeObject:friend];
+                        break;
+                    }
+                }
+                NSLog(@"Removing friend: %@", user[@"firstName"]);
+                [friendsRelation removeObject:user];
+            } else {
+                NSLog(@"Will add friend: %@", user.username);
+                [friendsRelation addObject:user];
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [self.friends addObject:user];
+            }
+            
+            
+            [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to complete adding friend.." message:nil delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [alert show];
+                } else {
+                    NSLog(@"Helll yeah!!!");
+                }
+            }];
+        }
+            
+        case 1: {
+            //Sending a Facebook Invite for Face Tag.
+            
+            NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
+            NSString *friendId = friendDict[@"id"];
+            
+            NSDictionary *params = @{@"to": friendId };
+            
+            [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                          message:@"Join me on FaceTag!"
+                                                            title:@"It's smashing!"
+                                                       parameters:params
+                                                          handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                              if (error) {
+                                                                  NSLog(@"REsultULR: %@", resultURL);
+                                                                  // Case A: Error launching the dialog or sending request.
+                                                                  NSLog(@"Error sending request.");
+                                                              } else {
+                                                                  if (result == FBWebDialogResultDialogNotCompleted) {
+                                                                      // Case B: User clicked the "x" icon
+                                                                      NSLog(@"User canceled request.");
+                                                                  } else {
+                                                                      NSLog(@"Request Sent.");
+                                                                  }
+                                                              }}
+                                                      friendCache:nil
+             ];
+            
+        }
+    }
+}
+
+
+
 
 #pragma mark - Helper Methods.
 
