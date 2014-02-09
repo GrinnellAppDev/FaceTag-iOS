@@ -21,8 +21,7 @@
 
 @implementation SettingsViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
+- (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
@@ -30,8 +29,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -44,9 +42,10 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.cameraLaunchSwitch setOn:[[PFUser currentUser][@"wantsLaunchToCamera"] boolValue]];
     
     PFRelation *friendsRelation =  friendsRelation = [[PFUser currentUser] objectForKey:@"friendsRelation"];
     PFQuery *query = [friendsRelation query];
@@ -61,16 +60,25 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)cameraSwitchChanged:(id)sender {
+    UISwitch *switchControl = sender;
+    NSNumber *switchIsOn = [NSNumber numberWithBool:switchControl.isOn];
+    [[PFUser currentUser] setObject:switchIsOn forKey:@"wantsLaunchToCamera"];
+    [[PFUser currentUser] saveInBackground];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (1 == indexPath.row) {
+        return;
+    }
     
     FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
-    ffSVC.friends = self.friends; 
+    ffSVC.friends = [self.friends copy];
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
@@ -95,8 +103,7 @@
     [self.navigationController pushViewController:tabBarController animated:YES];
 }
 
-- (BOOL)mh_tabBarController:(MHTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index
-{
+- (BOOL)mh_tabBarController:(MHTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
 	NSLog(@"mh_tabBarController %@ shouldSelectViewController %@ at index %u", tabBarController, viewController, index);
     
 	// Uncomment this to prevent "Tab 3" from being selected.
@@ -105,8 +112,7 @@
 	return YES;
 }
 
-- (void)mh_tabBarController:(MHTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index
-{
+- (void)mh_tabBarController:(MHTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
 	NSLog(@"mh_tabBarController %@ didSelectViewController %@ at index %u", tabBarController, viewController, index);
 }
 

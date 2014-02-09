@@ -91,7 +91,8 @@
     // Check if user has already submitted a picture during this round
     NSDictionary *submittedDict = self.game[@"submitted"];
     BOOL submitted = [[submittedDict objectForKey:[[PFUser currentUser] objectId]] boolValue];
-    if (submitted) {
+    DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+    if (submitted || deckVC.cameraNeedsHiding) {
         self.camera.hidden = YES;
     } else {
         self.camera.hidden = NO;
@@ -167,10 +168,6 @@
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 // NSLog(@"photo tag saved!!");
-                NSMutableDictionary *submittedDict = self.game[@"submitted"];
-                [submittedDict setObject:@YES forKey:[currentUser objectId]];
-                self.game[@"submitted"] = submittedDict;
-                [self.game save];
             } else {
                 // NSLog(@"%@", error);
             }
@@ -225,7 +222,8 @@
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
         
         // Hide the camera to prevent multiple submissions per round
-        self.camera.hidden = YES;
+        DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+        deckVC.cameraNeedsHiding = YES;
         
         [self uploadPhotoTag];
     }

@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) PFObject *game;
 @property (nonatomic, assign) BOOL resize;
+@property (nonatomic, assign) BOOL cameraNeedsHiding;
 
 @end
