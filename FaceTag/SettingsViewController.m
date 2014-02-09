@@ -13,7 +13,6 @@
 #import "FindFriendsContactViewController.h"
 #import "FindFriendsFacebookViewController.h"
 
-
 @interface SettingsViewController () <MHTabBarControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *friends;
@@ -100,7 +99,15 @@
 	tabBarController.delegate = self;
 	tabBarController.viewControllers = viewControllers;
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTapped:)];
+    tabBarController.navigationItem.leftBarButtonItem = backButton;
+    
+    
     [self.navigationController pushViewController:tabBarController animated:YES];
+}
+
+- (void)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)mh_tabBarController:(MHTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
