@@ -8,6 +8,8 @@
 
 #import "FindFriendsFacebookViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+
 
 
 @interface FindFriendsFacebookViewController ()
@@ -162,8 +164,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    __block UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UIImage *placeholderImage = [UIImage imageNamed:@"no_icon"];
+
     // Configure the cell...
     switch (indexPath.section) {
         case 0: {
@@ -176,8 +179,7 @@
             //If we need this - Might customize the cell to show pictures potentially.
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
             
-            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:nil];
-            
+            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             
             if ([self isFriend:user]) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -193,8 +195,7 @@
             NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
             NSString *friendId = friendDict[@"id"];
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
-            
-            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:nil];
+            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             
             // NSLog(@"friendDcit: %@", friendDict)
             cell.textLabel.text = friendDict[@"name"];
