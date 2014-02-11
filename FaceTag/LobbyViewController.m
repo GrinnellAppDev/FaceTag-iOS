@@ -10,6 +10,7 @@
 #import "DeckViewController.h"
 #import "ConfirmDenyViewController.h"
 #import "GameSelectionViewController.h"
+#import <SVProgressHUD.h>
 #import <TDBadgedCell.h>
 
 @interface LobbyViewController () <UIAlertViewDelegate>
@@ -18,7 +19,8 @@
 @property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
 @property (nonatomic, strong) GameSelectionViewController *gameSelectVC;
 @property (nonatomic, assign) BOOL notFirstLaunch;
-@property (nonatomic, strong) NSString *alertViewTitle;
+@property (nonatomic, strong) NSString *gameAlertViewTitle;
+@property (nonatomic, strong) NSString *setUsernameAlertViewTitle;
 
 @end
 
@@ -200,8 +202,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        self.alertViewTitle = @"New Game!";
-        [[[UIAlertView alloc] initWithTitle:self.alertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
+        self.gameAlertViewTitle = @"New Game!";
+        [[[UIAlertView alloc] initWithTitle:self.gameAlertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
         return;
     }
     
@@ -220,7 +222,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView.title isEqualToString:self.alertViewTitle]) {
+    if ([alertView.title isEqualToString:self.gameAlertViewTitle]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
         PFObject *game = [self.games objectAtIndex:indexPath.row];
@@ -243,6 +245,23 @@
             [self.games removeObject:game];
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.tableView reloadData];
+        }
+    } else if ([alertView.title isEqualToString:self.setUsernameAlertViewTitle]) {
+        if (0 == buttonIndex) {
+            PFUser *currentUser = [PFUser currentUser];
+            currentUser[@"username"] = [alertView textFieldAtIndex:0].text;
+            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    [SVProgressHUD showErrorWithStatus:@"An error occured. Your username must be unique. Try again!"];
+                    NSLog(@"%@", error.localizedDescription);
+                } else {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }];
+                }
+            }];
+        } else {
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }
@@ -313,7 +332,10 @@
                     [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         if (succeeded) {
                             //NSLog(@"Installation saved");
-                            [self dismissViewControllerAnimated:YES completion:nil];
+                            self.setUsernameAlertViewTitle = @"Do you want to set your username?";
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:self.setUsernameAlertViewTitle message:@"You can set a username to separate the login process from facebook!" delegate:self cancelButtonTitle:@"Update" otherButtonTitles:@"Cancel", nil];
+                            alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                            [alertView show];
                         }
                     }];
                 }
