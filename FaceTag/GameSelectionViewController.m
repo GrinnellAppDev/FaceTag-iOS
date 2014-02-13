@@ -148,8 +148,6 @@
     }
 }
 
-
-
 #pragma mark - UIImagePickerDelegate Stuff.
 - (void)showTagPhotoPicker {
     // Create image picker
