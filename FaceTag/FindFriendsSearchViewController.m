@@ -89,7 +89,7 @@
     static NSString *cellIdentifier = @"UserCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    NSLog(@"self.usersArra: %ld",self.usersArray.count);
+    NSLog(@"self.usersArra: %lu", (unsigned long)self.usersArray.count);
     if (self.usersArray.count == 0) {
         cell.textLabel.text = @"No player found";
         return cell;

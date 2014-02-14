@@ -8,12 +8,14 @@
 
 #import "SettingsViewController.h"
 #import "MHTabBarController.h"
-
 #import "FindFriendsSearchViewController.h"
 #import "FindFriendsContactViewController.h"
 #import "FindFriendsFacebookViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MessageUI/MessageUI.h>
+#import <StoreKit/StoreKit.h>
 
-@interface SettingsViewController () <MHTabBarControllerDelegate>
+@interface SettingsViewController () <MHTabBarControllerDelegate, MFMailComposeViewControllerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *friends;
 @end
@@ -72,38 +74,61 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (1 == indexPath.row) {
-        return;
+    switch (indexPath.section) {
+        case 0:
+            if (1 == indexPath.row) {
+                return; // Launch to camera is handled with switch taps, not cell taps
+            }
+            [self showFriendsViews];
+            break;
+        case 1:
+            [self contactUs];
+            break;
+        case 2:
+            [self showRateFaceTag];
+            break;
+        case 3:
+            [self logOutCurrentUser];
+            break;
+        default:
+            break;
     }
-    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)showFriendsViews {
     FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
     ffSVC.friends = self.friends;
     ffSVC.title = @"Search";
     
     FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
-    ffFVC.friends = self.friends; 
+    ffFVC.friends = self.friends;
     ffFVC.title = @"Facebook";
     
     FindFriendsContactViewController *ffCVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsContactViewController"];
     ffCVC.title = @"Contact";
-
+    
     /*
      listViewController2.tabBarItem.image = [UIImage imageNamed:@"Taijitu"];
      listViewController2.tabBarItem.imageInsets = UIEdgeInsetsMake(0.0f, -4.0f, 0.0f, 0.0f);
      listViewController2.tabBarItem.titlePositionAdjustment = UIOffsetMake(4.0f, 0.0f);
      */
     
-	NSArray *viewControllers = @[ffSVC, ffFVC, ffCVC];
-	MHTabBarController *tabBarController = [[MHTabBarController alloc] init];
+    NSArray *viewControllers = @[ffSVC, ffFVC, ffCVC];
+    MHTabBarController *tabBarController = [[MHTabBarController alloc] init];
     
-	tabBarController.delegate = self;
-	tabBarController.viewControllers = viewControllers;
+    tabBarController.delegate = self;
+    tabBarController.viewControllers = viewControllers;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTapped:)];
     tabBarController.navigationItem.leftBarButtonItem = backButton;
     
-    
     [self.navigationController pushViewController:tabBarController animated:YES];
+}
+
+- (void)logOutCurrentUser {
+    [PFUser logOut];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)backButtonTapped:(id)sender {
@@ -111,7 +136,7 @@
 }
 
 - (BOOL)mh_tabBarController:(MHTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
-	NSLog(@"mh_tabBarController %@ shouldSelectViewController %@ at index %u", tabBarController, viewController, index);
+	NSLog(@"mh_tabBarController %@ shouldSelectViewController %@ at index %lu", tabBarController, viewController, (unsigned long)index);
     
 	// Uncomment this to prevent "Tab 3" from being selected.
 	//return (index != 2);
@@ -120,90 +145,42 @@
 }
 
 - (void)mh_tabBarController:(MHTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
-	NSLog(@"mh_tabBarController %@ didSelectViewController %@ at index %u", tabBarController, viewController, index);
+	NSLog(@"mh_tabBarController %@ didSelectViewController %@ at index %lu", tabBarController, viewController, (unsigned long)index);
 }
 
-
-#pragma mark - Table view data source
-
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
- 
-    // Configure the cell...
-    
-    return cell;
-}
-
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 - (IBAction)close:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)contactUs {
+    // From within your active view controller
+    if([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+        mailViewController.mailComposeDelegate = self;
+        
+        mailViewController.navigationBar.tintColor = [UIColor colorWithRed:135.f/255.f green:1/255.f blue:6/255.f alpha:1];
+        
+        mailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [mailViewController setSubject:@"Feedback - FaceTag!"];
+        [mailViewController setToRecipients:[NSArray arrayWithObject:@"appdev@grinnell.edu"]];
+        [self presentViewController:mailViewController animated:YES completion:nil];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showRateFaceTag {
+    NSDictionary *parameters = [NSDictionary dictionaryWithObject:@"803763200" forKey:SKStoreProductParameterITunesItemIdentifier];
+    SKStoreProductViewController *productViewController = [[SKStoreProductViewController alloc] init];
+    productViewController.delegate = self;
+    [productViewController loadProductWithParameters:parameters completionBlock:nil];
+    [self presentViewController:productViewController animated:YES completion:nil];
+}
+
+-(void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

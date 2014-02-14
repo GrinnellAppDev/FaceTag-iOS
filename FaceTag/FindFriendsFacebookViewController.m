@@ -128,7 +128,7 @@
 {
     switch (section) {
         case 0: {
-            return [NSString stringWithFormat:@"You have %ld facebook friends on FaceTag!", self.facebookFriendsOnFaceTag.count];
+            return [NSString stringWithFormat:@"You have %lu facebook friends on FaceTag!", (unsigned long)self.facebookFriendsOnFaceTag.count];
             break;
         }
             

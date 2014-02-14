@@ -45,9 +45,8 @@
     // self.clearsSelectionOnViewWillAppear = NO;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     if (![PFUser currentUser]) {
         PFLogInViewController *loginVC = [[PFLogInViewController alloc] init];
         [loginVC setDelegate:self];
@@ -64,6 +63,14 @@
         loginVC.signUpController = signUpVC;
         
         [self presentViewController:loginVC animated:YES completion:nil];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (![PFUser currentUser]) {
+        // We will log them in using viewDidAppear
         return;
     } else if (![PFUser currentUser][@"profilePictureURL"]) {
         self.pictureAlertViewTitle = @"You need a profile picture!";
@@ -431,14 +438,14 @@
     NSString *mediaType = info[UIImagePickerControllerMediaType];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
-
+        
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
         //Get the ratio and scale the height according to that ratio.
         int ratio = image.size.width / 320.0;
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
-
+        
         [self uploadProfilePhoto];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
