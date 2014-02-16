@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FindFriendsContactViewController : UIViewController
+@interface AllFriendsViewController : UIViewController
+@property (nonatomic, strong) NSMutableArray *friends;
+
 
 @end

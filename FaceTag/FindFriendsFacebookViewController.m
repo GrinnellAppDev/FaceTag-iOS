@@ -220,7 +220,6 @@
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
-    
     switch (indexPath.section) {
         case 0:  {
             PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];

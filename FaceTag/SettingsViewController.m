@@ -9,7 +9,7 @@
 #import "SettingsViewController.h"
 #import "MHTabBarController.h"
 #import "FindFriendsSearchViewController.h"
-#import "FindFriendsContactViewController.h"
+#import "AllFriendsViewController.h"
 #import "FindFriendsFacebookViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MessageUI.h>
@@ -97,16 +97,18 @@
 }
 
 - (void)showFriendsViews {
-    FindFriendsSearchViewController *ffSVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
-    ffSVC.friends = self.friends;
-    ffSVC.title = @"Search";
     
-    FindFriendsFacebookViewController *ffFVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
-    ffFVC.friends = self.friends;
-    ffFVC.title = @"Facebook";
+    AllFriendsViewController *allFriendsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AllFriendsViewController"];
+    allFriendsVC.friends = self.friends;
+    allFriendsVC.title = @"Friends";
     
-    FindFriendsContactViewController *ffCVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsContactViewController"];
-    ffCVC.title = @"Contact";
+    FindFriendsFacebookViewController *findFriendsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsFacebookViewController"];
+    findFriendsVC.friends = self.friends;
+    findFriendsVC.title = @"Facebook";
+    
+    FindFriendsSearchViewController *searchFriendsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"FindFriendsSearchViewController"];
+    searchFriendsVC.friends = self.friends;
+    searchFriendsVC.title = @"Search";
     
     /*
      listViewController2.tabBarItem.image = [UIImage imageNamed:@"Taijitu"];
@@ -114,8 +116,9 @@
      listViewController2.tabBarItem.titlePositionAdjustment = UIOffsetMake(4.0f, 0.0f);
      */
     
-    NSArray *viewControllers = @[ffSVC, ffFVC, ffCVC];
+    NSArray *viewControllers = @[allFriendsVC, searchFriendsVC, findFriendsVC];
     MHTabBarController *tabBarController = [[MHTabBarController alloc] init];
+    tabBarController.title = @"Find Friends";
     
     tabBarController.delegate = self;
     tabBarController.viewControllers = viewControllers;
