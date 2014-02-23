@@ -45,7 +45,7 @@
     
     self.usersToInvite = [[NSMutableArray alloc] init];
     
-    self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"15 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
+    self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"20 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
     self.gameName.text = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
 }
 
@@ -68,7 +68,7 @@
     game[@"invitedUsers"] = self.usersToInvite;
     game[@"pointsToWin"] = @(pointsToWin);
     
-    NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@15, @60, @120, @360, @720, @1440, @2880, @10080, nil];
+    NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@20, @60, @120, @360, @720, @1440, @2880, @10080, nil];
     game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.pickerArray indexOfObject:self.timePerTurn.text]];
     
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
