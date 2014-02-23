@@ -208,7 +208,7 @@
     } else {
         cell.detailTextLabel.text = @"";
     }
-    cell.detailTextLabel.textColor = [UIColor blueColor];
+    cell.detailTextLabel.textColor = [UIColor faceTagBlue];
     
     return cell;
 }

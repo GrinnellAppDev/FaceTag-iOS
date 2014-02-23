@@ -15,6 +15,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [self customizeAppearance];
+    
     [Parse setApplicationId:@"97s1dXeGVg72YmhWjZVFXQvWFILwyyV78pftvQBe"
                   clientKey:@"isrQzRX1HkVQyuqnab3m8DGEIWWcpKAt2iJ0CtFu"];
     
@@ -34,6 +36,17 @@
      UIRemoteNotificationTypeSound];
     
     return YES;
+}
+
+- (void)customizeAppearance
+{
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+                                               
+    [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+
+    [[UIBarButtonItem appearance]  setTintColor:[UIColor whiteColor]];
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

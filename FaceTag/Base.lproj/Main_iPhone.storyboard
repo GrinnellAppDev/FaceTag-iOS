@@ -169,6 +169,7 @@
                 <navigationController definesPresentationContext="YES" id="uaH-Cs-LpT" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ePX-oL-pzH">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.74901960779999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="EuJ-bl-u8T" kind="relationship" relationship="rootViewController" id="GIp-a9-DJC"/>
@@ -335,6 +336,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WCg-A6-g5e">
                                                     <rect key="frame" x="251" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="onTintColor" red="0.0" green="0.74901960779999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="cameraSwitchChanged:" destination="cEo-ff-Bgr" eventType="valueChanged" id="xD1-w9-T8z"/>
                                                     </connections>
@@ -780,6 +782,7 @@
                 <navigationController definesPresentationContext="YES" id="uAw-3s-qzV" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nUW-Nb-mN9">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.74901960784313726" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="hwZ-a1-QKk" kind="relationship" relationship="rootViewController" id="Kx6-bw-fkh"/>
@@ -797,6 +800,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rdN-j3-7G0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.74901960779999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -808,6 +812,7 @@
             <point key="canvasLocation" x="1109" y="1140"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.0" green="0.74901960779999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
