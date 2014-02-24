@@ -157,18 +157,24 @@
 
 - (void)contactUs {
     // From within your active view controller
+    
     if([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
         
-        mailViewController.navigationBar.tintColor = [UIColor colorWithRed:135.f/255.f green:1/255.f blue:6/255.f alpha:1];
+        //mailViewController.navigationBar.tintColor = [UIColor faceTagBlue];// [UIColor colorWithRed:135.f/255.f green:1/255.f blue:6/255.f alpha:1];
         
+        mailViewController.navigationBar.tintColor = [UIColor faceTagBlue];// [UIColor colorWithRed:135.f/255.f green:1/255.f blue:6/255.f alpha:1];
+
         mailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
         
         [mailViewController setSubject:@"Feedback - FaceTag!"];
         [mailViewController setToRecipients:[NSArray arrayWithObject:@"appdev@grinnell.edu"]];
         [self presentViewController:mailViewController animated:YES completion:nil];
     }
+    
+    
+  
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {

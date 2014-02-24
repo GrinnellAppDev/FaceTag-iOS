@@ -40,13 +40,12 @@
 
 - (void)customizeAppearance
 {
-    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+   // NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+    //                                           [UIColor whiteColor], NSForegroundColorAttributeName, nil];
                                                
-    [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
-
-    [[UIBarButtonItem appearance]  setTintColor:[UIColor whiteColor]];
-
+   // [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
+    
+   // [[UIBarButtonItem appearance]  setTintColor:[UIColor whiteColor]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
