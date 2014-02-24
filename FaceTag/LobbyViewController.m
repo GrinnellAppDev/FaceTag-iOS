@@ -13,6 +13,7 @@
 #import <SVProgressHUD.h>
 #import <TDBadgedCell.h>
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "GameCell.h"
 
 @interface LobbyViewController () <UIAlertViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -195,20 +196,28 @@
      cell.badge.hidden = YES;
      return cell;
      */
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
-    cell.textLabel.text = game[@"name"];
+    //cell.textLabel.text = game[@"name"];
+    cell.gameNameLabel.text = game[@"name"];
+    //cell.notificationLabel.text = @"N";
+    cell.notificationView.backgroundColor = [UIColor faceTagBlue];
+    cell.notificationView.hidden = NO;
+    
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        cell.detailTextLabel.text = @"New";
+        //cell.detailTextLabel.text = @"New";
+        cell.notificationLabel.text = @"N";
     } else if (unconfirmedPhotoTags.count > 0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        cell.notificationLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
     } else {
         cell.detailTextLabel.text = @"";
+        cell.notificationView.hidden = YES;
     }
-    cell.detailTextLabel.textColor = [UIColor faceTagBlue];
+    //cell.detailTextLabel.textColor = [UIColor faceTagBlue];
     
     return cell;
 }
