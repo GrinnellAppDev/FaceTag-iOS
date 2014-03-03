@@ -7,6 +7,9 @@
 //
 
 #import "AllFriendsViewController.h"
+#import "UserCell.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+
 
 @interface AllFriendsViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *theTableView;
@@ -86,18 +89,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"UserCell";
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     PFUser *user = self.allFriends[indexPath.row];
     
     UIImage *placeholderImage = [UIImage imageNamed:@"no_icon_light"];
     
+     [cell.addFriendButton addTarget:self action:@selector(addFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     if ([self isFriend:user]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_checkmark"] forState:UIControlStateNormal];
     } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_plus"] forState:UIControlStateNormal];
     }
     
     
@@ -113,25 +119,26 @@
     cell.nameLabel.text = user.username;
     */
     
-    cell.textLabel.text = user[@"firstName"];
+    NSURL *profilePictureURL = user[@"profilePictureURL"];
+    [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
+    
+    cell.nameLabel.text = user[@"firstName"];
     return cell;
 }
 
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+- (void)addFriendButtonPressed:(id)sender
+{
+    UserCell *cell = (UserCell *)[[[sender superview] superview] superview];
+    NSIndexPath *indexPath = [self.theTableView indexPathForCell:cell];
     
     PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
     PFUser *user = self.allFriends[indexPath.row];
-
+    
+    
+    
     if ([self isFriend:user]) {
         
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_plus"] forState:UIControlStateNormal];
         
         for (PFUser *friend in self.friends) {
             if ([friend.objectId isEqualToString:user.objectId]) {
@@ -146,7 +153,7 @@
     } else {
         NSLog(@"Will add friend: %@", user.username);
         [friendsRelation addObject:user];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_checkmark"] forState:UIControlStateNormal];
         [self.friends addObject:user];
     }
     
@@ -158,6 +165,15 @@
             NSLog(@"Helll yeah!!!");
         }
     }];
+}
+
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 
