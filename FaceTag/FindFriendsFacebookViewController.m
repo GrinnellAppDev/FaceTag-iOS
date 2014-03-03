@@ -255,41 +255,42 @@
                 }
             }];
         }
-            break;
-            
-        case 1: {
-            //Sending a Facebook Invite for Face Tag.
-            
-            NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
-            NSString *friendId = friendDict[@"id"];
-            
-            NSDictionary *params = @{@"to": friendId };
-            
-            [FBWebDialogs presentRequestsDialogModallyWithSession:nil
-                                                          message:@"Join me on FaceTag!"
-                                                            title:@"It's smashing!"
-                                                       parameters:params
-                                                          handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                              if (error) {
-                                                                  NSLog(@"REsultULR: %@", resultURL);
-                                                                  // Case A: Error launching the dialog or sending request.
-                                                                  NSLog(@"Error sending request.");
-                                                              } else {
-                                                                  if (result == FBWebDialogResultDialogNotCompleted) {
-                                                                      // Case B: User clicked the "x" icon
-                                                                      NSLog(@"User canceled request.");
-                                                                  } else {
-                                                                      NSLog(@"Request Sent.");
-                                                                  }
-                                                              }}
-                                                      friendCache:nil
-             ];
-            
-        }
-            break;
     }
+}
 
+
+- (void)inviteFriendButtonPressed:(id)sender
+{
+    UserCell *cell = (UserCell *)[[[sender superview] superview] superview];
+    NSIndexPath *indexPath = [self.theTableView indexPathForCell:cell];
     
+    //Sending a Facebook Invite for Face Tag.
+    
+    NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
+    NSString *friendId = friendDict[@"id"];
+    
+    NSDictionary *params = @{@"to": friendId };
+    
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:@"Join me on FaceTag!"
+                                                    title:@"It's smashing!"
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          NSLog(@"REsultULR: %@", resultURL);
+                                                          // Case A: Error launching the dialog or sending request.
+                                                          NSLog(@"Error sending request.");
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              NSLog(@"User canceled request.");
+                                                          } else {
+                                                              NSLog(@"Request Sent.");
+                                                          }
+                                                      }}
+                                              friendCache:nil
+     ];
+
 }
 
 
