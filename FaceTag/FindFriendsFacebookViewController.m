@@ -9,7 +9,7 @@
 #import "FindFriendsFacebookViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-
+#import "UserCell.h"
 
 
 @interface FindFriendsFacebookViewController ()
@@ -163,42 +163,48 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"UserCell";
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     UIImage *placeholderImage = [UIImage imageNamed:@"no_icon"];
-
+    [cell.addFriendButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+  
     // Configure the cell...
     switch (indexPath.section) {
         case 0: {
             
+              [cell.addFriendButton addTarget:self action:@selector(addFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            
             PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
-            cell.textLabel.text = user[@"fullName"];
+            cell.nameLabel.text = user[@"fullName"];
             
             NSString *friendId = user[@"facebookId"];
             
             //If we need this - Might customize the cell to show pictures potentially.
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
             
-            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            
             
             if ([self isFriend:user]) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_checkmark"] forState:UIControlStateNormal];
             } else {
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_plus"] forState:UIControlStateNormal];
             }
+            
         }
             break;
             
         case 1: {
-            
-            cell.accessoryType = UITableViewCellAccessoryNone;
+            [cell.addFriendButton addTarget:self action:@selector(inviteFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_plus"] forState:UIControlStateNormal];
+
             NSDictionary *friendDict = self.facebookFriendsNOTonFaceTag[indexPath.row];
             NSString *friendId = friendDict[@"id"];
             NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", friendId]];
-            [cell.imageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             
             // NSLog(@"friendDcit: %@", friendDict)
-            cell.textLabel.text = friendDict[@"name"];
+            cell.nameLabel.text = friendDict[@"name"];
             break;
         }
         default: {
@@ -207,19 +213,13 @@
     }
     
     return cell;
-    
-    cell.textLabel.text = @"Facebook friends go here";
-    return cell;
 }
 
-
-#pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)addFriendButtonPressed:(id)sender
+{
+    UserCell *cell = (UserCell *)[[[sender superview] superview] superview];
+    NSIndexPath *indexPath = [self.theTableView indexPathForCell:cell];
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-
     switch (indexPath.section) {
         case 0:  {
             PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
@@ -229,7 +229,7 @@
             
             if ([self isFriend:user]) {
                 
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_plus"] forState:UIControlStateNormal];
                 
                 for (PFUser *friend in self.friends) {
                     if ([friend.objectId isEqualToString:user.objectId]) {
@@ -242,10 +242,9 @@
             } else {
                 NSLog(@"Will add friend: %@", user.username);
                 [friendsRelation addObject:user];
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [cell.addFriendButton setImage:[UIImage imageNamed:@"facetag_checkmark"] forState:UIControlStateNormal];
                 [self.friends addObject:user];
             }
-            
             
             [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (error) {
@@ -289,6 +288,16 @@
         }
             break;
     }
+
+    
+}
+
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 
