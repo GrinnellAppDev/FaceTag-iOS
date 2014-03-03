@@ -57,5 +57,9 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>raleway_thin.otf</string>
+	</array>
 </dict>
 </plist>

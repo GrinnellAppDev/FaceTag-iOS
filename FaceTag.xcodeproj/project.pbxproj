@@ -31,6 +31,7 @@
 		168C96DD189EEF7700A890C4 /* AllFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168C96DC189EEF7700A890C4 /* AllFriendsViewController.m */; };
 		16ADFF8118BA95C30051B099 /* UIColor+FTColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ADFF8018BA95C30051B099 /* UIColor+FTColor.m */; };
 		16ADFF8518BC02470051B099 /* GameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ADFF8418BC02470051B099 /* GameCell.m */; };
+		16DF164718C3F5E300DC27FC /* raleway_thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 16DF164618C3F5E300DC27FC /* raleway_thin.otf */; };
 		6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ACFA5F764264A56BB6CDB6F /* libPods.a */; };
 		E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1878088188A296C00E48E49 /* Foundation.framework */; };
 		E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
@@ -100,6 +101,7 @@
 		16ADFF8018BA95C30051B099 /* UIColor+FTColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FTColor.m"; sourceTree = "<group>"; };
 		16ADFF8318BC02470051B099 /* GameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCell.h; sourceTree = "<group>"; };
 		16ADFF8418BC02470051B099 /* GameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCell.m; sourceTree = "<group>"; };
+		16DF164618C3F5E300DC27FC /* raleway_thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = raleway_thin.otf; sourceTree = "<group>"; };
 		6ACFA5F764264A56BB6CDB6F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABC1E38437146AA8BC0B552 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FaceTag - Photo Tag Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +216,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		16DF164518C3F5C100DC27FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				16DF164618C3F5E300DC27FC /* raleway_thin.otf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		E144639018A1996C008DF806 /* Game/Main Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +316,7 @@
 		E187808E188A296C00E48E49 /* FaceTag */ = {
 			isa = PBXGroup;
 			children = (
+				16DF164518C3F5C100DC27FC /* Resources */,
 				16ADFF8218BC02130051B099 /* Views */,
 				16ADFF7E18BA94640051B099 /* Categories */,
 				E1878097188A296C00E48E49 /* AppDelegate.h */,
@@ -438,6 +449,7 @@
 				E18780A4188A296C00E48E49 /* Images.xcassets in Resources */,
 				1661AEEA189EE0F0007449B0 /* MHTabBarActiveTab.png in Resources */,
 				E187809C188A296C00E48E49 /* Main_iPhone.storyboard in Resources */,
+				16DF164718C3F5E300DC27FC /* raleway_thin.otf in Resources */,
 				1661AEEE189EE0F0007449B0 /* MHTabBarInactiveTab@2x.png in Resources */,
 				1661AEEB189EE0F0007449B0 /* MHTabBarActiveTab@2x.png in Resources */,
 				1661AEF0189EE0F0007449B0 /* MHTabBarIndicator@2x.png in Resources */,

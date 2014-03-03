@@ -25,6 +25,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *targetNameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *camera;
 @property (nonatomic, weak) IBOutlet UIButton *deleteBtn;
+@property (weak, nonatomic) IBOutlet UILabel *targetLabel;
 
 @end
 
@@ -46,6 +47,24 @@
     
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sidebar.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
     self.navigationItem.rightBarButtonItem = menuButton;
+    
+//    [self.labelOutlet setFont:[UIFont fontWithName:@"Sathu" size:10]];
+    UIFont *ralewayfont = [UIFont fontWithName:@"Raleway-Thin" size:40.0f];
+    NSLog(@"the font: %@", ralewayfont);
+    self.targetLabel.font = ralewayfont;
+    
+    /*
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
+    */
+    
 }
 
 - (void)popToLobbyVC:(id)sender {
@@ -60,7 +79,9 @@
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
     
-    self.targetProfileImageView.layer.cornerRadius = 40;
+    self.targetProfileImageView.layer.cornerRadius = 108;
+    self.targetProfileImageView.layer.borderColor = [UIColor colorWithWhite:203.0f/255.0f alpha:1.0].CGColor;
+    self.targetProfileImageView.layer.borderWidth = 8.0f;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
     PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
@@ -77,7 +98,11 @@
                 self.deleteBtn.hidden = NO;
                 NSString *profileString = self.targetUser[@"profilePictureURL"];
                 NSURL *profileURL = [NSURL URLWithString:profileString];
+                
                 [self.targetProfileImageView setImageWithURL:profileURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                
+               [self.targetProfileImageView setImageWithURL:profileURL
+                                            placeholderImage:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
                 
                 self.targetNameLabel.text = self.targetUser[@"fullName"];
             }
@@ -231,6 +256,7 @@
 }
 
 - (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
+    
     CGSize newSize = CGSizeMake(width, height);
     CGRect newRectangle = CGRectMake(0, 0, width, height);
     

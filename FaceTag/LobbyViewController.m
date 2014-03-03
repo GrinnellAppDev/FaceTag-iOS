@@ -78,7 +78,7 @@
         [[[UIAlertView alloc] initWithTitle:self.pictureAlertViewTitle message:@"You must have a profile picture so people know what you look like!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         return;
     }
-    BOOL wantsLaunchToCamera = [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
+    BOOL wantsLaunchToCamera = NO;  // [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
     
     PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
     [participatingQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
@@ -201,7 +201,7 @@
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     //cell.textLabel.text = game[@"name"];
     cell.gameNameLabel.text = game[@"name"];
-    //cell.notificationLabel.text = @"N";
+    cell.notificationLabel.text = @"2";
     cell.notificationView.backgroundColor = [UIColor faceTagBlue];
     cell.notificationView.hidden = NO;
     
@@ -209,13 +209,13 @@
     
     if ([[game objectForKey:@"newGame"] boolValue]) {
         //cell.detailTextLabel.text = @"New";
-        cell.notificationLabel.text = @"N";
+        //cell.notificationLabel.text = @"N";
     } else if (unconfirmedPhotoTags.count > 0) {
         //cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
-        cell.notificationLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        //cell.notificationLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
     } else {
         cell.detailTextLabel.text = @"";
-        cell.notificationView.hidden = YES;
+        //cell.notificationView.hidden = YES;
     }
     //cell.detailTextLabel.textColor = [UIColor faceTagBlue];
     
