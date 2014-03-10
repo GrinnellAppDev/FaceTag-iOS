@@ -168,6 +168,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="nameLabel" destination="EGc-sB-G3R" id="i7X-48-k0e"/>
                                     <outlet property="profilePictureImageView" destination="Ors-7q-kUK" id="hpD-ef-uZb"/>

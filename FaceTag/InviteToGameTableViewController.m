@@ -39,6 +39,11 @@
     self.navigationItem.leftBarButtonItem = backButton;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+    
+    //Set the background of the TableView
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
+    [tempImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = tempImageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
