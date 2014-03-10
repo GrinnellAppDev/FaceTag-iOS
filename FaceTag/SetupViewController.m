@@ -87,14 +87,14 @@
     
     game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.timePerTurnDataPickerArray indexOfObject:timePerTurnString]];
     
-    /*
+    
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             //NSLog(@"Created new game.");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
-    */
+    
 }
 
 - (IBAction)cancel {
@@ -187,7 +187,6 @@
 {
     [self hideVisiblePickers];
     
-    //Default values depending on the picker?
     if (pickerView == self.pointsPicker) {
         _pointsPickerVisible = YES;
         [pickerView selectRow:pointsToWin - 1 inComponent:0 animated:NO];
@@ -201,12 +200,10 @@
     }
     
     
-//    NSIndexPath *pointsPickerRowIndex = [NSIndexPath indexPathForRow:0 inSection:1];
     NSIndexPath *indexPath = [self  getIndexPathForPickerView:pickerView];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.detailTextLabel.textColor = cell.detailTextLabel.tintColor;
     
-
     
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
@@ -259,14 +256,11 @@
 
 - (NSIndexPath *)getIndexPathForPickerView:(UIPickerView *)pickerView
 {
-    NSLog(@"getting indexpath for : %@", pickerView);
-    
     if (pickerView == self.pointsPicker ) {
         return [NSIndexPath indexPathForRow:0 inSection:1];
-    } else if (pickerView == self.timePerTurnPicker) {
+    } else  {
         return [NSIndexPath indexPathForRow:2 inSection:1];
     }
-    return [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 @end
