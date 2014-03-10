@@ -61,7 +61,7 @@
     self.tableView.backgroundView = tempImageView;
     
     //Hide all visible pickers when the keyboard is presented.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVisiblePickers) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVisiblePickers) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

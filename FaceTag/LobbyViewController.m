@@ -80,7 +80,7 @@
         [[[UIAlertView alloc] initWithTitle:self.pictureAlertViewTitle message:@"You must have a profile picture so people know what you look like!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         return;
     }
-    BOOL wantsLaunchToCamera = NO;  // [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
+    BOOL wantsLaunchToCamera = [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
     
     PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
     [participatingQuery whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
@@ -89,7 +89,7 @@
     [invitedQuery whereKey:@"invitedUsers" equalTo:[[PFUser currentUser] objectId]];
     
     PFQuery *gamesQuery = [PFQuery orQueryWithSubqueries:@[invitedQuery, participatingQuery]];
-    [gamesQuery orderByAscending:@"name"];
+    [gamesQuery orderByDescending:@"updatedAt"];
     [gamesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.games = [NSMutableArray arrayWithArray:objects];
@@ -149,8 +149,12 @@
 }
 
 - (void)launchToCamera {
-    UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:self.gameSelectVC];
-    [self presentViewController:navC animated:YES completion:nil];
+    //Style this navigation Controller.
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.gameSelectVC];
+    self.gameSelectVC.title = @"Submit photo for?";
+    navigationController.navigationBar.barTintColor = [UIColor faceTagBlue];;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
