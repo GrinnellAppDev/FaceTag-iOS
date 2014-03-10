@@ -10,11 +10,22 @@
 
 @interface SetupViewController ()
 
-@property (nonatomic, strong) NSMutableArray *pickerArray;
+@property (nonatomic, strong) NSMutableArray *timePerTurnDataPickerArray;
+
+@property (weak, nonatomic) IBOutlet UIPickerView *pointsPicker;
+@property (weak, nonatomic) IBOutlet UIPickerView *timePerTurnPicker;
 
 @end
 
 @implementation SetupViewController
+{
+    BOOL _pointsPickerVisible;
+    BOOL _timePerTurnPickerVisible;
+    
+    int pointsToWin;
+    NSString *timePerTurnString;
+    
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,30 +39,29 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    UIPickerView *pickerView = [[UIPickerView alloc] init];
-    pickerView.dataSource = self;
-    pickerView.delegate = self;
-    self.pointsToWin.inputView = pickerView;
-
-    //Default to 5
-    [pickerView selectRow:4 inComponent:0 animated:NO];
+    _pointsPickerVisible = NO;
+    self.pointsPicker.hidden = YES;
     
+    _timePerTurnPickerVisible = NO;
+    self.timePerTurnPicker.hidden = YES;
     
-    UIPickerView *otherPickerView = [[UIPickerView alloc] init];
-    otherPickerView.dataSource = self;
-    otherPickerView.delegate = self;
-    self.timePerTurn.inputView = otherPickerView;
-    [otherPickerView selectRow:2 inComponent:0 animated:NO];
+    //Default points to win and timer per turn. These are the default values set in the storyboard as well
+    pointsToWin = 5;
+    timePerTurnString = @"2 Hrs";
     
     self.usersToInvite = [[NSMutableArray alloc] init];
     
-    self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"20 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
+    self.timePerTurnDataPickerArray = [[NSMutableArray alloc] initWithObjects:@"20 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
+    
     self.gameName.text = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
     
     //Set the background of the TableView
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = tempImageView;
+    
+    //Hide all visible pickers when the keyboard is presented.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVisiblePickers) name:UIKeyboardDidShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +76,7 @@
     }
     
     PFObject *game = [PFObject objectWithClassName:@"Game"];
-    int pointsToWin = [self.pointsToWin.text intValue];
+    
     NSArray *participants = [NSArray arrayWithObject:[[PFUser currentUser] objectId]];
     game[@"participants"] = participants;
     game[@"name"] = self.gameName.text;
@@ -74,14 +84,17 @@
     game[@"pointsToWin"] = @(pointsToWin);
     
     NSArray *arrayOfTimes = [[NSArray alloc] initWithObjects:@20, @60, @120, @360, @720, @1440, @2880, @10080, nil];
-    game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.pickerArray indexOfObject:self.timePerTurn.text]];
     
+    game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.timePerTurnDataPickerArray indexOfObject:timePerTurnString]];
+    
+    /*
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             //NSLog(@"Created new game.");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
+    */
 }
 
 - (IBAction)cancel {
@@ -98,26 +111,160 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if (self.timePerTurn.isEditing) {
-        return [self.pickerArray objectAtIndex:row];
-    }
     
-    long longRow = (long)row;
-    return [NSString stringWithFormat:@"%ld", longRow + 1];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (self.timePerTurn.isEditing) {
-        self.timePerTurn.text = [self.pickerArray objectAtIndex:row];
+    if (pickerView == self.timePerTurnPicker) {
+        return self.timePerTurnDataPickerArray[row];
     } else {
         long longRow = (long)row;
-        self.pointsToWin.text = [NSString stringWithFormat:@"%ld", longRow + 1];
+        return [NSString stringWithFormat:@"%ld", longRow + 1];
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger) component {
+    
+    NSIndexPath *indexPath = [self getIndexPathForPickerView:pickerView];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.detailTextLabel.textColor = cell.detailTextLabel.tintColor;
+
+    if (pickerView == self.pointsPicker) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", row + 1];
+        pointsToWin = (int)row + 1;
+        
+    } else {
+        //It is the time per turn picker view
+        timePerTurnString = self.timePerTurnDataPickerArray[row];
+        cell.detailTextLabel.text = timePerTurnString;
     }
 }
 
 - (void)inviteUsersError {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You cannot start a game without inviting anyone!" delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
+}
+
+
+#pragma mark - UITableView Methods
+- (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        return _pointsPickerVisible ? 217.0f : 0;
+    } else if (indexPath.section == 1 & indexPath.row == 3) {
+        NSLog(@"_timeperturn: %d", _timePerTurnPickerVisible);
+        return _timePerTurnPickerVisible ? 217.0f : 0;
+    } else {
+        return 44.0f;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0 && indexPath.section == 1) {
+        if (!_pointsPickerVisible) {
+            [self showPicker:self.pointsPicker];
+        } else {
+            [self hidePicker:self.pointsPicker];
+        }
+        return;
+    }
+    
+    if (indexPath.row == 2 && indexPath.section == 1) {
+        NSLog(@"Tapped!!! %d", _timePerTurnPickerVisible);
+        if (!_timePerTurnPickerVisible) {
+            [self showPicker:self.timePerTurnPicker];
+        } else {
+            [self hidePicker:self.timePerTurnPicker];
+        }
+        return;
+    }
+    
+    [self hidePicker:self.pointsPicker];
+    [self hidePicker:self.timePerTurnPicker];
+}
+
+
+
+- (void)showPicker:(UIPickerView *)pickerView
+{
+    [self hideVisiblePickers];
+    
+    //Default values depending on the picker?
+    if (pickerView == self.pointsPicker) {
+        _pointsPickerVisible = YES;
+        [pickerView selectRow:pointsToWin - 1 inComponent:0 animated:NO];
+    }
+    
+    if (pickerView == self.timePerTurnPicker) {
+        _timePerTurnPickerVisible = YES;
+        [pickerView selectRow:4 inComponent:0 animated:NO];
+    }
+    
+    
+//    NSIndexPath *pointsPickerRowIndex = [NSIndexPath indexPathForRow:0 inSection:1];
+    NSIndexPath *indexPath = [self  getIndexPathForPickerView:pickerView];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.detailTextLabel.textColor = cell.detailTextLabel.tintColor;
+    
+
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    
+    pickerView.hidden = NO;
+    pickerView.alpha = 0.0f;
+    [UIView animateWithDuration:0.25 animations:^{
+        pickerView.alpha = 1.0f;
+    }];
+    
+    NSIndexPath *pickerIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+    [self.tableView scrollToRowAtIndexPath:pickerIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
+}
+
+- (void)hidePicker:(UIPickerView *)pickerView
+{
+    if (_pointsPickerVisible) {
+        _pointsPickerVisible = NO;
+    }
+    
+    if (_timePerTurnPickerVisible) {
+        _timePerTurnPickerVisible = NO;
+    }
+    
+    NSIndexPath *indexPath = [self getIndexPathForPickerView:pickerView];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5f];
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        pickerView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        pickerView.hidden = YES;
+    }];
+}
+
+- (void)hideVisiblePickers
+{
+    if (_timePerTurnPickerVisible) {
+        [self hidePicker:self.timePerTurnPicker];
+    }
+    
+    if (_pointsPickerVisible) {
+        [self hidePicker:self.pointsPicker];
+    }
+}
+
+- (NSIndexPath *)getIndexPathForPickerView:(UIPickerView *)pickerView
+{
+    NSLog(@"getting indexpath for : %@", pickerView);
+    
+    if (pickerView == self.pointsPicker ) {
+        return [NSIndexPath indexPathForRow:0 inSection:1];
+    } else if (pickerView == self.timePerTurnPicker) {
+        return [NSIndexPath indexPathForRow:2 inSection:1];
+    }
+    return [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 @end
