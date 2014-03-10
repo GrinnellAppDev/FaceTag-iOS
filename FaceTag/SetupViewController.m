@@ -195,7 +195,9 @@
     
     if (pickerView == self.timePerTurnPicker) {
         _timePerTurnPickerVisible = YES;
-        [pickerView selectRow:4 inComponent:0 animated:NO];
+        
+         NSUInteger index = [self.timePerTurnDataPickerArray indexOfObject:timePerTurnString];
+        [pickerView selectRow:index inComponent:0 animated:NO];
     }
     
     
