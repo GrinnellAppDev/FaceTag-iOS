@@ -62,6 +62,18 @@
     
     //Hide all visible pickers when the keyboard is presented.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVisiblePickers) name:UIKeyboardWillShowNotification object:nil];
+    
+    //Tapping on the backgroundView should dismiss the keyboard and hide all pickers.
+    UITapGestureRecognizer *backgroundTappedGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardAndPicker)];
+    [self.tableView  addGestureRecognizer:backgroundTappedGesture];
+    
+    //This enables the cells to still be tappable
+    backgroundTappedGesture.cancelsTouchesInView = NO;
+}
+
+- (void)hideKeyboardAndPicker{
+    [self.view endEditing:YES];
+    //[self hideVisiblePickers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,14 +99,12 @@
     
     game[@"timePerTurn"] = [arrayOfTimes objectAtIndex:[self.timePerTurnDataPickerArray indexOfObject:timePerTurnString]];
     
-    
     [game saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             //NSLog(@"Created new game.");
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
-    
 }
 
 - (IBAction)cancel {
@@ -102,7 +112,8 @@
 }
 
 # pragma mark - PickerView methods
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
     return 8;
 }
 
@@ -186,6 +197,7 @@
 - (void)showPicker:(UIPickerView *)pickerView
 {
     [self hideVisiblePickers];
+    [self.view endEditing:YES];
     
     if (pickerView == self.pointsPicker) {
         _pointsPickerVisible = YES;
@@ -215,7 +227,7 @@
     }];
     
     NSIndexPath *pickerIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-    [self.tableView scrollToRowAtIndexPath:pickerIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView scrollToRowAtIndexPath:pickerIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     
 }
 

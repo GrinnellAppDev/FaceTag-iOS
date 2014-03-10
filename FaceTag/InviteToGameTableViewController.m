@@ -41,9 +41,9 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     //Set the background of the TableView
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
-    [tempImageView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = tempImageView;
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
+    [backgroundImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = backgroundImageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -106,7 +106,6 @@
     
     PFUser *user = self.friends[indexPath.row];
     
-
     // Configure the cell...
     if ([self.setupViewController.usersToInvite containsObject:user.objectId]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
