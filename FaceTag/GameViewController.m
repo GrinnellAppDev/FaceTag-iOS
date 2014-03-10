@@ -80,9 +80,9 @@
     [super viewWillAppear:animated];
     self.tappedCamera = NO;
     
-    self.targetProfileImageView.layer.cornerRadius = 108;
+    self.targetProfileImageView.layer.cornerRadius = 115;
     self.targetProfileImageView.layer.borderColor = [UIColor colorWithWhite:203.0f/255.0f alpha:1.0].CGColor;
-    self.targetProfileImageView.layer.borderWidth = 8.0f;
+    self.targetProfileImageView.layer.borderWidth = 5.0f;
     self.targetProfileImageView.layer.masksToBounds = YES;
     
     PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];

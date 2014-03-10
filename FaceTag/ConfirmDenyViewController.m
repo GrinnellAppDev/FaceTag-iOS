@@ -35,9 +35,9 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
-    self.targetPhoto.layer.cornerRadius = 108;
+    self.targetPhoto.layer.cornerRadius = 115;
     self.targetPhoto.layer.borderColor = [UIColor colorWithWhite:203.0f/255.0f alpha:1.0].CGColor;
-    self.targetPhoto.layer.borderWidth = 8.0f;
+    self.targetPhoto.layer.borderWidth = 5.0f;
     self.targetPhoto.layer.masksToBounds = YES;
     
     
