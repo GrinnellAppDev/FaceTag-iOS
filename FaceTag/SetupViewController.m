@@ -47,6 +47,11 @@
     
     self.pickerArray = [[NSMutableArray alloc] initWithObjects:@"20 Min", @"1 Hr", @"2 Hrs", @"6 Hrs", @"12 Hrs", @"24 Hrs", @"2 Days", @"1 Week", nil];
     self.gameName.text = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
+    
+    //Set the background of the TableView
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
+    [tempImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = tempImageView;
 }
 
 - (void)didReceiveMemoryWarning {
