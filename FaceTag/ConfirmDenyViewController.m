@@ -33,10 +33,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    self.targetPhoto.layer.cornerRadius = 40;
+	// Do any additional setup after loading the view.
+    self.targetPhoto.layer.cornerRadius = 108;
+    self.targetPhoto.layer.borderColor = [UIColor colorWithWhite:203.0f/255.0f alpha:1.0].CGColor;
+    self.targetPhoto.layer.borderWidth = 8.0f;
     self.targetPhoto.layer.masksToBounds = YES;
+    
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigation_arrow.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTapped:)];
     self.navigationItem.leftBarButtonItem = backButton;

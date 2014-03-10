@@ -8,6 +8,9 @@
 
 #import "InviteToGameTableViewController.h"
 #import "SetupViewController.h"
+#import "UserCell.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+
 
 @interface InviteToGameTableViewController ()
 
@@ -94,9 +97,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"UserCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFUser *user = self.friends[indexPath.row];
+    
 
     // Configure the cell...
     if ([self.setupViewController.usersToInvite containsObject:user.objectId]) {
@@ -105,7 +109,10 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-    cell.textLabel.text = user[@"fullName"];
+    NSURL *profilePictureURL = user[@"profilePictureURL"];
+    [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:nil];
+    
+    cell.nameLabel.text = user[@"fullName"];
     return cell;
 }
 
@@ -130,4 +137,7 @@
     }
 }
 
+- (IBAction)doneButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

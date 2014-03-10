@@ -13,7 +13,7 @@
 
 - (void)awakeFromNib
 {
-    self.notificationView.backgroundColor = [UIColor faceTagBlue];
+
     self.notificationView.layer.cornerRadius = 13.f;
     
     self.notificationLabel.numberOfLines = 1;

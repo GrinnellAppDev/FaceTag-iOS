@@ -98,6 +98,9 @@
     cell.textLabel.text = [NSString stringWithFormat:@"\t\t%@", user[@"fullName"]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", user[@"score"]];
     
+    cell.textLabel.font = cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
+    
+
     // Configure the cell...
     
     return cell;

@@ -48,11 +48,11 @@
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sidebar.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(menuButtonPressed:)];
     self.navigationItem.rightBarButtonItem = menuButton;
     
-//    [self.labelOutlet setFont:[UIFont fontWithName:@"Sathu" size:10]];
     UIFont *ralewayfont = [UIFont fontWithName:@"Raleway-Thin" size:40.0f];
     NSLog(@"the font: %@", ralewayfont);
     self.targetLabel.font = ralewayfont;
     
+    self.targetNameLabel.text = @""; // Storyboard has 'Colin Tremblay'
     /*
     for (NSString* family in [UIFont familyNames])
     {
@@ -64,6 +64,7 @@
         }
     }
     */
+    
     
 }
 

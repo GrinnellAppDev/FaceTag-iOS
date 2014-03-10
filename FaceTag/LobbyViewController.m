@@ -39,12 +39,14 @@
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -199,27 +201,61 @@
     GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
-    //cell.textLabel.text = game[@"name"];
+    
     cell.gameNameLabel.text = game[@"name"];
-    cell.notificationLabel.text = @"2";
-    cell.notificationView.backgroundColor = [UIColor faceTagBlue];
-    cell.notificationView.hidden = NO;
+    
+
+ 
+    
+    //Clear all the design stuff from the previous cells.
+    cell.notificationLabel.text = @"";
+    cell.notificationView.backgroundColor = [UIColor whiteColor];
+    cell.notificationView.layer.borderWidth = 0.0f;
+    cell.notificationView.layer.borderColor = [UIColor whiteColor].CGColor;
+
     
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        //cell.detailTextLabel.text = @"New";
-        //cell.notificationLabel.text = @"N";
+
+        //For a new game
+        cell.notificationLabel.text = @"N";
+        cell.notificationView.backgroundColor = [UIColor faceTagBlue];
+        
     } else if (unconfirmedPhotoTags.count > 0) {
-        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
-        //cell.notificationLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        //For a game that has unconfirmed photo tags to be looked at.
+        cell.notificationLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
+        cell.notificationView.backgroundColor = [UIColor faceTagBlue];
+        
+    } else if ([self userHasSubmittedPhotoForGame:game]) {
+        
+        //For a game that you have already submitted a photo?
+        cell.notificationLabel.text = @"↑";
+        cell.notificationView.backgroundColor = [UIColor faceTagBlue];
+        
     } else {
-        cell.detailTextLabel.text = @"";
-        //cell.notificationView.hidden = YES;
+        //For a game that has nothing. No actions. No notifications. Nothing.
+        cell.notificationLabel.text = @"";
+        cell.notificationView.backgroundColor = [UIColor whiteColor];
+        cell.notificationView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        cell.notificationView.layer.borderWidth = 1.0f;
+    
     }
-    //cell.detailTextLabel.textColor = [UIColor faceTagBlue];
     
     return cell;
+}
+
+- (BOOL)userHasSubmittedPhotoForGame:(PFObject *)game
+{
+    //Check the games submitted hash, has the current users hash returned true, if it's true, do the up arround
+    NSDictionary *submitted = game[@"submitted"];
+    NSString *userID = [PFUser currentUser].objectId;
+    if ( submitted[userID] ) {
+        NSLog(@"submit:: %@", submitted[userID]);
+        if  ( [submitted[userID] boolValue] == YES )
+            return YES;
+    }
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

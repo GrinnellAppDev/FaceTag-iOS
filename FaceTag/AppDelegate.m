@@ -46,6 +46,17 @@
    // [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
     
    // [[UIBarButtonItem appearance]  setTintColor:[UIColor whiteColor]];
+    //[UIFont fontWithName:@"AvenirNext-Regular" size:15.0f], NSFontAttributeName,
+    
+    
+    //NSDictionary *barButtonTitleTextAttributes = @{: <#object, ...#>}
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{
+                                                          NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],
+                                                          NSForegroundColorAttributeName: [UIColor whiteColor]
+                                                          }
+                                                forState:UIControlStateNormal];
+    
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
