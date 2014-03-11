@@ -56,9 +56,9 @@
     self.gameName.text = [NSString stringWithFormat:@"%@'s game", [[PFUser currentUser] objectForKey:@"firstName"]];
     
     //Set the background of the TableView
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
-    [tempImageView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = tempImageView;
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background_light"]];
+    [backgroundImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = backgroundImageView;
     
     //Hide all visible pickers when the keyboard is presented.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVisiblePickers) name:UIKeyboardWillShowNotification object:nil];
@@ -69,6 +69,12 @@
     
     //This enables the cells to still be tappable
     backgroundTappedGesture.cancelsTouchesInView = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updateInvitedFriendCountDetailLabel];
 }
 
 - (void)hideKeyboardAndPicker{
@@ -146,6 +152,23 @@
         timePerTurnString = self.timePerTurnDataPickerArray[row];
         cell.detailTextLabel.text = timePerTurnString;
     }
+}
+
+- (void)updateInvitedFriendCountDetailLabel
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    NSString *friendCount;
+    
+    if (self.usersToInvite.count > 0) {
+        
+        //Use primitive pluralization
+        friendCount = [NSString stringWithFormat:@"%ld friend%@",  self.usersToInvite.count, (self.usersToInvite.count == 1 ? @"" : @"s")];
+    } else {
+        friendCount = @"";
+    }
+
+    cell.detailTextLabel.text = friendCount;
 }
 
 - (void)inviteUsersError {
@@ -227,7 +250,7 @@
     }];
     
     NSIndexPath *pickerIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-    [self.tableView scrollToRowAtIndexPath:pickerIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    [self.tableView scrollToRowAtIndexPath:pickerIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     
 }
 
@@ -274,5 +297,6 @@
         return [NSIndexPath indexPathForRow:2 inSection:1];
     }
 }
+
 
 @end

@@ -41,7 +41,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     //Set the background of the TableView
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background"]];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background_light"]];
     [backgroundImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = backgroundImageView;
 }

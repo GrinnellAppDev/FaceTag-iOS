@@ -40,6 +40,11 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.navigationController.navigationBar.translucent = NO;
+    
+    //Set the background of the TableView
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background_dark"]];
+    [backgroundImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = backgroundImageView;
 }
 
 
