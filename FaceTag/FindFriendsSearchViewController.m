@@ -87,18 +87,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    static NSString *cellIdentifier = @"UserCell";
-    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+  
     NSLog(@"self.usersArra: %lu", (unsigned long)self.usersArray.count);
     if (self.usersArray.count == 0) {
-        cell.textLabel.text = @"No player found";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NoUserFoundCell"];
         return cell;
     }
     
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell"];
     PFUser *user = self.usersArray[indexPath.row];
     UIImage *placeholderImage = [UIImage imageNamed:@"no_icon"];
-
 
     [cell.addFriendButton addTarget:self action:@selector(addFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
