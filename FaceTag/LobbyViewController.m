@@ -258,7 +258,10 @@
         //For a game that you have already submitted a photo?
         cell.notificationLabel.text = @"↑";
         cell.notificationView.backgroundColor = [UIColor faceTagBlue];
-        
+    } else if ([game[@"gameOver"] boolValue]) {
+        //For a game in which there is a winner.
+        cell.notificationLabel.text = @"W";
+        cell.notificationView.backgroundColor = [UIColor faceTagBlue];
     } else {
         //For a game that has nothing. No actions. No notifications. Nothing.
         cell.notificationLabel.text = @"";
