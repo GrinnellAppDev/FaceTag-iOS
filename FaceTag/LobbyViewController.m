@@ -44,6 +44,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchGameList) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl.tintColor = [UIColor faceTagBlue]; 
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 }
@@ -83,6 +88,14 @@
         [[[UIAlertView alloc] initWithTitle:self.pictureAlertViewTitle message:@"You must have a profile picture so people know what you look like!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         return;
     }
+    
+    [self fetchGameList];
+
+}
+
+- (void)fetchGameList
+{
+    
     BOOL wantsLaunchToCamera = [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
     
     PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
@@ -118,6 +131,8 @@
                         if (!error) {
                             [game setObject:objects forKey:@"unconfirmedPhotos"];
                             [self.tableView reloadData];
+                            [self.refreshControl endRefreshing];
+
                         }
                     }];
                     
@@ -140,6 +155,9 @@
                                 if (!error) {
                                     [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
                                     [self.gameSelectVC.tableView reloadData];
+                                    [self.refreshControl endRefreshing];
+
+                                    
                                 }
                             }];
                         }
@@ -150,6 +168,7 @@
         }
     }];
 }
+
 
 - (void)launchToCamera {
     //Style this navigation Controller.
