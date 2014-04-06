@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		163EDC5A18EA1F4B00371F31 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 163EDC5918EA1F4B00371F31 /* LoginViewController.m */; };
 		1661AEEA189EE0F0007449B0 /* MHTabBarActiveTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1661AEE2189EE0F0007449B0 /* MHTabBarActiveTab.png */; };
 		1661AEEB189EE0F0007449B0 /* MHTabBarActiveTab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1661AEE3189EE0F0007449B0 /* MHTabBarActiveTab@2x.png */; };
 		1661AEEC189EE0F0007449B0 /* MHTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1661AEE5189EE0F0007449B0 /* MHTabBarController.m */; };
@@ -69,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		163EDC5818EA1F4B00371F31 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		163EDC5918EA1F4B00371F31 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		1661AEE2189EE0F0007449B0 /* MHTabBarActiveTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MHTabBarActiveTab.png; sourceTree = "<group>"; };
 		1661AEE3189EE0F0007449B0 /* MHTabBarActiveTab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MHTabBarActiveTab@2x.png"; sourceTree = "<group>"; };
 		1661AEE4189EE0F0007449B0 /* MHTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabBarController.h; sourceTree = "<group>"; };
@@ -178,6 +181,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		163EDC5718EA1ECB00371F31 /* Signup/LoginViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				163EDC5818EA1F4B00371F31 /* LoginViewController.h */,
+				163EDC5918EA1F4B00371F31 /* LoginViewController.m */,
+			);
+			name = Signup/LoginViewControllers;
+			path = "Signup:LoginViewControllers";
+			sourceTree = "<group>";
+		};
 		1661AEE0189EE0B2007449B0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +334,7 @@
 		E187808E188A296C00E48E49 /* FaceTag */ = {
 			isa = PBXGroup;
 			children = (
+				163EDC5718EA1ECB00371F31 /* Signup/LoginViewControllers */,
 				16DF164518C3F5C100DC27FC /* Resources */,
 				16ADFF8218BC02130051B099 /* Views */,
 				16ADFF7E18BA94640051B099 /* Categories */,
@@ -528,6 +542,7 @@
 				16DF164A18C4452300DC27FC /* UserCell.m in Sources */,
 				E19A567D188A9844009E3150 /* ParticipantsViewController.m in Sources */,
 				E19A567A188A9764009E3150 /* DeckViewController.m in Sources */,
+				163EDC5A18EA1F4B00371F31 /* LoginViewController.m in Sources */,
 				16ADFF8118BA95C30051B099 /* UIColor+FTColor.m in Sources */,
 				168C96D4189EE51E00A890C4 /* TabBarViewController.m in Sources */,
 				E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */,

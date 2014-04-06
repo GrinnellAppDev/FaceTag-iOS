@@ -14,6 +14,7 @@
 #import <TDBadgedCell.h>
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "GameCell.h"
+#import "LoginViewController.h"
 
 @interface LobbyViewController () <UIAlertViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -51,7 +52,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (![PFUser currentUser]) {
-        PFLogInViewController *loginVC = [[PFLogInViewController alloc] init];
+    
+        
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
         [loginVC setDelegate:self];
         loginVC.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsLogInButton | PFLogInFieldsFacebook | PFLogInFieldsSignUpButton;
         loginVC.facebookPermissions = @[@"email"];;
@@ -350,6 +353,75 @@
     }
 }
 
+
+
+- (void)uploadProfilePhoto {
+    NSData *imageData = UIImagePNGRepresentation(self.tagImage);
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *fileName =  [NSString stringWithFormat:@"%@-ProfileImage", currentUser[@"firstName"]];
+    PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
+    
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            currentUser[@"profilePictureURL"] = imageFile.url;
+            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [SVProgressHUD dismiss];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+    }];
+}
+
+#pragma mark - UIImagePickerDelegate Stuff.
+- (void)showPhotoPicker {
+    if (!self.imagePickerController) {
+        self.imagePickerController = [[UIImagePickerController alloc] init];
+        self.imagePickerController.delegate = self;
+        self.imagePickerController.allowsEditing = NO;
+    }
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+        
+        [self presentViewController:self.imagePickerController animated:NO completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
+                                              cancelButtonTitle:@"Drat!"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
+        
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        
+        //Get the ratio and scale the height according to that ratio.
+        int ratio = image.size.width / 320.0;
+        int newHeight = image.size.height / ratio;
+        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
+        
+        [self uploadProfilePhoto];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
+    CGSize newSize = CGSizeMake(width, height);
+    CGRect newRectangle = CGRectMake(0, 0, width, height);
+    
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:newRectangle];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resizedImage;
+}
+
 #pragma mark PFLogInVC & PFSignUpVC
 - (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
     if (username && password && 0 != username.length && 0 != password.length) {
@@ -443,73 +515,6 @@
     
     [[[UIAlertView alloc] initWithTitle:@"Missing Information" message:@"Make sure you fill out all of the information" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     return NO;
-}
-
-- (void)uploadProfilePhoto {
-    NSData *imageData = UIImagePNGRepresentation(self.tagImage);
-    PFUser *currentUser = [PFUser currentUser];
-    NSString *fileName =  [NSString stringWithFormat:@"%@-ProfileImage", currentUser[@"firstName"]];
-    PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
-    
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            currentUser[@"profilePictureURL"] = imageFile.url;
-            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                [SVProgressHUD dismiss];
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
-        }
-    }];
-}
-
-#pragma mark - UIImagePickerDelegate Stuff.
-- (void)showPhotoPicker {
-    if (!self.imagePickerController) {
-        self.imagePickerController = [[UIImagePickerController alloc] init];
-        self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = NO;
-    }
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
-        
-        [self presentViewController:self.imagePickerController animated:NO completion:nil];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
-                                              cancelButtonTitle:@"Drat!"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSString *mediaType = info[UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
-        
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-        
-        //Get the ratio and scale the height according to that ratio.
-        int ratio = image.size.width / 320.0;
-        int newHeight = image.size.height / ratio;
-        self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
-        
-        [self uploadProfilePhoto];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height {
-    CGSize newSize = CGSizeMake(width, height);
-    CGRect newRectangle = CGRectMake(0, 0, width, height);
-    
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:newRectangle];
-    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return resizedImage;
 }
 
 @end

@@ -183,6 +183,7 @@
     NSString *fileName =  [NSString stringWithFormat:@"%@-%@", currentUser[@"firstName"], self.targetUser[@"firstName"]];
     PFFile *imageFile = [PFFile fileWithName:fileName data:imageData];
     
+    
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         //Create the PhotoTag object.
@@ -193,12 +194,23 @@
         photoTag[@"game"] = [self.game objectId];
         [photoTag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
-                // NSLog(@"photo tag saved!!");
+                // Photo tag saved!! Pop the root view controller.
+                NSString *status =  [NSString stringWithFormat:@"Tagged %@", self.targetUser[@"firstName"]];
+                [SVProgressHUD showSuccessWithStatus:status];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"PopDeckViewBack" object:nil userInfo:nil];
+//                
+//                DeckViewController *deckVC = (DeckViewController *)self.parentViewController;
+//               [deckVC.navigationController popViewControllerAnimated:YES];
+                
+//                [self.navigationController popToRootViewControllerAnimated:YES];
             } else {
-                // NSLog(@"%@", error);
+                 NSLog(@"%@", error);
             }
         }];
     }];
+    
+    
 }
 
 #pragma mark - UIImagePickerDelegate Stuff.
@@ -246,6 +258,8 @@
         int ratio = image.size.width / 320.0;
         int newHeight = image.size.height / ratio;
         self.tagImage =  [self resizeImage:image toWidth:320 andHeight:newHeight];
+        
+        [SVProgressHUD showWithStatus:@"Uploading photo"];
         
         // Hide the camera to prevent multiple submissions per round
         DeckViewController *deckVC = (DeckViewController *)self.parentViewController;

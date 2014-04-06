@@ -28,6 +28,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    
+    //Register for notification to pop back
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBack) name:@"PopDeckViewBack" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,6 +74,12 @@
 //    NSLog(@"5");
 //    return [super closeRightViewBouncing:bounced completion:completed];
 //}
+
+- (void)goBack
+{
+    NSLog(@"Go back was called");
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 @end

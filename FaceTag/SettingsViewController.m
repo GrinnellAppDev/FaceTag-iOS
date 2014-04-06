@@ -42,7 +42,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     //Set the background of the TableView
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background_dark"]];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"game_background_light"]];
     [backgroundImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = backgroundImageView;
 }
@@ -177,9 +177,6 @@
         [mailViewController setToRecipients:[NSArray arrayWithObject:@"appdev@grinnell.edu"]];
         [self presentViewController:mailViewController animated:YES completion:nil];
     }
-    
-    
-  
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {

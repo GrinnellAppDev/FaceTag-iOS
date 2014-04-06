@@ -38,6 +38,7 @@
     return YES;
 }
 
+
 - (void)customizeAppearance
 {
    // NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:

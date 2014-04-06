@@ -109,10 +109,8 @@
 
     cell.nameLabel.text = user[@"fullName"];
     
-    
     NSURL *profilePictureURL = user[@"profilePictureURL"];
     [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
-    
     
     return cell;
 }
