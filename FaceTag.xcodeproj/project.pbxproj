@@ -36,7 +36,6 @@
 		16DF164A18C4452300DC27FC /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16DF164918C4452300DC27FC /* UserCell.m */; };
 		6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ACFA5F764264A56BB6CDB6F /* libPods.a */; };
 		E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1878088188A296C00E48E49 /* Foundation.framework */; };
-		E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
 		E187808D188A296C00E48E49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808C188A296C00E48E49 /* UIKit.framework */; };
 		E1878093188A296C00E48E49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1878091188A296C00E48E49 /* InfoPlist.strings */; };
 		E1878095188A296C00E48E49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1878094188A296C00E48E49 /* main.m */; };
@@ -49,6 +48,8 @@
 		E18780AD188A296C00E48E49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808C188A296C00E48E49 /* UIKit.framework */; };
 		E18780B5188A296C00E48E49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E18780B3188A296C00E48E49 /* InfoPlist.strings */; };
 		E18780B7188A296C00E48E49 /* FaceTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E18780B6188A296C00E48E49 /* FaceTagTests.m */; };
+		E1919117190D8A750018E1D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
+		E1919119190D9BB50018E1D1 /* strings_private.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1919118190D9BB50018E1D1 /* strings_private.strings */; };
 		E192E6FA189F01830042C4B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E192E6F9189F01830042C4B8 /* Crashlytics.framework */; };
 		E19A5670188A4176009E3150 /* LobbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A566D188A4176009E3150 /* LobbyViewController.m */; };
 		E19A5674188A45C2009E3150 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A5673188A45C2009E3150 /* SetupViewController.m */; };
@@ -128,6 +129,7 @@
 		E18780B2188A296C00E48E49 /* FaceTagTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FaceTagTests-Info.plist"; sourceTree = "<group>"; };
 		E18780B4188A296C00E48E49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E18780B6188A296C00E48E49 /* FaceTagTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceTagTests.m; sourceTree = "<group>"; };
+		E1919118190D9BB50018E1D1 /* strings_private.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = strings_private.strings; sourceTree = "<group>"; };
 		E192E6F9189F01830042C4B8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E19A566C188A4176009E3150 /* LobbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LobbyViewController.h; sourceTree = "<group>"; };
 		E19A566D188A4176009E3150 /* LobbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LobbyViewController.m; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */,
+				E1919117190D8A750018E1D1 /* CoreGraphics.framework in Frameworks */,
 				E192E6FA189F01830042C4B8 /* Crashlytics.framework in Frameworks */,
 				1670868A188A30850083CFA9 /* SystemConfiguration.framework in Frameworks */,
 				16708688188A307D0083CFA9 /* StoreKit.framework in Frameworks */,
@@ -159,7 +161,6 @@
 				16708682188A305C0083CFA9 /* MobileCoreServices.framework in Frameworks */,
 				16708680188A30510083CFA9 /* libz.dylib in Frameworks */,
 				1670867E188A30420083CFA9 /* CoreLocation.framework in Frameworks */,
-				E187808B188A296C00E48E49 /* CoreGraphics.framework in Frameworks */,
 				1670867C188A30320083CFA9 /* CFNetwork.framework in Frameworks */,
 				1670867A188A302C0083CFA9 /* AudioToolbox.framework in Frameworks */,
 				E187808D188A296C00E48E49 /* UIKit.framework in Frameworks */,
@@ -355,6 +356,7 @@
 		E187808F188A296C00E48E49 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E1919118190D9BB50018E1D1 /* strings_private.strings */,
 				E1878090188A296C00E48E49 /* FaceTag-Info.plist */,
 				E1878091188A296C00E48E49 /* InfoPlist.strings */,
 				E1878094188A296C00E48E49 /* main.m */,
@@ -428,7 +430,7 @@
 		E187807D188A296C00E48E49 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = GrinnellAppDev;
 				TargetAttributes = {
 					E1878084188A296C00E48E49 = {
@@ -474,6 +476,7 @@
 				1661AEF0189EE0F0007449B0 /* MHTabBarIndicator@2x.png in Resources */,
 				1661AEED189EE0F0007449B0 /* MHTabBarInactiveTab.png in Resources */,
 				E1878093188A296C00E48E49 /* InfoPlist.strings in Resources */,
+				E1919119190D9BB50018E1D1 /* strings_private.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,7 +622,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -661,7 +663,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -742,7 +743,6 @@
 		E18780BE188A296C00E48E49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FaceTag.app/FaceTag";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -765,7 +765,6 @@
 		E18780BF188A296C00E48E49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FaceTag.app/FaceTag";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

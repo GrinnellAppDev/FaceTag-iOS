@@ -17,17 +17,20 @@
     
     [self customizeAppearance];
     
-    [Parse setApplicationId:@"97s1dXeGVg72YmhWjZVFXQvWFILwyyV78pftvQBe"
-                  clientKey:@"isrQzRX1HkVQyuqnab3m8DGEIWWcpKAt2iJ0CtFu"];
+    NSString *strings_private = [[NSBundle mainBundle] pathForResource:@"strings_private" ofType:@"strings"];
+    NSDictionary *keysDict = [NSDictionary dictionaryWithContentsOfFile:strings_private];
+    
+    [Parse setApplicationId:[keysDict objectForKey:@"ParseApplicationId"]
+                  clientKey:[keysDict objectForKey:@"ParseClientKey"]];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [PFFacebookUtils initializeFacebook];
     
-    [Crashlytics startWithAPIKey:@"45894d9e8a6bc3b8513651d6de36159e2c836e51"];
+    [Crashlytics startWithAPIKey:[keysDict objectForKey:@"CrashlyticsAPIKey"]];
     
     [Flurry setCrashReportingEnabled:NO];
-    [Flurry startSession:@"63JHGRGT6HW56JBH3R29"];
+    [Flurry startSession:[keysDict objectForKey:@"FlurrySession"]];
     
     // Register for push notifications
     [application registerForRemoteNotificationTypes:

@@ -1,0 +1,12 @@
+/* 
+  strings_private.strings
+  FaceTag
+
+  Created by Colin Tremblay on 4/27/14.
+  Copyright (c) 2014 GrinnellAppDev. All rights reserved.
+*/
+
+"ParseApplicationId" = "97s1dXeGVg72YmhWjZVFXQvWFILwyyV78pftvQBe";
+"ParseClientKey" = "isrQzRX1HkVQyuqnab3m8DGEIWWcpKAt2iJ0CtFu";
+"CrashlyticsAPIKey" = "45894d9e8a6bc3b8513651d6de36159e2c836e51";
+"FlurrySession" = "63JHGRGT6HW56JBH3R29";

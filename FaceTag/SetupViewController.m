@@ -144,9 +144,8 @@
     cell.detailTextLabel.textColor = cell.detailTextLabel.tintColor;
 
     if (pickerView == self.pointsPicker) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", row + 1];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)row + 1];
         pointsToWin = (int)row + 1;
-        
     } else {
         //It is the time per turn picker view
         timePerTurnString = self.timePerTurnDataPickerArray[row];
@@ -163,7 +162,7 @@
     if (self.usersToInvite.count > 0) {
         
         //Use primitive pluralization
-        friendCount = [NSString stringWithFormat:@"%ld friend%@",  self.usersToInvite.count, (self.usersToInvite.count == 1 ? @"" : @"s")];
+        friendCount = [NSString stringWithFormat:@"%ld friend%@", (unsigned long)self.usersToInvite.count, (self.usersToInvite.count == 1 ? @"" : @"s")];
     } else {
         friendCount = @"";
     }
