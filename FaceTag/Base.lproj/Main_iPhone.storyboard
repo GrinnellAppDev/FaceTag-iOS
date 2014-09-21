@@ -7,7 +7,7 @@
         <!--Create a Game-->
         <scene sceneID="za5-ql-20z">
             <objects>
-                <tableViewController id="EuJ-bl-u8T" customClass="SetupViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SetupVC" id="EuJ-bl-u8T" customClass="SetupViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ne1-00-RXU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -178,7 +178,7 @@
         <!--Invite Friends to Game-->
         <scene sceneID="mmd-hc-V62">
             <objects>
-                <tableViewController id="Tfy-mb-Nif" customClass="InviteToGameTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="InviteVC" id="Tfy-mb-Nif" customClass="InviteToGameTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9kY-kE-H9l">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -229,12 +229,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q57-eh-iPJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1771" y="-969"/>
+            <point key="canvasLocation" x="1839" y="-1012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="P3a-dB-L7X">
             <objects>
-                <navigationController definesPresentationContext="YES" id="uaH-Cs-LpT" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CreateGameNavC" definesPresentationContext="YES" id="uaH-Cs-LpT" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ePX-oL-pzH">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -249,7 +249,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbV-c0-jqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="962" y="-969"/>
+            <point key="canvasLocation" x="990" y="-1012"/>
         </scene>
         <!--Lobby-->
         <scene sceneID="XFL-CR-aR9">
@@ -318,7 +318,7 @@
         <!--Confirm Deny View Controller-->
         <scene sceneID="3lg-pQ-2oU">
             <objects>
-                <viewController id="AxW-k9-QzF" customClass="ConfirmDenyViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfirmDenyVC" id="AxW-k9-QzF" customClass="ConfirmDenyViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JYC-6h-YOA"/>
                         <viewControllerLayoutGuide type="bottom" id="h6O-05-8DY"/>
@@ -379,7 +379,7 @@
         <!--Settings-->
         <scene sceneID="BQp-Ow-XTM">
             <objects>
-                <tableViewController id="cEo-ff-Bgr" customClass="SettingsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsVC" id="cEo-ff-Bgr" customClass="SettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ZXE-uy-R2p">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -862,7 +862,7 @@
         <!--Deck View Controller-->
         <scene sceneID="7nm-Lx-RSe">
             <objects>
-                <viewController id="Zp2-FU-rCE" customClass="DeckViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeckVC" id="Zp2-FU-rCE" customClass="DeckViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fkq-hd-OQU"/>
                         <viewControllerLayoutGuide type="bottom" id="6iz-cJ-XWR"/>
@@ -917,12 +917,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nwb-JG-28B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="506" y="440"/>
+            <point key="canvasLocation" x="270" y="626"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1kc-aV-4aY">
             <objects>
-                <navigationController definesPresentationContext="YES" id="uAw-3s-qzV" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainNavC" definesPresentationContext="YES" id="uAw-3s-qzV" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nUW-Nb-mN9">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -942,7 +942,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Lf6-Af-5if">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gtB-oc-PBo" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SettingsNavC" automaticallyAdjustsScrollViewInsets="NO" id="gtB-oc-PBo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rdN-j3-7G0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -965,7 +965,7 @@
         <!--Navigation Controller-->
         <scene sceneID="6Ba-Tc-9gK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WcT-bk-btB" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="GameSelectionNavC" automaticallyAdjustsScrollViewInsets="NO" id="WcT-bk-btB" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lyD-dR-YbO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -978,7 +978,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5L1-EP-e0e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="46" y="432"/>
+            <point key="canvasLocation" x="-190" y="618"/>
         </scene>
     </scenes>
     <resources>
@@ -996,7 +996,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zn1-tC-Bgn"/>
+        <segue reference="4qr-Wc-Ywm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.74901960779999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
