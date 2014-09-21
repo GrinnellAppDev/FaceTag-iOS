@@ -466,7 +466,7 @@
             //NSLog(@"me: %@",me);
             
             PFUser *currentUser = [PFUser currentUser];
-            currentUser[@"facebookId"] = me.id;
+            currentUser[@"facebookId"] = me.objectID;
             currentUser[@"fullName"] = me.name;
             currentUser[@"firstName"] = me.first_name;
             currentUser[@"lastName"] = me.last_name;
@@ -479,7 +479,7 @@
                 }
             }
             
-            NSString *profilePictureURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", me.id];
+            NSString *profilePictureURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200", me.objectID];
             
             //Update the profile picture with a facebook one.
             currentUser[@"profilePictureURL"] = profilePictureURL;

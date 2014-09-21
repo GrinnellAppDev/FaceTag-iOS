@@ -226,7 +226,7 @@
             PFUser *user = self.facebookFriendsOnFaceTag[indexPath.row];
             NSLog(@"Selected user: %@", user);
             
-            PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
+            PFRelation *friendsRelation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
             
             if ([self isFriend:user]) {
                 

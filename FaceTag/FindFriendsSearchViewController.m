@@ -110,7 +110,7 @@
     cell.nameLabel.text = user[@"fullName"];
     
     NSURL *profilePictureURL = user[@"profilePictureURL"];
-    [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
+    [cell.profilePictureImageView sd_setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
     
     return cell;
 }
@@ -120,7 +120,7 @@
     UserCell *cell = (UserCell *)[[[sender superview] superview] superview];
     NSIndexPath *indexPath = [self.theTableView indexPathForCell:cell];
     
-    PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
+    PFRelation *friendsRelation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
     
     PFUser *user = self.usersArray[indexPath.row];
     

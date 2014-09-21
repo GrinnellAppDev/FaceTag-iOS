@@ -48,7 +48,7 @@
     //Get all the users current friends.
     NSLog(@"View will appear");
     
-    PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
+    PFRelation *friendsRelation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
     
     PFQuery *query = [friendsRelation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -120,7 +120,7 @@
     */
     
     NSURL *profilePictureURL = user[@"profilePictureURL"];
-    [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
+    [cell.profilePictureImageView sd_setImageWithURL:profilePictureURL placeholderImage:placeholderImage];
     
     cell.nameLabel.text = user[@"firstName"];
     return cell;
@@ -131,7 +131,7 @@
     UserCell *cell = (UserCell *)[[[sender superview] superview] superview];
     NSIndexPath *indexPath = [self.theTableView indexPathForCell:cell];
     
-    PFRelation *friendsRelation = [[PFUser currentUser] relationforKey:@"friendsRelation"];
+    PFRelation *friendsRelation = [[PFUser currentUser] relationForKey:@"friendsRelation"];
     PFUser *user = self.allFriends[indexPath.row];
     
     

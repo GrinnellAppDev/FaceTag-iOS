@@ -114,7 +114,7 @@
     }
     
     NSURL *profilePictureURL = user[@"profilePictureURL"];
-    [cell.profilePictureImageView setImageWithURL:profilePictureURL placeholderImage:nil];
+    [cell.profilePictureImageView sd_setImageWithURL:profilePictureURL placeholderImage:nil];
     
     cell.nameLabel.text = user[@"fullName"];
     return cell;
