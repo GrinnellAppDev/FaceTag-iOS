@@ -10,7 +10,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UserCell.h"
-
+#import <FBRequestConnection.h>
+#import <FBWebDialogs.h>
 
 @interface FindFriendsFacebookViewController ()
 @property (nonatomic, strong) NSArray *facebookFriendsOnFaceTag;

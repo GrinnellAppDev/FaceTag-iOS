@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
 #import <FlurrySDK/Flurry.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 @implementation AppDelegate
 

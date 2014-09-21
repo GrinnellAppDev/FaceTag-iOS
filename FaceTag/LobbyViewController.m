@@ -15,6 +15,8 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "GameCell.h"
 #import "LoginViewController.h"
+#import <FBRequestConnection.h>
+#import <FBGraphUser.h>
 
 @interface LobbyViewController () <UIAlertViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 

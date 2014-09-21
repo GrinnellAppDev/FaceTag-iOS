@@ -43,11 +43,6 @@
 		E187809C188A296C00E48E49 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E187809A188A296C00E48E49 /* Main_iPhone.storyboard */; };
 		E187809F188A296C00E48E49 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E187809D188A296C00E48E49 /* Main_iPad.storyboard */; };
 		E18780A4188A296C00E48E49 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18780A3188A296C00E48E49 /* Images.xcassets */; };
-		E18780AB188A296C00E48E49 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18780AA188A296C00E48E49 /* XCTest.framework */; };
-		E18780AC188A296C00E48E49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1878088188A296C00E48E49 /* Foundation.framework */; };
-		E18780AD188A296C00E48E49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808C188A296C00E48E49 /* UIKit.framework */; };
-		E18780B5188A296C00E48E49 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E18780B3188A296C00E48E49 /* InfoPlist.strings */; };
-		E18780B7188A296C00E48E49 /* FaceTagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E18780B6188A296C00E48E49 /* FaceTagTests.m */; };
 		E1919117190D8A750018E1D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E187808A188A296C00E48E49 /* CoreGraphics.framework */; };
 		E1919119190D9BB50018E1D1 /* strings_private.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1919118190D9BB50018E1D1 /* strings_private.strings */; };
 		E192E6FA189F01830042C4B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E192E6F9189F01830042C4B8 /* Crashlytics.framework */; };
@@ -59,16 +54,6 @@
 		E1AD9A53189717E70060A615 /* GameSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AD9A52189717E70060A615 /* GameSelectionViewController.m */; };
 		E1DB8C0A188A3C8E00FA3713 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DB8C09188A3C8E00FA3713 /* GameViewController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E18780AE188A296C00E48E49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E187807D188A296C00E48E49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E1878084188A296C00E48E49;
-			remoteInfo = FaceTag;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		163EDC5818EA1F4B00371F31 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -124,7 +109,6 @@
 		E187809B188A296C00E48E49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E187809E188A296C00E48E49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		E18780A3188A296C00E48E49 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E18780A9188A296C00E48E49 /* FaceTagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceTagTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18780AA188A296C00E48E49 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E18780B2188A296C00E48E49 /* FaceTagTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FaceTagTests-Info.plist"; sourceTree = "<group>"; };
 		E18780B4188A296C00E48E49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -166,16 +150,6 @@
 				E187808D188A296C00E48E49 /* UIKit.framework in Frameworks */,
 				E1878089188A296C00E48E49 /* Foundation.framework in Frameworks */,
 				6BAFF122517A4242B070DA3D /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E18780A6188A296C00E48E49 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E18780AB188A296C00E48E49 /* XCTest.framework in Frameworks */,
-				E18780AD188A296C00E48E49 /* UIKit.framework in Frameworks */,
-				E18780AC188A296C00E48E49 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +279,6 @@
 			isa = PBXGroup;
 			children = (
 				E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */,
-				E18780A9188A296C00E48E49 /* FaceTagTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -406,24 +379,6 @@
 			productReference = E1878085188A296C00E48E49 /* FaceTag - Photo Tag Game.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E18780A8188A296C00E48E49 /* FaceTagTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E18780BD188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTagTests" */;
-			buildPhases = (
-				E18780A5188A296C00E48E49 /* Sources */,
-				E18780A6188A296C00E48E49 /* Frameworks */,
-				E18780A7188A296C00E48E49 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E18780AF188A296C00E48E49 /* PBXTargetDependency */,
-			);
-			name = FaceTagTests;
-			productName = FaceTagTests;
-			productReference = E18780A9188A296C00E48E49 /* FaceTagTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -435,9 +390,6 @@
 				TargetAttributes = {
 					E1878084188A296C00E48E49 = {
 						DevelopmentTeam = H69TS4DPUJ;
-					};
-					E18780A8188A296C00E48E49 = {
-						TestTargetID = E1878084188A296C00E48E49;
 					};
 				};
 			};
@@ -455,7 +407,6 @@
 			projectRoot = "";
 			targets = (
 				E1878084188A296C00E48E49 /* FaceTag - Photo Tag Game */,
-				E18780A8188A296C00E48E49 /* FaceTagTests */,
 			);
 		};
 /* End PBXProject section */
@@ -477,14 +428,6 @@
 				1661AEED189EE0F0007449B0 /* MHTabBarInactiveTab.png in Resources */,
 				E1878093188A296C00E48E49 /* InfoPlist.strings in Resources */,
 				E1919119190D9BB50018E1D1 /* strings_private.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E18780A7188A296C00E48E49 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E18780B5188A296C00E48E49 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,23 +507,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E18780A5188A296C00E48E49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E18780B7188A296C00E48E49 /* FaceTagTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E18780AF188A296C00E48E49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E1878084188A296C00E48E49 /* FaceTag - Photo Tag Game */;
-			targetProxy = E18780AE188A296C00E48E49 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E1878091188A296C00E48E49 /* InfoPlist.strings */ = {
@@ -740,46 +667,6 @@
 			};
 			name = Release;
 		};
-		E18780BE188A296C00E48E49 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FaceTag.app/FaceTag";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "FaceTagTests/FaceTagTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		E18780BF188A296C00E48E49 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FaceTag.app/FaceTag";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FaceTag/FaceTag-Prefix.pch";
-				INFOPLIST_FILE = "FaceTagTests/FaceTagTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -797,15 +684,6 @@
 			buildConfigurations = (
 				E18780BB188A296C00E48E49 /* Debug */,
 				E18780BC188A296C00E48E49 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E18780BD188A296C00E48E49 /* Build configuration list for PBXNativeTarget "FaceTagTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E18780BE188A296C00E48E49 /* Debug */,
-				E18780BF188A296C00E48E49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

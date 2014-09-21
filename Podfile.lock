@@ -1,34 +1,44 @@
 PODS:
-  - Facebook-iOS-SDK (3.13.1)
-  - FlurrySDK (4.3.0)
-  - Parse (1.2.18):
-    - Facebook-iOS-SDK (~> 3.11)
-  - SDWebImage (3.5.2):
+  - Bolts (1.1.2)
+  - Facebook-iOS-SDK (3.17.0):
+    - Bolts
+  - FlurrySDK (5.3.0):
+    - FlurrySDK/FlurrySDK
+  - FlurrySDK/FlurrySDK (5.3.0)
+  - Parse (1.4.0):
+    - Bolts (~> 1.1.2)
+  - ParseFacebookUtils (1.4.0):
+    - Facebook-iOS-SDK (~> 3.17.0)
+    - Parse (~> 1.4.0)
+  - SDWebImage (3.7.1):
     - SDWebImage/Core
-  - SDWebImage/Core (3.5.2)
+  - SDWebImage/Core (3.7.1)
   - SVProgressHUD (1.0)
-  - TDBadgedCell (2.5.1)
-  - UIActivityIndicator-for-SDWebImage (1.0.3):
-    - SDWebImage (~> 3.2)
+  - TDBadgedCell (2.6)
+  - UIActivityIndicator-for-SDWebImage (1.2):
+    - SDWebImage (~> 3.7)
   - ViewDeck (2.2.11)
 
 DEPENDENCIES:
   - FlurrySDK
   - Parse
-  - SDWebImage (~> 3.5.2)
+  - ParseFacebookUtils (~> 1.4.0)
+  - SDWebImage
   - SVProgressHUD
   - TDBadgedCell
-  - UIActivityIndicator-for-SDWebImage (~> 1.0.3)
+  - UIActivityIndicator-for-SDWebImage
   - ViewDeck (~> 2.2.11)
 
 SPEC CHECKSUMS:
-  Facebook-iOS-SDK: 47ae9e54684c84f93d75d4e6ab47cd031abdf406
-  FlurrySDK: 12c1a761db5b0a913794f50f1d1d56480798271c
-  Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
-  SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
-  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
-  TDBadgedCell: 1bcd5d1def531921e901f11697f1dd59c781ea9f
-  UIActivityIndicator-for-SDWebImage: e712b97826395022ce7b4a4b56eb7194090c19d5
-  ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
+  Bolts: 2635e8698a630774689441047f3465d78c48d485
+  Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
+  FlurrySDK: e1142ae33e294f8307bd6d2209cc082e79b66e90
+  Parse: 217a57ed13e870a744fe746fcc01a3fef6a9b750
+  ParseFacebookUtils: 9af9a25b76402744a0675ab7897b150765e624c8
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  SVProgressHUD: 5034c6e22b8c2ca3e09402e48d41ed0340aa1c50
+  TDBadgedCell: e683b5557d12ea4e28a8d6ac20b6e394abc2c1fe
+  UIActivityIndicator-for-SDWebImage: 8bd92c15280fbe54816448c6b14674145eee05c7
+  ViewDeck: 2f38c054dfe8e69af4877c006785996faa277902
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1
