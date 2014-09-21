@@ -45,23 +45,13 @@
 
 - (void)customizeAppearance
 {
-   // NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                                           [UIColor whiteColor], NSForegroundColorAttributeName, nil];
-                                               
-   // [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleTextAttributes];
-    
-   // [[UIBarButtonItem appearance]  setTintColor:[UIColor whiteColor]];
-    //[UIFont fontWithName:@"AvenirNext-Regular" size:15.0f], NSFontAttributeName,
-    
-    
-    //NSDictionary *barButtonTitleTextAttributes = @{: <#object, ...#>}
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{
-                                                          NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],
-                                                          NSForegroundColorAttributeName: [UIColor whiteColor]
-                                                          }
+                                                           NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],
+                                                           NSForegroundColorAttributeName: [UIColor whiteColor]
+                                                           }
                                                 forState:UIControlStateNormal];
     
-
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -77,7 +67,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
