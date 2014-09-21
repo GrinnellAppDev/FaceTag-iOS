@@ -18,15 +18,16 @@
 #import <FBRequestConnection.h>
 #import <FBGraphUser.h>
 
+NSString * const GameAlertViewTitle = @"New Game!";
+NSString * const SetUsernameAlertViewTitle = @"Do you want to set your username?";
+NSString * const PictureAlertViewTitle = @"You need a profile picture!";
+
 @interface LobbyViewController () <UIAlertViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *games;
 @property (nonatomic, strong) NSMutableArray *userUnconfirmedPhotoTags;
 @property (nonatomic, strong) GameSelectionViewController *gameSelectVC;
 @property (nonatomic, assign) BOOL notFirstLaunch;
-@property (nonatomic, strong) NSString *gameAlertViewTitle;
-@property (nonatomic, strong) NSString *setUsernameAlertViewTitle;
-@property (nonatomic, strong) NSString *pictureAlertViewTitle;
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
 @property (nonatomic, strong) UIImage *tagImage;
 
@@ -42,37 +43,28 @@
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchGameList) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl.tintColor = [UIColor faceTagBlue]; 
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.refreshControl.tintColor = [UIColor faceTagBlue];
 }
-
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (![PFUser currentUser]) {
-    
         
         LoginViewController *loginVC = [[LoginViewController alloc] init];
         [loginVC setDelegate:self];
         loginVC.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsLogInButton | PFLogInFieldsFacebook | PFLogInFieldsSignUpButton;
         loginVC.facebookPermissions = @[@"email"];;
         [loginVC.logInView.externalLogInLabel setText:@"You can also log in or sign up with"];
-        loginVC.logInView.logo = nil;
         
         PFSignUpViewController *signUpVC = [[PFSignUpViewController alloc] init];
         signUpVC.fields = PFSignUpFieldsUsernameAndPassword | PFSignUpFieldsEmail | PFSignUpFieldsDismissButton | PFSignUpFieldsSignUpButton | PFSignUpFieldsAdditional;
         [signUpVC.signUpView.additionalField setPlaceholder:@"Full Name"];
         [signUpVC setDelegate:self];
-        signUpVC.signUpView.logo = nil;
         loginVC.signUpController = signUpVC;
         
         [self presentViewController:loginVC animated:YES completion:nil];
@@ -86,18 +78,13 @@
         // We will log them in using viewDidAppear
         return;
     } else if (![PFUser currentUser][@"profilePictureURL"]) {
-        self.pictureAlertViewTitle = @"You need a profile picture!";
-        [[[UIAlertView alloc] initWithTitle:self.pictureAlertViewTitle message:@"You must have a profile picture so people know what you look like!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-        return;
+        [[[UIAlertView alloc] initWithTitle:PictureAlertViewTitle message:@"You must have a profile picture so people know what you look like!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
     
     [self fetchGameList];
-
 }
 
-- (void)fetchGameList
-{
-    
+- (void)fetchGameList {
     BOOL wantsLaunchToCamera = [[PFUser currentUser][@"wantsLaunchToCamera"] boolValue];
     
     PFQuery *participatingQuery = [PFQuery queryWithClassName:@"Game"];
@@ -134,7 +121,7 @@
                             [game setObject:objects forKey:@"unconfirmedPhotos"];
                             [self.tableView reloadData];
                             [self.refreshControl endRefreshing];
-
+                            
                         }
                     }];
                     
@@ -158,8 +145,6 @@
                                     [self.gameSelectVC.targetDictionary setValue:object forKey:game[@"name"]];
                                     [self.gameSelectVC.tableView reloadData];
                                     [self.refreshControl endRefreshing];
-
-                                    
                                 }
                             }];
                         }
@@ -199,53 +184,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"GameCell";
-    /*TDBadgedCell *cell = (TDBadgedCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-     
-     if (!cell) {
-     cell = [[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-     }
-     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-     
-     PFObject *game = [self.games objectAtIndex:indexPath.row];
-     cell.textLabel.text = game[@"name"];
-     
-     if ([[game objectForKey:@"newGame"] boolValue]) {
-     cell.badgeString = @"New";
-     cell.showShadow = YES;
-     cell.badge.hidden = NO;
-     return cell;
-     }
-     
-     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
-     if (unconfirmedPhotoTags.count > 0) {
-     cell.badgeString = [NSString stringWithFormat:@"%lu", (unsigned long)unconfirmedPhotoTags.count];
-     cell.showShadow = YES;
-     cell.badge.hidden = NO;
-     return cell;
-     }
-     cell.badge.hidden = YES;
-     return cell;
-     */
+    
     GameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     
     cell.gameNameLabel.text = game[@"name"];
     
-
- 
-    
     //Clear all the design stuff from the previous cells.
     cell.notificationLabel.text = @"";
     cell.notificationView.backgroundColor = [UIColor whiteColor];
     cell.notificationView.layer.borderWidth = 0.0f;
     cell.notificationView.layer.borderColor = [UIColor whiteColor].CGColor;
-
+    
     
     NSArray *unconfirmedPhotoTags = [[NSArray alloc] initWithArray:[game objectForKey:@"unconfirmedPhotos"]];
     
     if ([[game objectForKey:@"newGame"] boolValue]) {
-
+        
         //For a new game
         cell.notificationLabel.text = @"N";
         cell.notificationView.backgroundColor = [UIColor faceTagBlue];
@@ -270,14 +226,13 @@
         cell.notificationView.backgroundColor = [UIColor whiteColor];
         cell.notificationView.layer.borderColor = [UIColor darkGrayColor].CGColor;
         cell.notificationView.layer.borderWidth = 1.0f;
-    
+        
     }
     
     return cell;
 }
 
-- (BOOL)userHasSubmittedPhotoForGame:(PFObject *)game
-{
+- (BOOL)userHasSubmittedPhotoForGame:(PFObject *)game {
     //Check the games submitted hash, has the current users hash returned true, if it's true, do the up arround
     NSDictionary *submitted = game[@"submitted"];
     NSString *userID = [PFUser currentUser].objectId;
@@ -292,8 +247,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFObject *game = [self.games objectAtIndex:indexPath.row];
     if ([[game objectForKey:@"newGame"] boolValue]) {
-        self.gameAlertViewTitle = @"New Game!";
-        [[[UIAlertView alloc] initWithTitle:self.gameAlertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
+        [[[UIAlertView alloc] initWithTitle:GameAlertViewTitle message:@"Do you want to join?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil] show];
         return;
     }
     
@@ -313,7 +267,7 @@
 
 #pragma mark - Alert View delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView.title isEqualToString:self.gameAlertViewTitle]) {
+    if ([alertView.title isEqualToString:GameAlertViewTitle]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
         PFObject *game = [self.games objectAtIndex:indexPath.row];
@@ -337,7 +291,7 @@
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.tableView reloadData];
         }
-    } else if ([alertView.title isEqualToString:self.setUsernameAlertViewTitle]) {
+    } else if ([alertView.title isEqualToString:SetUsernameAlertViewTitle]) {
         if (0 == buttonIndex) {
             PFUser *currentUser = [PFUser currentUser];
             currentUser[@"username"] = [alertView textFieldAtIndex:0].text;
@@ -354,7 +308,7 @@
         } else {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
-    } else if ([alertView.title isEqualToString:self.pictureAlertViewTitle]) {
+    } else if ([alertView.title isEqualToString:PictureAlertViewTitle]) {
         [self showPhotoPicker];
     }
 }
@@ -398,22 +352,20 @@
 
 #pragma mark - UIImagePickerDelegate Stuff.
 - (void)showPhotoPicker {
-    if (!self.imagePickerController) {
-        self.imagePickerController = [[UIImagePickerController alloc] init];
-        self.imagePickerController.delegate = self;
-        self.imagePickerController.allowsEditing = NO;
-    }
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        if (!self.imagePickerController) {
+            self.imagePickerController = [[UIImagePickerController alloc] init];
+            self.imagePickerController.delegate = self;
+            self.imagePickerController.allowsEditing = NO;
+        }
+        
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
         
         [self presentViewController:self.imagePickerController animated:NO completion:nil];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil
-                                              cancelButtonTitle:@"Drat!"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [[[UIAlertView alloc] initWithTitle:@"Error accessing media" message:@"Device doesn't support that media source."  delegate:nil cancelButtonTitle:@"Drat!" otherButtonTitles:nil] show];
     }
 }
 
@@ -461,7 +413,7 @@
         if (error) {
             // NSLog(@"Something went wrong requesting facebook details: %@", [error localizedDescription]);
             [self dismissViewControllerAnimated:YES completion:nil];
-        }  else {
+        } else {
             NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
             //NSLog(@"me: %@",me);
             
@@ -472,7 +424,7 @@
             currentUser[@"lastName"] = me.last_name;
             
             //If facebook user permitted us to having email.
-            if(me[@"email"]) {
+            if (me[@"email"]) {
                 //only update the email if there is none.
                 if (!currentUser[@"email"]) {
                     currentUser[@"email"] = me[@"email"];
@@ -494,8 +446,7 @@
                     [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         if (succeeded) {
                             //NSLog(@"Installation saved");
-                            self.setUsernameAlertViewTitle = @"Do you want to set your username?";
-                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:self.setUsernameAlertViewTitle message:@"You can set a username to separate the login process from facebook!" delegate:self cancelButtonTitle:@"Update" otherButtonTitles:@"Cancel", nil];
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:SetUsernameAlertViewTitle message:@"You can set a username to separate the login process from facebook!" delegate:self cancelButtonTitle:@"Update" otherButtonTitles:@"Cancel", nil];
                             alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
                             [alertView show];
                         }
